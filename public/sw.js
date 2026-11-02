@@ -1,6 +1,6 @@
 // Keeps the shell usable offline: pages fall back to their last good copy,
 // build assets and visited media come from cache.
-const CACHE = "cc-shell-v1";
+const CACHE = "cc-shell-v2";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.add("/")).then(() => self.skipWaiting()));

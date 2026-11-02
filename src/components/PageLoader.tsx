@@ -1,11 +1,10 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { gsap } from "@/animations/gsap";
 import { site } from "@/data/site";
 import { prefersReducedMotion } from "@/utils/device";
-
-const SEEN = "cc:seen";
 
 /**
  * The intro: a dot falls and bounces, a bar rises to form "!", the bar levers
@@ -17,30 +16,37 @@ export function PageLoader() {
   const glow = useRef<HTMLDivElement>(null);
   const dot = useRef<HTMLDivElement>(null);
   const word = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const html = document.documentElement;
     const finish = () => {
       html.dataset.intro = "done";
-      sessionStorage.setItem(SEEN, "1");
     };
     const land = () => {
       html.dataset.landed = "true";
     };
-    if (sessionStorage.getItem(SEEN) || prefersReducedMotion()) {
+    // The intro lands on the home hero, so other pages open straight away.
+    if (pathname !== "/" || prefersReducedMotion()) {
       land();
       gsap.to(root.current, { autoAlpha: 0, duration: 0.25, ease: "none", onStart: finish });
       return;
     }
 
     let tl: gsap.core.Timeline | undefined;
-    // Animation frames stop in a background tab; a timer still guarantees the reveal.
-    const backstop = window.setTimeout(() => {
+    const skip = () => {
+      window.clearTimeout(backstop);
+      window.removeEventListener("keydown", skip);
+      window.removeEventListener("pointerdown", skip);
       tl?.kill();
       finish();
       land();
-      if (root.current) root.current.style.visibility = "hidden";
-    }, 12000);
+      gsap.to(root.current, { autoAlpha: 0, duration: 0.3, ease: "none", overwrite: true });
+    };
+    // Animation frames stop in a background tab; a timer still guarantees the reveal.
+    const backstop = window.setTimeout(skip, 12000);
+    window.addEventListener("keydown", skip, { once: true });
+    window.addEventListener("pointerdown", skip, { once: true });
 
     const start = () => {
       const element = word.current!;
@@ -63,7 +69,7 @@ export function PageLoader() {
 
       const flash = (at: string | number) => tl!.fromTo(glow.current, { opacity: 0.9 }, { opacity: 0.25, duration: 0.5, ease: "power2.out" }, at);
 
-      tl = gsap.timeline({ onComplete: () => window.clearTimeout(backstop) });
+      tl = gsap.timeline();
 
       // Fall, squash, bounce, fall, squash, settle.
       tl.to(dot.current, { y: rest, duration: 0.62, ease: "power2.in" });
@@ -125,6 +131,8 @@ export function PageLoader() {
         const offset = (gap * window.innerWidth) / 200;
         const [left, right] = [...element.children];
         const y = target.top + target.height / 2 - (window.innerHeight / 2);
+        window.removeEventListener("keydown", skip);
+        window.removeEventListener("pointerdown", skip);
         finish();
         gsap.to(root.current, { backgroundColor: "rgba(0,0,0,0)", duration: 1.1, ease: "none" });
         gsap.to(element, { y, duration: 1.5, ease: "power3.inOut" });
@@ -135,6 +143,7 @@ export function PageLoader() {
           ease: "power3.out",
           delay: 0.3,
           onComplete: () => {
+            window.clearTimeout(backstop);
             land();
             gsap.to(root.current, { autoAlpha: 0, duration: 0.2, ease: "none" });
           },
@@ -142,16 +151,19 @@ export function PageLoader() {
       });
     };
 
-    // Wait for the display font so measurements match what is painted.
+    // Wait for the display font so measurements match what is painted, but never for long.
     let cancelled = false;
-    void document.fonts.ready.then(() => !cancelled && start());
+    const family = getComputedStyle(word.current!).fontFamily;
+    void Promise.race([document.fonts.load(`800 100px ${family}`), new Promise((done) => setTimeout(done, 1500))]).then(() => !cancelled && start());
 
     return () => {
       cancelled = true;
       window.clearTimeout(backstop);
+      window.removeEventListener("keydown", skip);
+      window.removeEventListener("pointerdown", skip);
       tl?.kill();
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <div ref={root} id="loader" className="pointer-events-none fixed inset-0 z-[110] flex items-center justify-center overflow-hidden bg-black [perspective:1100px]" aria-hidden>
