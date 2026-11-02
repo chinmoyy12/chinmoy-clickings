@@ -1,0 +1,258 @@
+# CHINMOY CLICKINGS — DESIGN SYSTEM
+
+## Creative Direction
+
+The website is an immersive photography and cinematography portfolio.
+
+Core feeling:
+
+Cinematic.
+Editorial.
+Minimal.
+Dark.
+Premium.
+Immersive.
+Human.
+Artistic.
+
+The interface must support the work rather than compete with it.
+
+---
+
+# COLOR SYSTEM
+
+## Background
+
+Primary:
+#080808
+
+Secondary:
+#111111
+
+Surface:
+#171717
+
+Elevated:
+#1D1D1D
+
+## Text
+
+Primary:
+#F2F0EA
+
+Secondary:
+#A5A5A5
+
+Muted:
+#666666
+
+## Accent
+
+Primary accent:
+deep cinematic red / burgundy
+
+Use sparingly.
+
+The accent should appear mainly in:
+
+- active navigation
+- project numbers
+- tiny indicators
+- selected states
+- occasional typography
+
+Avoid large red surfaces.
+
+---
+
+# TYPOGRAPHY
+
+## Display
+
+Instrument Serif or Cormorant Garamond.
+
+Used for:
+
+- major statements
+- emotional headlines
+- cinematic titles
+
+## Interface
+
+Inter or Geist.
+
+Used for:
+
+- navigation
+- metadata
+- labels
+- descriptions
+- buttons
+
+---
+
+# TYPE SCALE
+
+Hero:
+clamp(4rem, 11vw, 12rem)
+
+Section title:
+clamp(3rem, 8vw, 9rem)
+
+Project title:
+clamp(2.5rem, 6vw, 7rem)
+
+Body:
+16–20px
+
+Metadata:
+10–13px
+
+Navigation:
+11–14px
+
+---
+
+# SPACING
+
+Use generous negative space.
+
+Small:
+8px
+
+Medium:
+16px
+
+Large:
+32px
+
+XL:
+64px
+
+XXL:
+128px
+
+Cinematic:
+200px+
+
+Avoid filling every area.
+
+---
+
+# GRID
+
+Desktop:
+
+12-column grid.
+
+Tablet:
+
+8-column grid.
+
+Mobile:
+
+4-column grid.
+
+Use asymmetric layouts.
+
+Do not make every section symmetrical.
+
+---
+
+# IMAGE TREATMENT
+
+Photography is the primary visual element.
+
+Images should feel:
+
+large
+clean
+cinematic
+high contrast
+natural
+
+Effects should remain subtle.
+
+Preferred:
+
+scale
+crop
+mask
+parallax
+brightness
+grain
+depth
+
+Avoid:
+
+heavy distortion
+fake AI effects
+excessive chromatic aberration
+excessive glow
+
+---
+
+# UI STYLE
+
+Minimal.
+
+Thin borders.
+
+Small labels.
+
+Small icons.
+
+Large photography.
+
+Minimal buttons.
+
+No conventional card-heavy design.
+
+No dashboard aesthetic.
+
+---
+
+# CURSOR
+
+Desktop only.
+
+Default:
+small dot.
+
+Interactive:
+large circular label.
+
+Examples:
+
+VIEW
+OPEN
+PLAY
+DRAG
+
+Use spring interpolation.
+
+---
+
+# GRAIN
+
+Very subtle global grain.
+
+Opacity:
+
+approximately 0.025–0.06.
+
+It should barely be noticeable.
+
+---
+
+# VIGNETTE
+
+Use only in cinematic scenes.
+
+Never apply a heavy vignette globally.
+
+---
+
+# DESIGN PRINCIPLE
+
+The website should feel closer to an interactive film than a conventional website.

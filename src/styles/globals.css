@@ -1,0 +1,332 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #080808;
+  --color-ink-2: #111111;
+  --color-surface: #171717;
+  --color-raised: #1d1d1d;
+  --color-paper: #f2f0ea;
+  --color-ash: #a5a5a5;
+  --color-smoke: #7a7a7a;
+  --color-wine: #8e1f2b;
+  --color-ember: #d9545f;
+  --color-line: rgb(242 240 234 / 0.14);
+
+  --font-display: var(--font-instrument), "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --breakpoint-sm: 40rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 90rem;
+}
+
+:root {
+  --gutter: clamp(1rem, 3.2vw, 3rem);
+  --type-hero: clamp(4rem, 11vw, 12rem);
+  --type-section: clamp(3rem, 8vw, 9rem);
+  --type-project: clamp(2.5rem, 6vw, 7rem);
+  color-scheme: dark;
+}
+
+html {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a2a var(--color-ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-ink);
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-x: clip;
+}
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+::selection { background: var(--color-wine); color: var(--color-paper); }
+
+:focus { outline: none; }
+:focus-visible {
+  outline: 1px solid var(--color-paper);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  padding: 0.5rem 0.9rem;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-size: 0.75rem;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
+@layer components {
+/* ---------- Type ---------- */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: -0.015em;
+}
+.type-hero { font-size: var(--type-hero); }
+.type-section { font-size: var(--type-section); }
+.type-project { font-size: var(--type-project); }
+
+.label {
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+.gutter { padding-inline: var(--gutter); }
+
+}
+
+/* ---------- Reveal system: states are CSS, triggered by [data-in] ---------- */
+
+.ml { display: block; overflow: hidden; padding-block: 0.06em; margin-block: -0.06em; }
+.ml > span { display: block; will-change: transform; }
+
+html.js [data-reveal="text"] .ml > span {
+  transform: translateY(108%);
+  opacity: 0;
+  transition: transform 1s var(--ease-cine), opacity 0.7s linear;
+  transition-delay: calc(var(--i, 0) * 70ms + var(--delay, 0ms));
+}
+html.js [data-reveal="text"][data-in] .ml > span { transform: none; opacity: 1; }
+
+html.js [data-reveal="fade"] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.9s linear, transform 1s var(--ease-cine);
+  transition-delay: var(--delay, 0ms);
+}
+html.js [data-reveal="fade"][data-in] { opacity: 1; transform: none; }
+
+/* The clip sits on an inner layer: a fully clipped target would never intersect. */
+html.js [data-reveal="image"] .reveal-clip {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.25s var(--ease-inout);
+  transition-delay: var(--delay, 0ms);
+}
+html.js [data-reveal="image"][data-dir="up"] .reveal-clip { clip-path: inset(100% 0 0 0); }
+html.js [data-reveal="image"] .reveal-scale {
+  transform: scale(1.08);
+  transition: transform 1.6s var(--ease-cine);
+  transition-delay: var(--delay, 0ms);
+}
+html.js [data-reveal="image"][data-in] .reveal-clip { clip-path: inset(0 0 0 0); }
+html.js [data-reveal="image"][data-in] .reveal-scale { transform: none; }
+
+@layer components {
+/* ---------- Links and small controls ---------- */
+
+.sweep {
+  position: relative;
+  display: inline-block;
+  padding-block: 0.15em;
+}
+.sweep::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.6s var(--ease-cine);
+}
+.sweep:hover::after, .sweep:focus-visible::after, .sweep[aria-current="true"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.arrow { display: inline-block; transition: transform 0.6s var(--ease-cine); }
+a:hover > .arrow, button:hover > .arrow, a:focus-visible > .arrow { transform: translateX(6px); }
+
+.zoom-host .zoom-img { transition: transform 0.7s var(--ease-cine), filter 0.7s linear; }
+@media (hover: hover) {
+  .zoom-host:hover .zoom-img { transform: scale(1.04); }
+  .tone { filter: grayscale(1) brightness(0.85); }
+  .zoom-host:hover .tone, .zoom-host:focus-visible .tone { filter: none; }
+}
+
+.ctrl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-paper);
+  transition: color 0.4s linear;
+}
+.ctrl:hover { color: var(--color-ash); }
+
+}
+
+input[type="range"].scrub {
+  appearance: none;
+  width: 100%;
+  height: 2.75rem;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"].scrub::-webkit-slider-runnable-track {
+  height: 1px;
+  background: linear-gradient(to right, var(--color-paper) var(--pct, 0%), rgb(242 240 234 / 0.25) var(--pct, 0%));
+}
+input[type="range"].scrub::-moz-range-track { height: 1px; background: rgb(242 240 234 / 0.25); }
+input[type="range"].scrub::-moz-range-progress { height: 1px; background: var(--color-paper); }
+input[type="range"].scrub::-webkit-slider-thumb {
+  appearance: none;
+  width: 9px;
+  height: 9px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: var(--color-paper);
+}
+input[type="range"].scrub::-moz-range-thumb { width: 9px; height: 9px; border: 0; border-radius: 50%; background: var(--color-paper); }
+
+/* ---------- Overlays ---------- */
+
+.grain {
+  position: fixed;
+  inset: -100%;
+  z-index: 90;
+  pointer-events: none;
+  background-image: url("/media/textures/grain.png");
+  background-size: 128px;
+  opacity: 0.045;
+  animation: grain 1s steps(6) infinite;
+  will-change: transform;
+}
+@keyframes grain {
+  0% { transform: translate3d(0, 0, 0); }
+  17% { transform: translate3d(-3%, 4%, 0); }
+  33% { transform: translate3d(5%, -2%, 0); }
+  50% { transform: translate3d(-4%, -5%, 0); }
+  67% { transform: translate3d(3%, 5%, 0); }
+  83% { transform: translate3d(-5%, 2%, 0); }
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 45%, rgb(0 0 0 / 0.55) 100%);
+}
+
+html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
+html.has-cursor input[type="range"] { cursor: pointer; }
+
+/* ---------- Intro ---------- */
+
+html.js[data-intro="pending"] { overflow: hidden; }
+
+.hero-plate { transition: transform 2.6s var(--ease-cine), opacity 1.2s linear; }
+html.js[data-intro="pending"] .hero-plate { transform: scale(1.1); opacity: 0.35; }
+
+.intro-nav { transition: opacity 1s linear 0.5s, transform 1s var(--ease-cine) 0.5s; }
+html.js[data-intro="pending"] .intro-nav { opacity: 0; transform: translateY(-10px); }
+
+.intro-late { transition: opacity 1.2s linear 0.8s; }
+html.js[data-intro="pending"] .intro-late { opacity: 0; }
+
+/* Hero letters: delay is staggered per character. */
+.hero-char {
+  display: inline-block;
+  transition: transform 1.2s var(--ease-cine), opacity 0.8s linear;
+  transition-delay: calc(300ms + var(--i, 0) * 45ms);
+  will-change: transform;
+}
+html.js[data-intro="pending"] .hero-char { transform: translateY(110%); opacity: 0; }
+
+.scroll-tick { animation: tick 2.4s var(--ease-inout) infinite; transform-origin: top; }
+@keyframes tick {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ---------- Hero composition: recomposed, not rescaled, on tall screens ---------- */
+
+.hero { --word-top: 30%; --word-size: var(--type-hero); }
+.hero-word { top: var(--word-top); font-size: var(--word-size); }
+.hero-word-front { top: calc(var(--word-top) + var(--word-size) * 0.86); }
+.hero-word p { font-size: inherit; }
+.hero-subject { right: 15%; height: 86%; }
+@media (max-aspect-ratio: 1 / 1) {
+  .hero { --word-top: 13%; --word-size: 23vw; }
+  .hero-subject { right: -8%; height: 60%; }
+}
+
+/* ---------- Selected work: scene stack on large screens ---------- */
+
+@media (min-width: 64rem) {
+  .scene { position: absolute; inset: 0; }
+  .scene:not([data-active]) { pointer-events: none; }
+}
+
+/* ---------- Photography strip ---------- */
+
+.gallery-item { width: min(78vw, 26rem); }
+@media (min-width: 40rem) { .gallery-item { width: 46vw; } }
+@media (min-width: 64rem) {
+  .gallery-item {
+    width: calc(var(--h) * 0.82 * var(--ratio));
+    margin-top: calc(var(--y) * 0.72);
+    margin-right: var(--gap);
+  }
+}
+
+/* ---------- Film slats ---------- */
+
+.slat { transition: flex-grow 0.9s var(--ease-cine); }
+@media (min-width: 64rem) {
+  .slats:hover .slat, .slats:focus-within .slat { flex-grow: 1; }
+  .slats .slat:hover, .slats .slat:focus-visible { flex-grow: 3.2; }
+}
+.slat-copy { transition: opacity 0.6s linear, transform 0.7s var(--ease-cine); }
+
+/* ---------- Motion preferences ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .grain { animation: none; }
+  .scroll-tick { animation: none; transform: scaleY(1); }
+  .hero-char, .hero-plate, .intro-nav, .intro-late { transition: opacity 0.4s linear; transition-delay: 0ms; }
+  html.js[data-intro="pending"] .hero-char, html.js[data-intro="pending"] .hero-plate { transform: none; }
+
+  html.js [data-reveal="text"] .ml > span,
+  html.js [data-reveal="fade"] { transform: none; transition: opacity 0.5s linear; transition-delay: 0ms; }
+  html.js [data-reveal="image"] .reveal-clip, html.js [data-reveal="image"][data-dir="up"] .reveal-clip {
+    clip-path: none;
+    opacity: 0;
+    transition: opacity 0.5s linear;
+    transition-delay: 0ms;
+  }
+  html.js [data-reveal="image"][data-in] .reveal-clip { opacity: 1; }
+  html.js [data-reveal="image"] .reveal-scale { transform: none; transition: none; }
+  .zoom-host:hover .zoom-img { transform: none; }
+  .slat { transition: none; }
+}

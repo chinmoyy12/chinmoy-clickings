@@ -1,0 +1,283 @@
+# CHINMOY CLICKINGS — MOTION SYSTEM
+
+## Motion Philosophy
+
+Motion should communicate:
+
+camera movement
+depth
+focus
+time
+emotion
+
+It should never exist merely for decoration.
+
+---
+
+# EASING
+
+Preferred:
+
+cubic-bezier(0.22, 1, 0.36, 1)
+
+For cinematic reveals.
+
+Use spring physics for:
+
+- cursor
+- magnetic buttons
+- small UI interactions
+
+---
+
+# PAGE INTRO
+
+Sequence:
+
+0.00
+black screen
+
+0.15
+grain appears
+
+0.30
+loading indicator
+
+0.70
+hero visual begins reveal
+
+1.00
+title enters
+
+1.20
+navigation appears
+
+1.50
+scroll indicator appears
+
+Keep intro short.
+
+---
+
+# TEXT REVEALS
+
+Preferred technique:
+
+overflow:hidden
+
+text translated from:
+
+Y = 100%
+
+to:
+
+Y = 0%
+
+with opacity.
+
+Duration:
+
+0.7–1.1s.
+
+Use stagger:
+
+0.03–0.08s.
+
+---
+
+# IMAGE REVEALS
+
+Use clip-path or mask.
+
+Example:
+
+inset(0 100% 0 0)
+
+to:
+
+inset(0 0% 0 0)
+
+Image may simultaneously scale:
+
+1.08 → 1
+
+---
+
+# PROJECT TRANSITION
+
+Sequence:
+
+Current project:
+
+scale 1
+
+↓
+image darkens slightly
+
+↓
+project number changes
+
+↓
+next image enters
+
+↓
+text changes
+
+↓
+image returns to normal brightness
+
+The transition should feel like changing film scenes.
+
+---
+
+# SCROLL PARALLAX
+
+Maximum movement:
+
+10–80px.
+
+Never make parallax excessive.
+
+Background:
+slow
+
+Image:
+medium
+
+Text:
+slightly faster
+
+---
+
+# HORIZONTAL SCROLL
+
+Use only for:
+
+photography sequences
+film strips
+selected project galleries
+
+Do not use horizontal scrolling for the entire website.
+
+---
+
+# HOVER
+
+Images:
+
+scale 1.03–1.06
+
+Cursor:
+
+scale 1 → 1.5–2.5
+
+Text:
+
+translateX 4–12px
+
+Duration:
+
+0.4–0.7s
+
+---
+
+# MAGNETIC BUTTONS
+
+Maximum movement:
+
+8–15px.
+
+Do not make buttons follow the cursor excessively.
+
+---
+
+# 3D CAMERA
+
+Camera movement should be extremely subtle.
+
+Use:
+
+camera position
+camera rotation
+depth
+
+Avoid dramatic camera spinning.
+
+---
+
+# VELOCITY
+
+Scroll velocity can influence:
+
+- image distortion
+- parallax intensity
+- horizontal movement
+- typography displacement
+
+Clamp all values.
+
+Never allow velocity to destabilize layout.
+
+---
+
+# PROJECT OPEN
+
+When a project is opened:
+
+1. image expands
+2. surrounding page darkens
+3. selected image fills viewport
+4. project title reveals
+5. metadata appears
+6. detail content begins
+
+This should feel like entering a film.
+
+---
+
+# PROJECT CLOSE
+
+Reverse the visual hierarchy.
+
+Return to exact scroll position.
+
+Never unexpectedly jump the user to the top.
+
+---
+
+# REDUCED MOTION
+
+If:
+
+prefers-reduced-motion: reduce
+
+Disable:
+
+- 3D camera movement
+- large parallax
+- cursor animations
+- complex transitions
+- scroll distortion
+
+Keep simple opacity transitions.
+
+---
+
+# PERFORMANCE
+
+Prefer:
+
+transform
+opacity
+clip-path
+
+Avoid continuous animation of:
+
+width
+height
+top
+left
+
+Use requestAnimationFrame where custom animation is necessary.
+
+Pause animations when elements are outside the viewport.

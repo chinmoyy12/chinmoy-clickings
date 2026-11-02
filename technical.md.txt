@@ -1,0 +1,326 @@
+# CHINMOY CLICKINGS — TECHNICAL SPECIFICATION
+
+## STACK
+
+Next.js
+TypeScript
+React
+Tailwind CSS
+Framer Motion
+GSAP
+Lenis
+Three.js
+React Three Fiber
+Drei
+
+---
+
+# PROJECT STRUCTURE
+
+src/
+
+app/
+components/
+sections/
+animations/
+three/
+hooks/
+data/
+utils/
+styles/
+
+public/
+
+media/
+  hero/
+  projects/
+  photography/
+  videos/
+  about/
+  textures/
+
+---
+
+# COMPONENTS
+
+Core:
+
+Navigation
+PageLoader
+CinematicHero
+CustomCursor
+SmoothScroll
+SectionReveal
+ImageReveal
+ProjectCard
+ProjectScene
+PhotographyGallery
+VideoShowcase
+ThreeGallery
+AboutSection
+ServicesSection
+InstagramSection
+ContactSection
+Footer
+PageTransition
+GrainOverlay
+
+---
+
+# DATA
+
+Keep content separate from components.
+
+projects.ts
+
+photos.ts
+
+videos.ts
+
+services.ts
+
+social.ts
+
+site.ts
+
+---
+
+# PROJECT MODEL
+
+interface Project {
+
+id: string
+
+slug: string
+
+title: string
+
+category: string
+
+year: string
+
+description: string
+
+hero: string
+
+images: string[]
+
+video?: string
+
+credits?: {
+  role: string
+  name: string
+}[]
+
+}
+
+---
+
+# PERFORMANCE
+
+Use:
+
+next/image
+
+dynamic imports
+
+lazy loading
+
+IntersectionObserver
+
+responsive images
+
+poster frames
+
+video preload="metadata"
+
+WebGL lazy initialization
+
+---
+
+# THREE.JS
+
+Three.js should load dynamically.
+
+Do not block first paint.
+
+Use a lightweight fallback.
+
+Desktop:
+
+full experience.
+
+Tablet:
+
+reduced experience.
+
+Mobile:
+
+2D fallback where appropriate.
+
+---
+
+# VIDEO
+
+Never load every video immediately.
+
+Use poster images.
+
+Lazy load.
+
+Use:
+
+preload="metadata"
+
+Muted autoplay previews only when appropriate.
+
+Mobile:
+
+do not autoplay large videos unnecessarily.
+
+---
+
+# ACCESSIBILITY
+
+Every image requires meaningful alt text.
+
+Decorative images:
+
+alt=""
+
+Buttons:
+
+accessible labels.
+
+Keyboard:
+
+all interactive elements reachable.
+
+---
+
+# SEO
+
+Use metadata.
+
+Title:
+
+CHINMOY CLICKINGS — Photography & Cinematography
+
+Description:
+
+Cinematic photography and videography portfolio by Chinmoy Clickings.
+
+OpenGraph image:
+
+/media/og.jpg
+
+---
+
+# RESPONSIVE BREAKPOINTS
+
+Mobile:
+< 640px
+
+Tablet:
+640–1024px
+
+Desktop:
+1024–1440px
+
+Large:
+1440px+
+
+---
+
+# MOBILE PRINCIPLE
+
+Never simply scale desktop down.
+
+Recompose layouts.
+
+Reduce:
+
+3D
+parallax
+particle count
+video autoplay
+large image sequences
+
+Prioritize:
+
+content
+photography
+typography
+navigation
+performance
+
+---
+
+# FALLBACK
+
+If:
+
+WebGL unavailable
+device is low-power
+reduced motion enabled
+
+use:
+
+2D image experience.
+
+The website must remain beautiful.
+
+---
+
+# ERROR HANDLING
+
+Missing image:
+
+show elegant fallback.
+
+Missing video:
+
+show poster image.
+
+WebGL error:
+
+automatically fall back to 2D.
+
+No network:
+
+previously cached essential shell should still render.
+
+---
+
+# CODE QUALITY
+
+No:
+
+dead code
+unused dependencies
+massive components
+duplicated animation logic
+hardcoded portfolio data
+fake buttons
+
+Use reusable systems.
+
+---
+
+# FINAL QUALITY TARGET
+
+The website should be production-ready.
+
+It should survive:
+
+desktop testing
+mobile testing
+tablet testing
+keyboard navigation
+reduced-motion testing
+slow-network testing
+WebGL failure
+small screens
+large screens
+high refresh-rate displays
+low-power devices
