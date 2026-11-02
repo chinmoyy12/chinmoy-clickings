@@ -51,10 +51,6 @@ body {
   overflow-x: clip;
 }
 
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-stopped { overflow: clip; }
-.lenis.lenis-smooth iframe { pointer-events: none; }
-
 ::selection { background: var(--color-wine); color: var(--color-paper); }
 
 :focus { outline: none; }
@@ -323,12 +319,21 @@ html.js[data-intro="pending"] .hero-char { transform: translateY(110%); opacity:
 
 /* ---------- Work strip ---------- */
 
-.work-card { width: min(84vw, 28rem); }
-@media (min-width: 64rem) {
-  /* Alternating scale gives the strip an editorial rhythm. */
-  .work-card { width: clamp(24rem, 36vw, 38rem); align-self: flex-end; }
-  .work-card:nth-child(odd) { width: clamp(28rem, 46vw, 48rem); }
+.cursor-mark { transition: opacity 0.15s linear; will-change: transform; }
+.cursor-mark span {
+  display: block;
+  width: 0;
+  height: 0;
+  margin: 1px 0 0 -9px;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 18px solid var(--color-ember);
+  filter: drop-shadow(0 0 1px #f4f2ee);
+  rotate: -34deg;
+  transition: scale 0.15s var(--ease-cine);
 }
+.cursor-mark[data-hover="true"] span { scale: 1.35; }
+
 section[id] { scroll-margin-top: 4.5rem; }
 
 .marquee { overflow: hidden; }

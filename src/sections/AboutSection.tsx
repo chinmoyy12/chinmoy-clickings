@@ -25,17 +25,19 @@ export function AboutSection() {
         <div className="mt-8 grid gap-6 sm:grid-cols-2">
           <SectionReveal>
             <h3 className="label mb-3 text-paper">I am a</h3>
-            <ul className="space-y-1 text-ash">
+            <ul>
               {about.roles.map((role) => (
-                <li key={role}>{role}</li>
+                <li key={role} className="label border-t border-line py-2 text-paper last:border-b">
+                  {role}
+                </li>
               ))}
             </ul>
           </SectionReveal>
           <SectionReveal delay={80}>
             <h3 className="label mb-3 text-paper">Craft</h3>
-            <ul className="flex flex-wrap gap-2">
+            <ul>
               {skills.map((skill) => (
-                <li key={skill} className="label border border-line px-2.5 py-1.5 text-paper">
+                <li key={skill} className="label border-t border-line py-2 text-paper last:border-b">
                   {skill}
                 </li>
               ))}

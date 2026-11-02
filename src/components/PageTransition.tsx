@@ -41,6 +41,10 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
     if (pathname.startsWith("/work/")) setStripReady(true);
   }, [pathname]);
 
+  useEffect(() => {
+    history.scrollRestoration = "manual";
+  }, []);
+
   // Settle the new route: place the scroll, then lift whatever covers the screen.
   useEffect(() => {
     const entering = pending.current;

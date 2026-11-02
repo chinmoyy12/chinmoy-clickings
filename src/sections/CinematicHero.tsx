@@ -12,9 +12,8 @@ import { projects } from "@/data/projects";
 import { site } from "@/data/site";
 import { social } from "@/data/social";
 import { reel } from "@/data/videos";
-import { prefersReducedMotion } from "@/utils/device";
+import { hasFinePointer, prefersReducedMotion } from "@/utils/device";
 import { pad } from "@/utils/media";
-import { scrollState } from "@/utils/scroll";
 
 const STATS = [
   [pad(projects.length), "Projects"],
@@ -46,7 +45,7 @@ export function CinematicHero() {
     const section = root.current;
     if (!section || prefersReducedMotion()) return;
     const pointer = { x: 0, y: 0 };
-    const eased = { x: 0, y: 0, v: 0 };
+    const eased = { x: 0, y: 0 };
     let visible = true;
     let webgl = false;
     let teardown: (() => void) | undefined;
@@ -76,29 +75,14 @@ export function CinematicHero() {
       pointer.x = event.clientX / window.innerWidth - 0.5;
       pointer.y = event.clientY / window.innerHeight - 0.5;
     };
-    const onTilt = (event: DeviceOrientationEvent) => {
-      if (event.gamma === null || event.beta === null) return;
-      pointer.x = gsap.utils.clamp(-0.5, 0.5, event.gamma / 40);
-      pointer.y = gsap.utils.clamp(-0.5, 0.5, (event.beta - 45) / 50);
-    };
-    // iOS only grants motion access from a user gesture.
-    const Orientation = window.DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> } | undefined;
-    const askTilt = () => {
-      void Orientation?.requestPermission?.().then((state) => {
-        if (state === "granted") window.addEventListener("deviceorientation", onTilt, { passive: true });
-      });
-    };
-    if (Orientation?.requestPermission) section.addEventListener("touchend", askTilt, { once: true });
-    else window.addEventListener("deviceorientation", onTilt, { passive: true });
 
     const render = () => {
       if (!visible) return;
       eased.x += (pointer.x - eased.x) * 0.06;
       eased.y += (pointer.y - eased.y) * 0.06;
-      eased.v += (gsap.utils.clamp(-40, 40, scrollState.velocity) - eased.v) * 0.1;
       const progress = Math.min(1, window.scrollY / section.offsetHeight);
       if (word.current) word.current.style.transform = `translate3d(${(eased.x * 34).toFixed(2)}px, ${(eased.y * 16 + progress * 70).toFixed(2)}px, 0)`;
-      if (copy.current) copy.current.style.transform = `translate3d(${(-eased.x * 14).toFixed(2)}px, ${(progress * -50 + eased.v * 0.4).toFixed(2)}px, 0)`;
+      if (copy.current) copy.current.style.transform = `translate3d(${(-eased.x * 14).toFixed(2)}px, ${(progress * -50).toFixed(2)}px, 0)`;
       if (subject.current) {
         // Without WebGL the same cutout tilts in CSS 3D, so the depth never disappears.
         const tilt = webgl ? "" : ` rotateY(${(eased.x * 9).toFixed(2)}deg) rotateX(${(-eased.y * 6).toFixed(2)}deg)`;
@@ -108,15 +92,14 @@ export function CinematicHero() {
 
     const observer = new IntersectionObserver(([entry]) => (visible = entry.isIntersecting));
     observer.observe(section);
-    window.addEventListener("pointermove", onPointer, { passive: true });
+    // Parallax is for mice only; touch screens keep the idle movement.
+    if (hasFinePointer()) window.addEventListener("pointermove", onPointer, { passive: true });
     gsap.ticker.add(render);
     return () => {
       cancelled = true;
       teardown?.();
       observer.disconnect();
-      section.removeEventListener("touchend", askTilt);
       window.removeEventListener("pointermove", onPointer);
-      window.removeEventListener("deviceorientation", onTilt);
       gsap.ticker.remove(render);
     };
   }, []);
@@ -159,13 +142,15 @@ export function CinematicHero() {
         <div className="intro-late mt-5 flex flex-wrap items-center gap-5">
           <Magnetic>
             <TransitionLink href="/#work" className="pill">
-              View work <span className="arrow" aria-hidden>→</span>
+              View selected work <span className="arrow" aria-hidden>→</span>
             </TransitionLink>
           </Magnetic>
-          <button type="button" onClick={() => setPlaying(true)} className="label sweep flex items-center gap-2 text-paper">
-            <span className="h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-ember" aria-hidden />
-            Play showreel
-          </button>
+          {site.showreelReady && (
+            <button type="button" onClick={() => setPlaying(true)} className="label sweep flex items-center gap-2 text-paper">
+              <span className="h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-ember" aria-hidden />
+              Play showreel
+            </button>
+          )}
         </div>
       </div>
 

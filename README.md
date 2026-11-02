@@ -32,10 +32,10 @@ A bold, cinematic portfolio in black, off-white and one hot red. Every scene sha
 <table>
   <tr>
     <td width="50%"><img src="docs/hero.jpg" alt="Chinmoy standing in front of the giant red word CHINMOY" /></td>
-    <td width="50%"><img src="docs/work.jpg" alt="Horizontal film strip of selected work" /></td>
+    <td width="50%"><img src="docs/work.jpg" alt="Selected work grid" /></td>
   </tr>
   <tr>
-    <td><img src="docs/film.jpg" alt="The Work. The Recognition. counter and ranked list" /></td>
+    <td><img src="docs/film.jpg" alt="Selected work counter and project index" /></td>
     <td><img src="docs/archive.jpg" alt="From Raw. To Real. drag wipe" /></td>
   </tr>
 </table>
@@ -43,9 +43,9 @@ A bold, cinematic portfolio in black, off-white and one hot red. Every scene sha
 | Scene | What happens |
 | --- | --- |
 | **Hero** | A real depth-mapped cutout stands in front of a giant word and reacts to the cursor, device tilt and a moving red rim light |
-| **Selected Work** | A horizontal film strip with hover-play cards and a category marquee |
-| **The Recognition** | An animated project counter with a ranked list of the work |
-| **From Raw. To Real.** | A drag and scroll wipe between the ungraded and graded frame |
+| **Frames That Speak** | A filterable three-column project grid and a category marquee |
+| **Selected Work** | An animated project counter with a chronological index |
+| **From Raw. To Real.** | A draggable, keyboard-operable before and after of a real portrait edit |
 | **Photography** | A filterable three-column gallery of 21 stills with a full lightbox |
 | **About** | A split statement with portrait, craft list and a red quote card |
 | **The Journey** | A red timeline that fills as you scroll and lights each row |
@@ -62,7 +62,7 @@ A bold, cinematic portfolio in black, off-white and one hot red. Every scene sha
 
 ## Stack
 
-Next.js · React · TypeScript · Tailwind CSS · GSAP · Lenis · Framer Motion · Three.js
+Next.js · React · TypeScript · Tailwind CSS · GSAP · Framer Motion · Three.js
 
 ## Run it locally
 

@@ -6,7 +6,6 @@ import { Navigation } from "@/components/Navigation";
 import { PageLoader } from "@/components/PageLoader";
 import { PageTransition } from "@/components/PageTransition";
 import { ServiceWorker } from "@/components/ServiceWorker";
-import { SmoothScroll } from "@/components/SmoothScroll";
 import { site } from "@/data/site";
 import "@/styles/globals.css";
 
@@ -49,7 +48,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <PageLoader />
-        <SmoothScroll />
         <GrainOverlay />
         <CustomCursor />
         <ServiceWorker />

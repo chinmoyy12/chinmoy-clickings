@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { hasFinePointer, prefersReducedMotion } from "@/utils/device";
 
-const COLORS = ["#e8262d", "#e8262d", "#ff7b8a", "#35c7c9", "#a9d4ff", "#f5b25a"];
-const POOL = 36;
-const SPACING = 22;
-const INTERACTIVE = "a, button, input, label, video, [role='dialog']";
+const COLORS = ["#e8262d", "#e8262d", "#ff7b8a", "#f4f2ee"];
+const POOL = 24;
+const SPACING = 20;
+const NATIVE = "input, textarea, select, [role='slider'], [role='dialog'], video";
 
 interface Shard {
   x: number;
@@ -20,10 +20,11 @@ interface Shard {
   color: string;
 }
 
-/** A sparse trail of triangular shards behind the native cursor. Never intercepts input. */
+/** A sharp pointer mark and short shard trail over the native cursor. Never intercepts input. */
 export function CustomCursor() {
   const [enabled, setEnabled] = useState(false);
   const canvas = useRef<HTMLCanvasElement>(null);
+  const mark = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (hasFinePointer() && !prefersReducedMotion()) setEnabled(true);
@@ -32,7 +33,8 @@ export function CustomCursor() {
   useEffect(() => {
     const element = canvas.current;
     const context = element?.getContext("2d");
-    if (!enabled || !element || !context) return;
+    const pointer = mark.current;
+    if (!enabled || !element || !context || !pointer) return;
 
     const pool: Shard[] = Array.from({ length: POOL }, () => ({ x: 0, y: 0, vx: 0, vy: 0, spin: 0, angle: 0, size: 0, life: 0, color: COLORS[0] }));
     let next = 0;
@@ -49,8 +51,7 @@ export function CustomCursor() {
     };
 
     const draw = (now: number) => {
-      const slow = lastTime && now - lastTime > 45;
-      slowFrames = slow ? slowFrames + 1 : Math.max(0, slowFrames - 1);
+      slowFrames = lastTime && now - lastTime > 45 ? slowFrames + 1 : Math.max(0, slowFrames - 1);
       lastTime = now;
       if (slowFrames > 30) {
         // The device is struggling: drop the decoration, keep the page.
@@ -62,21 +63,22 @@ export function CustomCursor() {
       for (const shard of pool) {
         if (shard.life <= 0) continue;
         alive++;
-        shard.life -= 0.022;
+        shard.life -= 0.03;
         shard.x += shard.vx;
         shard.y += shard.vy;
-        shard.vx *= 0.96;
-        shard.vy = shard.vy * 0.96 + 0.015;
+        shard.vx *= 0.94;
+        shard.vy *= 0.94;
         shard.angle += shard.spin;
+        const scale = shard.size * Math.max(0.2, shard.life);
         context.save();
         context.translate(shard.x, shard.y);
         context.rotate(shard.angle);
         context.globalAlpha = Math.max(0, shard.life);
         context.fillStyle = shard.color;
         context.beginPath();
-        context.moveTo(0, -shard.size);
-        context.lineTo(shard.size * 0.7, shard.size * 0.7);
-        context.lineTo(-shard.size * 0.7, shard.size * 0.7);
+        context.moveTo(0, -scale);
+        context.lineTo(scale * 0.6, scale * 0.7);
+        context.lineTo(-scale * 0.6, scale * 0.7);
         context.closePath();
         context.fill();
         context.restore();
@@ -91,17 +93,24 @@ export function CustomCursor() {
 
     const onMove = (event: PointerEvent) => {
       if (event.pointerType !== "mouse") return;
-      if (Math.hypot(event.clientX - lastX, event.clientY - lastY) < SPACING) return;
+      const target = event.target as Element;
+      const native = Boolean(target.closest?.(NATIVE));
+      pointer.style.opacity = native ? "0" : "1";
+      pointer.dataset.hover = target.closest?.("a, button, label") ? "true" : "false";
+      pointer.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
+      if (native || Math.hypot(event.clientX - lastX, event.clientY - lastY) < SPACING) return;
+      const dx = event.clientX - lastX;
+      const dy = event.clientY - lastY;
       lastX = event.clientX;
       lastY = event.clientY;
-      if ((event.target as Element).closest?.(INTERACTIVE)) return;
       const shard = pool[next];
       next = (next + 1) % POOL;
-      shard.x = event.clientX + 10;
-      shard.y = event.clientY + 12;
-      shard.vx = (Math.random() - 0.5) * 1.2;
-      shard.vy = (Math.random() - 0.5) * 1.2;
-      shard.spin = (Math.random() - 0.5) * 0.14;
+      shard.x = event.clientX;
+      shard.y = event.clientY;
+      // Shards lag behind the direction of travel.
+      shard.vx = -dx * 0.03 + (Math.random() - 0.5) * 0.7;
+      shard.vy = -dy * 0.03 + (Math.random() - 0.5) * 0.7;
+      shard.spin = (Math.random() - 0.5) * 0.16;
       shard.angle = Math.random() * 6.28;
       shard.size = 3 + Math.random() * 3.5;
       shard.life = 1;
@@ -111,20 +120,33 @@ export function CustomCursor() {
         frame = requestAnimationFrame(draw);
       }
     };
+    const onLeave = () => {
+      pointer.style.opacity = "0";
+    };
 
     const stop = () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("resize", size);
+      document.documentElement.removeEventListener("pointerleave", onLeave);
       context.clearRect(0, 0, element.width, element.height);
+      pointer.style.opacity = "0";
     };
 
     size();
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("resize", size);
+    document.documentElement.addEventListener("pointerleave", onLeave);
     return stop;
   }, [enabled]);
 
   if (!enabled) return null;
-  return <canvas ref={canvas} data-shards aria-hidden className="pointer-events-none fixed inset-0 z-[120] h-full w-full" />;
+  return (
+    <>
+      <canvas ref={canvas} data-shards aria-hidden className="pointer-events-none fixed inset-0 z-[120] h-full w-full" />
+      <div ref={mark} data-pointer aria-hidden className="cursor-mark pointer-events-none fixed left-0 top-0 z-[121] opacity-0">
+        <span />
+      </div>
+    </>
+  );
 }

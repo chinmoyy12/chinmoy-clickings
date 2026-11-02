@@ -21,7 +21,7 @@ function useDust(canvas: React.RefObject<HTMLCanvasElement | null>) {
     };
     const draw = () => {
       context.clearRect(0, 0, element.width, element.height);
-      context.fillStyle = "rgba(255,235,230,0.65)";
+      context.fillStyle = "rgba(232,38,45,0.6)";
       for (const dot of dots) {
         dot.y = (dot.y - dot.v + 1) % 1;
         context.beginPath();
@@ -76,6 +76,7 @@ export function ContactSection() {
         <div id="contact-title">
           <TextReveal lines={site.contact.headline} accent={1} className="display type-section" />
         </div>
+        <p className="mt-5 text-[clamp(1.0625rem,1.5vw,1.3125rem)] text-paper">{site.contact.line}</p>
         <fieldset className="mt-8">
           <legend className="label mb-3 text-paper/80">I'm available for</legend>
           <div className="flex flex-wrap gap-x-5 gap-y-1">
@@ -113,13 +114,13 @@ export function ContactSection() {
         </ul>
       </div>
 
-      <a href={mailto} className="relative flex min-h-[20rem] flex-col justify-between overflow-hidden bg-wine p-6 transition-transform duration-700 ease-cine hover:scale-[1.01] lg:col-span-4 lg:col-start-9">
+      <a href={mailto} className="group relative flex min-h-[20rem] flex-col justify-between overflow-hidden border border-line bg-surface p-6 transition-colors duration-300 hover:border-ember focus-visible:border-ember lg:col-span-4 lg:col-start-9">
         <canvas ref={dust} className="absolute inset-0 h-full w-full" aria-hidden />
-        <span className="label relative text-paper/80">Start something</span>
+        <span className="label relative">Start something</span>
         <span className="display relative text-[clamp(3rem,5.5vw,5.5rem)] leading-[0.95]">
           Make it
           <br />
-          feel real.
+          <span className="red">feel real.</span>
         </span>
       </a>
     </section>

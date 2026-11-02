@@ -7,6 +7,22 @@ import { TransitionLink } from "@/components/TransitionLink";
 import { projects } from "@/data/projects";
 import { pad } from "@/utils/media";
 
+/** Thin decorative line art; it frames the count and implies no award. */
+function Frond({ flip }: { flip?: boolean }) {
+  const ticks = Array.from({ length: 8 }, (_, i) => 118 + i * 18);
+  return (
+    <svg viewBox="0 0 60 120" className={`h-[clamp(6rem,11vw,10rem)] w-auto fill-none stroke-ember ${flip ? "-scale-x-100" : ""}`} strokeWidth="1" aria-hidden>
+      <path d="M38 112 A 46 54 0 0 1 38 8" />
+      {ticks.map((angle) => {
+        const r = (angle * Math.PI) / 180;
+        const x = 60 + Math.cos(r) * 48;
+        const y = 60 + Math.sin(r) * 54;
+        return <line key={angle} x1={x} y1={y} x2={x - 10 * Math.cos(r + 0.7)} y2={y - 10 * Math.sin(r + 0.7)} />;
+      })}
+    </svg>
+  );
+}
+
 export function Recognition() {
   const count = useRef<HTMLSpanElement>(null);
 
@@ -35,14 +51,16 @@ export function Recognition() {
           <p className="label mb-3 text-ember">02 / The body of work</p>
         </SectionReveal>
         <div id="recognition-title">
-          <TextReveal lines={["The work.", "The recognition."]} accent={1} className="display type-section" />
+          <TextReveal lines={["Selected", "work."]} accent={1} className="display type-section" />
         </div>
-        <div className="mt-10">
-          <span ref={count} className="display block text-[clamp(6rem,12vw,11rem)] leading-none tabular-nums text-ember">
+        <div className="mt-10 flex items-center gap-3">
+          <Frond />
+          <span ref={count} className="display text-[clamp(5rem,9vw,8.5rem)] leading-none tabular-nums">
             {pad(projects.length)}
           </span>
+          <Frond flip />
         </div>
-        <p className="label mt-3">Selected projects, 2024 to 2026</p>
+        <p className="label mt-3">06 projects / 2024–2026</p>
       </div>
 
       <ol className="lg:col-span-6 lg:col-start-7 lg:self-end">
@@ -54,7 +72,7 @@ export function Recognition() {
                 <span className="display block text-[clamp(1.5rem,2.4vw,2.25rem)] leading-none transition-[color,transform] duration-500 ease-cine group-hover:translate-x-2 group-hover:text-ember">{project.title}</span>
                 <span className="label mt-1 block">{project.role}</span>
               </span>
-              <span className="label tabular-nums text-paper">{project.year}</span>
+              <span className="display text-[clamp(1.5rem,2.4vw,2.25rem)] leading-none tabular-nums text-ember">{project.year}</span>
             </TransitionLink>
           </li>
         ))}

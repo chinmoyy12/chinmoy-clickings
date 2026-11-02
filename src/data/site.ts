@@ -10,7 +10,7 @@ export const site = {
   heroAlt: "Chinmoy in a dark suit, adjusting the blazer, lit by a red rim light.",
   location: "Guwahati, India",
   year: "2026",
-  statement: ["I capture", "moments", "that deserve", "to stay."],
+  statement: ["I capture moments", "that deserve to stay."],
   about: {
     headline: ["I capture", "what feels", "worth remembering."],
     lead: "I photograph and film the moments that are easy to overlook.",
@@ -25,15 +25,20 @@ export const site = {
       height: 1280,
     },
   },
-  // REPLACE: use a real ungraded frame and its final grade. The raw file is currently simulated.
-  rawReal: {
-    caption: "Every frame starts flat. The feeling arrives in the grade. Drag to see the difference.",
-    raw: { src: "/media/raw-real/raw.jpg", alt: "The same frame, flat and ungraded.", width: 2000, height: 1125 },
-    graded: { src: "/media/raw-real/graded.jpg", alt: "A lone figure on layered hills at sunset, fully graded in warm amber.", width: 2000, height: 1125 },
+  // REPLACE: when a true raw and graded pair exists, use it here with the labels "Raw" and "Graded".
+  comparison: {
+    caption: "Every frame starts somewhere plain. This is my own portrait, as shot and as edited for this site. Drag to see the difference.",
+    beforeLabel: "Original",
+    afterLabel: "Edited",
+    before: { src: "/media/about/portrait.jpg", alt: "The original black and white portrait in a corridor.", width: 854, height: 1280 },
+    after: { src: "/media/raw-real/edited.jpg", alt: "The same portrait cut out from the corridor and set against a deep red glow.", width: 854, height: 1280 },
   },
+  // Set to true once a real showreel is in /public/media/videos.
+  showreelReady: false,
   philosophyLine: "Every frame should make you feel something before you understand it.",
   contact: {
-    headline: ["Let's make", "something", "worth remembering."],
+    headline: ["Let's work", "together."],
+    line: "Let's make something worth remembering.",
     availability: ["Photography", "Videography", "Creative Projects", "Events", "Collaborations"],
   },
 };

@@ -1,112 +1,86 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/animations/gsap";
+import { useState } from "react";
+import { ScrollTrigger } from "@/animations/gsap";
 import { Frame } from "@/components/Frame";
 import { SectionReveal, TextReveal } from "@/components/Reveal";
 import { TransitionLink } from "@/components/TransitionLink";
 import { photoCategories } from "@/data/photos";
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/types";
-import { hasFinePointer, isDesktop, prefersReducedMotion } from "@/utils/device";
 import { optimizedUrl } from "@/utils/media";
 
-const SCROLL_RATIO = 0.6;
+const FILTERS = ["All", "Film", "Photography", "Conceptual"];
 
-function ProjectCard({ project }: { project: Project }) {
-  const [hovered, setHovered] = useState(false);
-  const clip = useRef<HTMLVideoElement>(null);
+const matches = (project: Project, filter: string) => {
+  if (filter === "All") return true;
+  if (filter === "Film") return /film|cinematography/i.test(project.category);
+  return project.category.toLowerCase().includes(filter.toLowerCase());
+};
 
-  const enter = () => {
-    if (!project.video || !hasFinePointer() || prefersReducedMotion()) return;
-    setHovered(true);
-    void clip.current?.play().catch(() => undefined);
+export function WorkStrip() {
+  const [filter, setFilter] = useState("All");
+  const list = projects.filter((project) => matches(project, filter));
+
+  const choose = (next: string) => {
+    setFilter(next);
+    requestAnimationFrame(() => ScrollTrigger.refresh());
   };
 
   return (
-    <li className="work-card shrink-0 snap-center">
-      <TransitionLink
-        href={`/work/${project.slug}`}
-        morphSrc={optimizedUrl(project.hero.src, 2048)}
-        aria-label={`${project.title}, view project`}
-        onPointerEnter={enter}
-        onPointerLeave={() => clip.current?.pause()}
-        className="zoom-host group relative block aspect-[16/10] overflow-hidden bg-surface"
-      >
-        <div className="zoom-img absolute inset-0">
-          <Frame image={project.hero} sizes="(min-width: 1024px) 44vw, 84vw" quality={85} />
-          {hovered && project.video && <video ref={clip} src={project.video.srcMobile} muted loop playsInline autoPlay preload="none" className="absolute inset-0 h-full w-full object-cover" />}
-        </div>
-        <span className="absolute inset-0 border border-transparent transition-colors duration-500 group-hover:border-ember" aria-hidden />
-      </TransitionLink>
-      <div className="mt-3 flex items-start gap-4">
-        <span className="display text-[clamp(2.5rem,4vw,4rem)] leading-none text-ember">{project.id}</span>
-        <div className="min-w-0">
-          <h3 className="display text-[clamp(1.5rem,2.2vw,2.25rem)] leading-none">{project.title}</h3>
-          <p className="label mt-1">
-            {project.category} / {project.year}
-          </p>
-        </div>
-      </div>
-    </li>
-  );
-}
-
-export function WorkStrip() {
-  const section = useRef<HTMLDivElement>(null);
-  const stage = useRef<HTMLDivElement>(null);
-  const track = useRef<HTMLUListElement>(null);
-
-  useEffect(() => {
-    const media = gsap.matchMedia();
-    media.add("(min-width: 64rem)", () => {
-      const run = () => (track.current ? Math.max(0, track.current.scrollWidth - window.innerWidth) : 0);
-      const measure = () => {
-        if (isDesktop()) section.current?.style.setProperty("--run", `${Math.round(run() * SCROLL_RATIO)}px`);
-      };
-      measure();
-      const trigger = ScrollTrigger.create({
-        trigger: stage.current,
-        start: "top top",
-        end: () => `+=${run() * SCROLL_RATIO}`,
-        onRefreshInit: measure,
-        onUpdate: (self) => gsap.set(track.current, { x: -run() * self.progress }),
-      });
-      return () => {
-        trigger.kill();
-        gsap.set(track.current, { clearProps: "transform" });
-        section.current?.style.removeProperty("--run");
-      };
-    });
-    return () => media.revert();
-  }, []);
-
-  return (
-    <section id="work" data-nav="solid" aria-labelledby="work-title" className="relative pt-24 sm:pt-36">
-      <div ref={section} className="lg:h-[calc(100svh+var(--run,0px))]">
-        <div ref={stage} className="overflow-hidden lg:sticky lg:top-0 lg:flex lg:h-svh lg:flex-col lg:justify-center lg:pt-14">
-          <header className="gutter mb-8 flex items-end justify-between gap-6 lg:mb-[4vh]">
-            <div>
-              <SectionReveal>
-                <p className="label mb-3 text-ember">01 / Selected work</p>
-              </SectionReveal>
-              <div id="work-title">
-                <TextReveal lines={["Frames that", "speak."]} accent={1} className="display type-section" />
-              </div>
+    <section id="work" data-nav="solid" aria-labelledby="work-title" className="pt-24 sm:pt-36">
+      <div className="gutter">
+        <header className="mb-8 grid gap-6 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <SectionReveal>
+              <p className="label mb-3 text-ember">01 / Selected work</p>
+            </SectionReveal>
+            <div id="work-title">
+              <TextReveal lines={["Frames that", "speak."]} accent={1} className="display type-section" />
             </div>
-            <p className="label max-sm:hidden">Scroll to move / Hover to play</p>
-          </header>
-          <div className="snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] lg:snap-none lg:overflow-visible">
-            <ul ref={track} className="flex w-max gap-4 px-[var(--gutter)] will-change-transform max-lg:!transform-none lg:gap-6">
-              {projects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
-            </ul>
           </div>
-        </div>
+          <div role="group" aria-label="Filter projects" className="flex flex-wrap gap-x-6 lg:col-span-5 lg:justify-end">
+            {FILTERS.map((name) => (
+              <button key={name} type="button" aria-pressed={filter === name} aria-current={filter === name ? "true" : undefined} onClick={() => choose(name)} className={`sweep label py-3 transition-colors duration-200 lg:py-1 ${filter === name ? "text-ember" : "hover:text-paper"}`}>
+                {name}
+              </button>
+            ))}
+          </div>
+        </header>
+
+        <p className="sr-only" role="status">
+          Showing {list.length} {list.length === 1 ? "project" : "projects"}
+        </p>
+
+        <ul className="grid gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+          {list.map((project) => (
+            <li key={project.id} className="work-card">
+              <TransitionLink href={`/work/${project.slug}`} morphSrc={optimizedUrl(project.hero.src, 2048)} className="zoom-host group block">
+                <span className="relative block aspect-[4/3] overflow-hidden bg-surface">
+                  <span className="zoom-img absolute inset-0 block">
+                    <Frame image={project.hero} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" quality={85} />
+                  </span>
+                  <span className="absolute inset-0 border border-transparent transition-colors duration-200 group-hover:border-ember group-focus-visible:border-ember" aria-hidden />
+                  <span className="label absolute bottom-3 right-3 bg-ember px-2 py-1 text-black opacity-100 transition-opacity duration-200 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100" aria-hidden>
+                    View project <span className="arrow">→</span>
+                  </span>
+                </span>
+                <span className="mt-3 flex items-start gap-3">
+                  <span className="display text-[clamp(2.25rem,3.4vw,3.25rem)] leading-none text-ember">{project.id}</span>
+                  <span className="min-w-0">
+                    <span className="display block text-[clamp(1.5rem,2.2vw,2.125rem)] leading-none transition-colors duration-200 group-hover:text-ember">{project.title}</span>
+                    <span className="label mt-1 block">
+                      {project.category} / {project.year}
+                    </span>
+                  </span>
+                </span>
+              </TransitionLink>
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <div className="marquee mt-16 border-y border-line py-4 lg:mt-0" aria-hidden>
+      <div className="marquee mt-16 border-y border-line py-4" aria-hidden>
         <div className="marquee-track">
           {[0, 1].map((copy) => (
             <div key={copy} className="flex shrink-0">
