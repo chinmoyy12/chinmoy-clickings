@@ -65,7 +65,9 @@ A 3D, heavily animated portfolio in onyx, chrome and molten coral.
 
 ## Stack
 
-Next.js · React · TypeScript · Tailwind CSS · GSAP · Framer Motion · Three.js
+Next.js · React · TypeScript · Tailwind CSS · GSAP · Framer Motion · Three.js · custom WebGL shaders
+
+> The intro plays on every visit to the home page. Tap or press any key to skip it.
 
 ## Run it locally
 
