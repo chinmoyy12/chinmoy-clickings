@@ -37,13 +37,12 @@ const boot = `document.documentElement.classList.add("js");document.documentElem
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable} ${script.variable}`} suppressHydrationWarning>
-      <head>
+      <body>
+        {/* In body, not head: hosts inject tags at the top of head, which would break React's hydration. */}
         <script dangerouslySetInnerHTML={{ __html: boot }} />
         <noscript>
           <style>{`#loader{display:none}`}</style>
         </noscript>
-      </head>
-      <body>
         <a href="#main" className="skip-link">
           Skip to content
         </a>
