@@ -92,7 +92,7 @@ export function CinematicHero() {
   }, []);
 
   return (
-    <section ref={root} data-nav="image" aria-labelledby="hero-title" className="hero relative h-svh min-h-[34rem] overflow-hidden bg-black">
+    <section ref={root} data-nav="image" aria-labelledby="hero-title" className="hero relative h-svh overflow-hidden bg-black">
       <div className="hero-glow absolute inset-0" aria-hidden />
       <LightRays color="#ff8a5c" className="opacity-55" />
 

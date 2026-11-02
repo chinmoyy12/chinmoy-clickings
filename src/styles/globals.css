@@ -491,6 +491,15 @@ html.js:not([data-landed]) .hero-word { visibility: hidden; }
   -webkit-text-stroke: 0;
 }
 
+/* Landscape phones: keep the whole title on screen. */
+@media (max-height: 30rem) and (min-aspect-ratio: 1 / 1) {
+  :root { --type-hero: 8.5vw; --hero-gap: 6; }
+  .hero-word { bottom: 21%; }
+}
+@media (min-height: 30.01rem) {
+  .hero { min-height: 34rem; }
+}
+
 /* ---------- Work strip ---------- */
 
 .cursor-mark { transition: opacity 0.15s linear; will-change: transform; }
