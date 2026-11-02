@@ -61,47 +61,6 @@ export function PhotoWallet({ label, total, items }: { label: string; total: str
       >
         <div className="absolute inset-0 translate-y-2.5 scale-[0.98] rounded-[1.1rem] bg-[#050506]" aria-hidden />
 
-        <ul className="absolute inset-x-4 top-0">
-          {items.map((item, i) => {
-            const isActive = active === item.id;
-            const y = isActive ? -CARD_HEIGHT + 10 : fanned ? FAN_TOP + i * step : -30 + i * (10 / count);
-            return (
-              <motion.li
-                key={item.id}
-                initial={false}
-                animate={{ y, scale: isActive ? 1.05 : 1 - (count - 1 - i) * 0.012, rotateX: fanned && !isActive ? -4 : 0 }}
-                transition={still.current ? { duration: 0 } : SPRING}
-                style={{ zIndex: isActive ? 40 : 10 + i, height: CARD_HEIGHT, transformOrigin: "50% 100%" }}
-                className="absolute inset-x-0 top-0 overflow-hidden rounded-xl border border-white/10 bg-surface shadow-[0_14px_30px_-12px_rgb(0_0_0/0.9)]"
-              >
-                <Frame image={item.image} sizes="360px" />
-                <span className={`absolute inset-0 bg-black transition-opacity duration-300 ${isActive || fanned ? "opacity-0" : "opacity-40"}`} aria-hidden />
-                <span className="absolute inset-x-0 top-0 h-2/5 bg-gradient-to-b from-black/75 to-transparent" aria-hidden />
-                <button type="button" aria-pressed={isActive} aria-label={`${item.title}, ${item.meta}`} onClick={() => setActive(isActive ? null : item.id)} className="absolute inset-0 flex items-start justify-between gap-3 p-2.5 text-left">
-                  <span className="min-w-0 text-[0.8125rem] font-semibold leading-tight">
-                    <span className="mr-2 font-mono text-[0.6875rem] text-ember">{pad(i + 1)}</span>
-                    {item.title}
-                  </span>
-                  <span className="label shrink-0 text-paper/75">{item.meta}</span>
-                </button>
-                {isActive && (
-                  <span className="absolute bottom-2.5 left-2.5">
-                    {item.href ? (
-                      <TransitionLink href={item.href} morphSrc={optimizedUrl(item.image.src, 2048)} className="pill !px-4 !py-2">
-                        {item.action} <span className="arrow" aria-hidden>→</span>
-                      </TransitionLink>
-                    ) : (
-                      <button type="button" onClick={item.onOpen} className="pill !px-4 !py-2">
-                        {item.action} <span className="arrow" aria-hidden>→</span>
-                      </button>
-                    )}
-                  </span>
-                )}
-              </motion.li>
-            );
-          })}
-        </ul>
-
         <motion.button
           type="button"
           onClick={() => {
@@ -124,6 +83,50 @@ export function PhotoWallet({ label, total, items }: { label: string; total: str
             </motion.span>
           </AnimatePresence>
         </motion.button>
+
+        <ul className="absolute inset-x-4 top-0">
+          {items.map((item, i) => {
+            const isActive = active === item.id;
+            const y = isActive ? -CARD_HEIGHT + 10 : fanned ? FAN_TOP + i * step : -30 + i * (10 / count);
+            return (
+              <motion.li
+                key={item.id}
+                initial={false}
+                animate={{ y, scale: isActive ? 1.05 : 1 - (count - 1 - i) * 0.012, rotateX: fanned && !isActive ? -4 : 0 }}
+                transition={still.current ? { duration: 0 } : SPRING}
+                style={{ zIndex: isActive ? 40 : 10 + i, height: CARD_HEIGHT, transformOrigin: "50% 100%" }}
+                className="absolute inset-x-0 top-0 overflow-hidden rounded-xl border border-white/10 bg-surface shadow-[0_14px_30px_-12px_rgb(0_0_0/0.9)]"
+              >
+                <Frame image={item.image} sizes="360px" />
+                <span className={`absolute inset-0 bg-black transition-opacity duration-300 ${isActive || fanned ? "opacity-0" : "opacity-40"}`} aria-hidden />
+                <span className="absolute inset-x-0 top-0 h-2/5 bg-gradient-to-b from-black/75 to-transparent" aria-hidden />
+                {/* Stacked cards are slivers, so they only become buttons once fanned. */}
+                {fanned && (
+                  <button type="button" aria-pressed={isActive} aria-label={`${item.title}, ${item.meta}`} onClick={() => setActive(isActive ? null : item.id)} className="absolute inset-0 flex items-start justify-between gap-3 p-2.5 text-left">
+                    <span className="min-w-0 text-[0.8125rem] font-semibold leading-tight">
+                      <span className="mr-2 font-mono text-[0.6875rem] text-ember">{pad(i + 1)}</span>
+                      {item.title}
+                    </span>
+                    <span className="label shrink-0 text-paper/75">{item.meta}</span>
+                  </button>
+                )}
+                {isActive && (
+                  <span className="absolute bottom-2.5 left-2.5">
+                    {item.href ? (
+                      <TransitionLink href={item.href} morphSrc={optimizedUrl(item.image.src, 2048)} className="pill !px-4 !py-2">
+                        {item.action} <span className="arrow" aria-hidden>→</span>
+                      </TransitionLink>
+                    ) : (
+                      <button type="button" onClick={item.onOpen} className="pill !px-4 !py-2">
+                        {item.action} <span className="arrow" aria-hidden>→</span>
+                      </button>
+                    )}
+                  </span>
+                )}
+              </motion.li>
+            );
+          })}
+        </ul>
       </div>
       <p className="label mt-7 text-center">{active ? "Tap outside to close" : fanned ? "Pick a card" : "Hover or tap the wallet"}</p>
     </div>
