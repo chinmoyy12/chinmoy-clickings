@@ -4,7 +4,9 @@ import { social } from "@/data/social";
 import { AboutSection } from "@/sections/AboutSection";
 import { CinematicHero } from "@/sections/CinematicHero";
 import { ContactSection } from "@/sections/ContactSection";
+import { PhotoRing } from "@/sections/PhotoRing";
 import { PhotographyGallery } from "@/sections/PhotographyGallery";
+import { PixelGame } from "@/sections/PixelGame";
 import { RawToReal } from "@/sections/RawToReal";
 import { Recognition } from "@/sections/Recognition";
 import { ServicesSection } from "@/sections/ServicesSection";
@@ -28,13 +30,15 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <main id="main">
         <CinematicHero />
+        <AboutSection />
+        <ServicesSection />
         <WorkStrip />
         <Recognition />
-        <RawToReal />
+        <PhotoRing />
         <PhotographyGallery />
-        <AboutSection />
+        <RawToReal />
         <Timeline />
-        <ServicesSection />
+        <PixelGame />
         <ContactSection />
       </main>
       <Footer />

@@ -26,9 +26,9 @@
 
 :root {
   --gutter: clamp(1rem, 3.2vw, 3rem);
-  --type-hero: 29vw;
-  --type-section: clamp(3rem, 7vw, 8rem);
-  --type-project: clamp(2.75rem, 5.5vw, 6.5rem);
+  --type-hero: 18.6vw;
+  --type-section: clamp(2.5rem, 6vw, 6.75rem);
+  --type-project: clamp(2.25rem, 4.6vw, 5.25rem);
   color-scheme: dark;
 }
 
@@ -78,8 +78,8 @@ body {
 .display {
   font-family: var(--font-display);
   font-weight: 400;
-  line-height: 0.96;
-  letter-spacing: 0.002em;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
   text-transform: uppercase;
 }
 .type-hero { font-size: var(--type-hero); }
@@ -271,9 +271,6 @@ html.js[data-intro="pending"] .intro-late { opacity: 0; }
 }
 html.js[data-intro="pending"] .hero-char { transform: translateY(110%); opacity: 0; }
 
-.loader-orbit { animation: orbit 5s linear infinite; }
-@keyframes orbit { to { transform: rotate(360deg); } }
-
 .scroll-tick { animation: tick 2.4s var(--ease-inout) infinite; transform-origin: top; }
 @keyframes tick {
   0% { transform: scaleY(0); transform-origin: top; }
@@ -284,37 +281,32 @@ html.js[data-intro="pending"] .hero-char { transform: translateY(110%); opacity:
 
 /* ---------- Hero ---------- */
 
-.hero-glow {
-  background:
-    radial-gradient(46% 62% at 58% 42%, rgb(232 38 45 / 0.34), transparent 72%),
-    radial-gradient(90% 60% at 50% 100%, rgb(232 38 45 / 0.1), transparent 70%);
-}
-.hero-word { top: 11%; }
-.hero-giant { font-size: var(--type-hero); line-height: 1; white-space: nowrap; }
-/* Each letter animates alone, so each carries its own gradient fill. */
-.hero-giant .hero-char {
+.hero-glow { background: radial-gradient(45% 55% at 50% 42%, rgb(232 38 45 / 0.16), transparent 72%); }
+.hero-word { bottom: 11%; }
+.hero-subject { top: 2%; left: 50%; height: 118%; aspect-ratio: 854 / 1280; translate: -50% 0; }
+.hero-copy { bottom: 3.5%; }
+.hero-greeting { font-family: var(--font-script), Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: 0; }
+.hero-giant, .loader-word { font-size: var(--type-hero); line-height: 1; white-space: nowrap; }
+
+.chrome-word, .chrome-char, .type-section .ml > span:not(.red) {
   color: transparent;
-  background: linear-gradient(180deg, #ff3a41 0%, #c4161e 58%, #4b060a 100%);
+  background: linear-gradient(178deg, #ffffff 8%, #e4e6ea 42%, #8d93a0 66%, #dfe2e8 100%);
   -webkit-background-clip: text;
   background-clip: text;
 }
-.hero-subject {
-  bottom: -30%;
-  left: 54%;
-  height: 128%;
-  aspect-ratio: 854 / 1280;
-  translate: -50% 0;
+.chrome-char { padding-inline: 0.01em; }
+
+.glass {
+  background: rgb(255 255 255 / 0.04);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
-.hero-copy { bottom: 11%; }
-.hero-greeting { font-family: var(--font-script), Georgia, serif; font-style: italic; font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 1; color: var(--color-paper); }
-.hero-name { font-size: clamp(3.25rem, 8.5vw, 8rem); line-height: 0.95; }
 
 @media (max-aspect-ratio: 1 / 1) {
-  .hero-word { top: 12%; }
-  .hero-subject { left: 50%; height: 88%; bottom: -8%; }
-  .hero-copy { bottom: 4%; }
-  .hero-greeting { font-family: var(--font-script), Georgia, serif; font-style: italic; font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 1; color: var(--color-paper); }
-.hero-name { font-size: clamp(3rem, 15vw, 6rem); }
+  .hero-word { bottom: 20%; }
+  .hero-subject { top: 8%; height: 76%; }
+  .hero-copy { bottom: 3%; }
 }
 
 /* ---------- Work strip ---------- */
@@ -339,6 +331,7 @@ section[id] { scroll-margin-top: 4.5rem; }
 .marquee { overflow: hidden; }
 .marquee-track { display: flex; width: max-content; animation: marquee 40s linear infinite; }
 @keyframes marquee { to { transform: translate3d(-50%, 0, 0); } }
+.marquee-reverse { animation-direction: reverse; }
 
 .timeline-row { opacity: 0.4; transition: opacity 0.6s linear; }
 .timeline-row[data-lit] { opacity: 1; }
@@ -348,7 +341,6 @@ section[id] { scroll-margin-top: 4.5rem; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .grain { animation: none; }
-  .loader-orbit { animation: none; }
   .scroll-tick { animation: none; transform: scaleY(1); }
   .hero-char, .intro-nav, .intro-late { transition: opacity 0.4s linear; transition-delay: 0ms; }
   html.js[data-intro="pending"] .hero-char { transform: none; }

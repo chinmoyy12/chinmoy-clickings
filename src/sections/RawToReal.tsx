@@ -30,7 +30,7 @@ export function RawToReal() {
     <section id="raw" data-nav="solid" aria-labelledby="raw-title" className="gutter grid gap-10 pt-24 sm:pt-40 lg:grid-cols-12 lg:items-center lg:gap-6">
       <div className="lg:col-span-6">
         <SectionReveal>
-          <p className="label mb-3 text-ember">03 / The edit</p>
+          <p className="label mb-3 text-ember">06 / The edit</p>
         </SectionReveal>
         <div id="raw-title">
           <TextReveal lines={["From raw.", "To real."]} accent={1} className="display type-section" />

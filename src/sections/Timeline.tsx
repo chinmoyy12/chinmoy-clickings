@@ -24,16 +24,16 @@ export function Timeline() {
 
   return (
     <section id="process" data-nav="solid" aria-labelledby="process-title" className="gutter grid gap-10 pt-24 sm:pt-40 lg:grid-cols-12 lg:gap-6">
-      <div className="lg:sticky lg:top-24 lg:col-span-4 lg:self-start">
+      <div className="lg:sticky lg:top-24 lg:col-span-5 lg:self-start">
         <SectionReveal>
-          <p className="label mb-3 text-ember">06 / The journey</p>
+          <p className="label mb-3 text-ember">07 / The journey</p>
         </SectionReveal>
         <div id="process-title">
-          <TextReveal lines={["Keep moving.", "Keep shooting."]} accent={1} className="display type-section" />
+          <TextReveal lines={["Keep moving.", "Keep shooting."]} accent={1} className="display type-section text-[clamp(1.75rem,3.5vw,3.75rem)]" />
         </div>
       </div>
 
-      <div className="relative pl-6 sm:pl-10 lg:col-span-7 lg:col-start-6">
+      <div className="relative pl-6 sm:pl-10 lg:col-span-6 lg:col-start-7">
         <span className="absolute inset-y-0 left-0 w-px bg-line" aria-hidden />
         <div ref={line} className="absolute inset-y-0 left-0 w-0.5 origin-top bg-ember" aria-hidden />
         <ol ref={list}>

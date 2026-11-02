@@ -6,76 +6,57 @@ export interface HeroPointer {
 }
 
 const vertex = /* glsl */ `
-varying vec2 vUv;
+attribute vec3 scatter;
+attribute vec2 data;
+uniform float time;
+uniform float progress;
+uniform float scroll;
+uniform float aspect;
+uniform float fit;
+uniform float pixel;
+uniform vec2 mouse;
+uniform vec2 tilt;
+varying vec3 vColor;
+varying float vAlpha;
+
 void main() {
-  vUv = uv;
-  gl_Position = vec4(position.xy, 0.0, 1.0);
+  float lum = data.x;
+  float seed = data.y;
+  float t = smoothstep(seed * 0.45, seed * 0.45 + 0.55, progress);
+  t = t * t * (3.0 - 2.0 * t);
+  vec3 p = mix(scatter, position, t);
+  p += vec3(sin(time * 0.9 + seed * 40.0), cos(time * 0.7 + seed * 31.0), sin(time * 0.6 + seed * 17.0)) * 0.0035;
+
+  float cy = cos(tilt.x), sy = sin(tilt.x);
+  p.xz = mat2(cy, -sy, sy, cy) * p.xz;
+  float cx = cos(tilt.y), sx = sin(tilt.y);
+  p.yz = mat2(cx, -sx, sx, cx) * p.yz;
+
+  vec2 d = p.xy - mouse;
+  float force = exp(-dot(d, d) / 0.03);
+  p.xy += normalize(d + 0.0001) * force * 0.11;
+  p.z += force * 0.14;
+
+  p += scatter * scroll * 1.5;
+
+  float persp = 1.0 / max(0.25, 1.0 - p.z * 0.42);
+  gl_Position = vec4(p.x / aspect * 2.0 * fit * persp, (p.y - 0.13) * 2.0 * fit * persp, 0.0, 1.0);
+  gl_PointSize = (1.7 + lum * 2.4) * pixel * persp;
+
+  vec3 cool = mix(vec3(0.62, 0.68, 0.82), vec3(1.0, 0.99, 0.97), smoothstep(0.15, 0.75, lum));
+  vColor = mix(cool, vec3(0.95, 0.16, 0.2), clamp(force * 1.4 + (1.0 - t) * 0.5, 0.0, 1.0));
+  vAlpha = (0.72 + lum * 0.28) * (1.0 - scroll * 0.8);
 }`;
 
 const fragment = /* glsl */ `
 precision highp float;
-uniform sampler2D map;
-uniform sampler2D depth;
-uniform vec2 pointer;
-uniform vec2 spot;
-uniform float time;
-uniform float reveal;
-uniform float strength;
-varying vec2 vUv;
-
-void main() {
-  float breath = sin(time * 0.7) * 0.0025;
-  float d = texture2D(depth, vUv, 2.0).r;
-  vec2 shift = (pointer * strength + vec2(breath, breath * 0.6)) * (d - 0.35);
-  vec2 uv = vUv + shift;
-  vec4 tex = texture2D(map, uv);
-  if (tex.a < 0.004) discard;
-
-  // Rim light: alpha falls away on the side facing the light.
-  vec2 lightDir = normalize(spot - uv + 0.0001);
-  float occluded = texture2D(map, uv + lightDir * 0.012).a;
-  float rim = tex.a * (1.0 - occluded);
-  float wide = tex.a * (1.0 - texture2D(map, uv + lightDir * 0.04).a);
-
-  float dist = distance(uv * vec2(0.667, 1.0), spot * vec2(0.667, 1.0));
-  float glow = exp(-dist * dist * 9.0);
-  float luma = tex.r;
-
-  vec3 red = vec3(0.91, 0.15, 0.18);
-  vec3 color = vec3(luma);
-  color += red * luma * glow * 1.1;
-  color += red * (rim * (1.1 + glow * 2.0) + wide * 0.28);
-
-  // Intro light sweep travels up the figure as it arrives.
-  float band = smoothstep(0.1, 0.0, abs(uv.y - (reveal * 1.4 - 0.2)));
-  color += vec3(1.0, 0.45, 0.45) * band * (1.0 - reveal) * tex.a;
-
-  float alpha = tex.a * smoothstep(0.0, 0.25, reveal);
-  gl_FragColor = vec4(color * alpha, alpha);
-}`;
-
-const dustVertex = /* glsl */ `
-attribute float seed;
-uniform float time;
-uniform vec2 pointer;
-uniform float pixel;
-varying float vFade;
-void main() {
-  vec3 p = position;
-  p.y = mod(p.y + time * (0.012 + seed * 0.02) + 1.0, 2.0) - 1.0;
-  p.x += sin(time * 0.3 + seed * 6.28) * 0.03 + pointer.x * (0.02 + seed * 0.05);
-  vFade = (0.25 + seed * 0.75) * (0.6 + 0.4 * sin(time * (0.5 + seed) + seed * 40.0));
-  gl_Position = vec4(p.xy, 0.0, 1.0);
-  gl_PointSize = (1.2 + seed * 2.4) * pixel;
-}`;
-
-const dustFragment = /* glsl */ `
-precision highp float;
-varying float vFade;
+varying vec3 vColor;
+varying float vAlpha;
 void main() {
   float d = length(gl_PointCoord - 0.5);
-  float a = smoothstep(0.5, 0.1, d) * vFade * 0.55;
-  gl_FragColor = vec4(vec3(1.0, 0.72, 0.68) * a, a);
+  float a = smoothstep(0.5, 0.2, d) * vAlpha;
+  if (a < 0.01) discard;
+  gl_FragColor = vec4(vColor * a, a);
 }`;
 
 export function canUseWebGL() {
@@ -86,63 +67,73 @@ export function canUseWebGL() {
   }
 }
 
-/** Depth-displaced cutout with a cursor light and dust. Returns its own teardown. */
+async function pixels(url: string, width: number, height: number) {
+  const bitmap = await createImageBitmap(await (await fetch(url)).blob());
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d", { willReadFrequently: true })!;
+  context.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close();
+  return context.getImageData(0, 0, width, height).data;
+}
+
+/** The portrait as a 3D point cloud: bursts into place, parts around the cursor, blows apart on scroll. */
 export async function createHeroScene(canvas: HTMLCanvasElement, pointer: HeroPointer, onReady: () => void, onFail: () => void) {
   const small = window.innerWidth < 768;
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: small ? "low-power" : "high-performance" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 2));
   renderer.setClearColor(0x000000, 0);
 
-  const loader = new THREE.TextureLoader();
-  const [map, depth] = await Promise.all([loader.loadAsync("/media/hero/subject.webp"), loader.loadAsync("/media/hero/depth.webp")]);
-  map.colorSpace = THREE.NoColorSpace;
-  depth.generateMipmaps = true;
-  depth.minFilter = THREE.LinearMipmapLinearFilter;
+  const W = small ? 200 : 320;
+  const H = Math.round((W * 1280) / 854);
+  const [color, depth] = await Promise.all([pixels("/media/hero/subject.webp", W, H), pixels("/media/hero/depth.webp", W, H)]);
 
-  const uniforms = {
-    map: { value: map },
-    depth: { value: depth },
-    pointer: { value: new THREE.Vector2() },
-    spot: { value: new THREE.Vector2(0.72, 0.7) },
-    time: { value: 0 },
-    reveal: { value: 0 },
-    strength: { value: small ? 0.022 : 0.034 },
-  };
-  const material = new THREE.ShaderMaterial({
-    vertexShader: vertex,
-    fragmentShader: fragment,
-    uniforms,
-    transparent: true,
-    depthTest: false,
-    premultipliedAlpha: true,
-    blending: THREE.CustomBlending,
-    blendSrc: THREE.OneFactor,
-    blendDst: THREE.OneMinusSrcAlphaFactor,
-  });
-  const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
-  quad.frustumCulled = false;
-
-  const count = small ? 36 : 90;
-  const positions = new Float32Array(count * 3);
-  const seeds = new Float32Array(count);
-  for (let i = 0; i < count; i++) {
-    positions[i * 3] = Math.random() * 2 - 1;
-    positions[i * 3 + 1] = Math.random() * 2 - 1;
-    seeds[i] = Math.random();
+  const home: number[] = [];
+  const scatter: number[] = [];
+  const data: number[] = [];
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      const i = (y * W + x) * 4;
+      if (color[i + 3] < 128) continue;
+      // Lift the shadows so the suit reads as a cloud, not a void.
+      const lum = Math.pow(color[i] / 255, 0.55);
+      if (Math.random() > 0.34 + lum * 0.66) continue;
+      home.push((x / W - 0.5) * (W / H) * 1.34, (0.5 - y / H) * 1.34, (depth[i] / 255 - 0.55) * 0.5);
+      const a = Math.random() * 6.28;
+      const b = Math.acos(Math.random() * 2 - 1);
+      const r = 0.8 + Math.random() * 1.3;
+      scatter.push(Math.sin(b) * Math.cos(a) * r * 1.5, Math.sin(b) * Math.sin(a) * r, Math.cos(b) * r);
+      data.push(lum, Math.random());
+    }
   }
-  const dustGeometry = new THREE.BufferGeometry();
-  dustGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  dustGeometry.setAttribute("seed", new THREE.BufferAttribute(seeds, 1));
-  const dustUniforms = { time: uniforms.time, pointer: uniforms.pointer, pixel: { value: renderer.getPixelRatio() } };
-  const dustMaterial = new THREE.ShaderMaterial({ vertexShader: dustVertex, fragmentShader: dustFragment, uniforms: dustUniforms, transparent: true, depthTest: false, blending: THREE.AdditiveBlending });
-  const dust = new THREE.Points(dustGeometry, dustMaterial);
-  dust.frustumCulled = false;
 
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(home, 3));
+  geometry.setAttribute("scatter", new THREE.Float32BufferAttribute(scatter, 3));
+  geometry.setAttribute("data", new THREE.Float32BufferAttribute(data, 2));
+  const uniforms = {
+    time: { value: 0 },
+    progress: { value: 0 },
+    scroll: { value: 0 },
+    aspect: { value: 1 },
+    fit: { value: 0.8 },
+    pixel: { value: renderer.getPixelRatio() },
+    mouse: { value: new THREE.Vector2(9, 9) },
+    tilt: { value: new THREE.Vector2() },
+  };
+  const material = new THREE.ShaderMaterial({ vertexShader: vertex, fragmentShader: fragment, uniforms, transparent: true, depthTest: false, blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor });
+  const points = new THREE.Points(geometry, material);
+  points.frustumCulled = false;
   const scene = new THREE.Scene();
-  scene.add(quad, dust);
+  scene.add(points);
   const camera = new THREE.Camera();
 
-  const size = () => renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+  const size = () => {
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+    uniforms.aspect.value = canvas.clientWidth / Math.max(1, canvas.clientHeight);
+    uniforms.fit.value = Math.min(0.8, uniforms.aspect.value * 0.9);
+  };
   size();
   const observer = new ResizeObserver(size);
   observer.observe(canvas);
@@ -166,13 +157,18 @@ export async function createHeroScene(canvas: HTMLCanvasElement, pointer: HeroPo
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
     uniforms.time.value += dt;
-    uniforms.pointer.value.x += (pointer.x - uniforms.pointer.value.x) * 0.07;
-    uniforms.pointer.value.y += (pointer.y - uniforms.pointer.value.y) * 0.07;
-    uniforms.spot.value.x += (0.5 + pointer.x * 1.1 - uniforms.spot.value.x) * 0.05;
-    uniforms.spot.value.y += (0.62 - pointer.y * 1.1 - uniforms.spot.value.y) * 0.05;
+    uniforms.tilt.value.x += (pointer.x * 0.7 - uniforms.tilt.value.x) * 0.06;
+    uniforms.tilt.value.y += (pointer.y * 0.35 - uniforms.tilt.value.y) * 0.06;
+    const fit = uniforms.fit.value;
+    // Stay out of the cloud until a pointer has actually moved.
+    if (pointer.x || pointer.y) {
+      uniforms.mouse.value.x += (((pointer.x * uniforms.aspect.value) / fit) - uniforms.mouse.value.x) * 0.14;
+      uniforms.mouse.value.y += ((-pointer.y / fit + 0.13) - uniforms.mouse.value.y) * 0.14;
+    }
+    uniforms.scroll.value = Math.min(1, window.scrollY / Math.max(1, canvas.clientHeight));
     if (document.documentElement.dataset.intro === "done") {
       started ||= now;
-      uniforms.reveal.value = Math.min(1, (now - started) / 1500);
+      uniforms.progress.value = Math.min(1, (now - started) / 2200);
     }
     renderer.render(scene, camera);
   };
@@ -184,12 +180,8 @@ export async function createHeroScene(canvas: HTMLCanvasElement, pointer: HeroPo
     observer.disconnect();
     io.disconnect();
     canvas.removeEventListener("webglcontextlost", onLost);
-    quad.geometry.dispose();
+    geometry.dispose();
     material.dispose();
-    dustGeometry.dispose();
-    dustMaterial.dispose();
-    map.dispose();
-    depth.dispose();
     renderer.dispose();
   };
 }

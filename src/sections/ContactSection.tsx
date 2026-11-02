@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { FlowBackground } from "@/components/FlowBackground";
 import { Magnetic } from "@/components/MagneticButton";
 import { TextReveal } from "@/components/Reveal";
 import { site } from "@/data/site";
@@ -70,9 +71,10 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" data-nav="solid" aria-labelledby="contact-title" className="gutter grid gap-10 pb-10 pt-24 sm:pt-40 lg:grid-cols-12 lg:gap-6">
-      <div className="lg:col-span-7">
-        <p className="label mb-3 text-ember">08 / Contact</p>
+    <section id="contact" data-nav="solid" aria-labelledby="contact-title" className="gutter relative mt-24 grid gap-10 overflow-hidden pb-10 pt-24 sm:mt-40 sm:pt-32 lg:grid-cols-12 lg:gap-6">
+      <FlowBackground />
+      <div className="relative lg:col-span-7">
+        <p className="label mb-3 text-ember">09 / Contact</p>
         <div id="contact-title">
           <TextReveal lines={site.contact.headline} accent={1} className="display type-section" />
         </div>
@@ -114,13 +116,13 @@ export function ContactSection() {
         </ul>
       </div>
 
-      <a href={mailto} className="group relative flex min-h-[20rem] flex-col justify-between overflow-hidden border border-line bg-surface p-6 transition-colors duration-300 hover:border-ember focus-visible:border-ember lg:col-span-4 lg:col-start-9">
+      <a href={mailto} className="glass group relative flex min-h-[20rem] flex-col justify-between overflow-hidden p-6 transition-colors duration-300 hover:border-ember focus-visible:border-ember lg:col-span-4 lg:col-start-9">
         <canvas ref={dust} className="absolute inset-0 h-full w-full" aria-hidden />
         <span className="label relative">Start something</span>
         <span className="display relative text-[clamp(3rem,5.5vw,5.5rem)] leading-[0.95]">
           Make it
           <br />
-          <span className="red">feel real.</span>
+          <span className="red whitespace-nowrap text-[0.72em]">feel real.</span>
         </span>
       </a>
     </section>

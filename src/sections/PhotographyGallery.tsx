@@ -44,7 +44,7 @@ export function PhotographyGallery() {
       <header className="mb-8 grid gap-6 lg:mb-10 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-6">
           <SectionReveal>
-            <p className="label mb-3 text-ember">04 / Photography</p>
+            <p className="label mb-3 text-ember">05 / Photography</p>
           </SectionReveal>
           <div id="photo-title">
             <TextReveal lines={["Stills that", "keep moving."]} accent={1} className="display type-section" />

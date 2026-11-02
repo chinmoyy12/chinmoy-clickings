@@ -48,7 +48,7 @@ export function Recognition() {
     <section id="recognition" data-nav="solid" aria-labelledby="recognition-title" className="gutter grid gap-12 pt-24 sm:pt-40 lg:grid-cols-12 lg:gap-6">
       <div className="lg:col-span-5">
         <SectionReveal>
-          <p className="label mb-3 text-ember">02 / The body of work</p>
+          <p className="label mb-3 text-ember">04 / The body of work</p>
         </SectionReveal>
         <div id="recognition-title">
           <TextReveal lines={["Selected", "work."]} accent={1} className="display type-section" />

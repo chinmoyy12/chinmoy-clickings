@@ -27,7 +27,7 @@ Guwahati, India
 
 ## The experience
 
-A bold, cinematic portfolio in black, off-white and one hot red. Every scene shares one motion language, so the site plays like a single film.
+A loud, 3D, heavily animated portfolio in black, chrome and one hot red.
 
 <table>
   <tr>
@@ -42,14 +42,17 @@ A bold, cinematic portfolio in black, off-white and one hot red. Every scene sha
 
 | Scene | What happens |
 | --- | --- |
-| **Hero** | A real depth-mapped cutout stands in front of a giant word and reacts to the cursor, device tilt and a moving red rim light |
-| **Frames That Speak** | A filterable three-column project grid and a category marquee |
-| **Selected Work** | An animated project counter with a chronological index |
+| **Loader** | A dot falls, bounces, stretches into "!", then ribbons out into CHINMOY in 3D chrome |
+| **Hero** | The portrait as a 3D point cloud that bursts into place, tilts and parts around the cursor |
+| **Intro** | Chrome type, a glass card, a red quote and a two-way craft marquee |
+| **What I Can Do** | An accordion of services |
+| **Selected Work** | Frames that swing up in 3D on scroll and tilt under the cursor |
+| **3D Ring** | Stills on a scroll-driven cylinder; click any frame to open it |
+| **Photography** | A filterable gallery of 21 stills with a full lightbox |
 | **From Raw. To Real.** | A draggable, keyboard-operable before and after of a real portrait edit |
-| **Photography** | A filterable three-column gallery of 21 stills with a full lightbox |
-| **About** | A split statement with portrait, craft list and a red quote card |
-| **The Journey** | A red timeline that fills as you scroll and lights each row |
-| **Contact** | Copy-to-clipboard email, Instagram and a dust-filled call to action |
+| **The Journey** | A red timeline that fills as you scroll |
+| **One More Thing** | A playable pixel breakout of the name |
+| **Contact** | Live WebGL smoke, copy-to-clipboard email and Instagram |
 
 ## Built for everyone
 
@@ -79,7 +82,7 @@ src/
   sections/     one file per page section
   components/   cursor, loader, transitions, viewer, player
   animations/   shared easing and transition vocabulary
-  three/        the depth-reactive hero shader
+  three/        the particle portrait and 3D photo ring
   data/         all site content, ready for a CMS
 public/media/   images, films and textures
 ```
