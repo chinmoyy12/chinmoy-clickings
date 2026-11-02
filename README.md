@@ -10,9 +10,9 @@ Photography · Cinematography · Visual Stories
 <br />
 Guwahati, India
 
-### [**View the live website →**](https://chinmoy-clickings.vercel.app)
+### [**View the live website →**](https://starlit-arithmetic-38f269.netlify.app)
 
-[![Live site](https://img.shields.io/badge/live-chinmoy--clickings.vercel.app-8e1f2b?style=flat-square)](https://chinmoy-clickings.vercel.app)
+[![Live site](https://img.shields.io/badge/live-starlit--arithmetic--38f269.netlify.app-e8262d?style=flat-square)](https://starlit-arithmetic-38f269.netlify.app)
 [![Instagram](https://img.shields.io/badge/instagram-@chinmoy__clickings-171717?style=flat-square&logo=instagram&logoColor=f2f0ea)](https://www.instagram.com/chinmoy_clickings/)
 ![Next.js](https://img.shields.io/badge/Next.js-16-171717?style=flat-square&logo=nextdotjs)
 ![TypeScript](https://img.shields.io/badge/TypeScript-171717?style=flat-square&logo=typescript)
@@ -46,7 +46,7 @@ A bold, cinematic portfolio in black, off-white and one hot red. Every scene sha
 | **Selected Work** | A horizontal film strip with hover-play cards and a category marquee |
 | **The Recognition** | An animated project counter with a ranked list of the work |
 | **From Raw. To Real.** | A drag and scroll wipe between the ungraded and graded frame |
-| **Photography** | A depth strip with category wipes and a full-screen viewer |
+| **Photography** | A filterable three-column gallery of 21 stills with a full lightbox |
 | **About** | A split statement with portrait, craft list and a red quote card |
 | **The Journey** | A red timeline that fills as you scroll and lights each row |
 | **Contact** | Copy-to-clipboard email, Instagram and a dust-filled call to action |
@@ -101,7 +101,7 @@ All content lives in `src/data`, so nothing needs changing inside the components
 <details>
 <summary>Building on a Windows PC with Application Control</summary>
 
-The scripts use webpack with `@next/swc-wasm-nodejs`, because this project was developed on a machine that blocks Next's native compiler and `sharp`. When `sharp` can't load, `next.config.mjs` serves images unoptimized. Vercel optimizes them as normal.
+The scripts use webpack with `@next/swc-wasm-nodejs`, because this project was developed on a machine that blocks Next's native compiler and `sharp`. When `sharp` can't load, `next.config.mjs` serves images unoptimized. Netlify optimizes them as normal.
 
 </details>
 
@@ -109,7 +109,7 @@ The scripts use webpack with `@next/swc-wasm-nodejs`, because this project was d
 
 <div align="center">
 
-**[chinmoy-clickings.vercel.app](https://chinmoy-clickings.vercel.app)** · [@chinmoy_clickings](https://www.instagram.com/chinmoy_clickings/) · [chinmoykashyapthakuria@gmail.com](mailto:chinmoykashyapthakuria@gmail.com)
+**[starlit-arithmetic-38f269.netlify.app](https://starlit-arithmetic-38f269.netlify.app)** · [@chinmoy_clickings](https://www.instagram.com/chinmoy_clickings/) · [chinmoykashyapthakuria@gmail.com](mailto:chinmoykashyapthakuria@gmail.com)
 
 © 2026 Chinmoy Clickings
 

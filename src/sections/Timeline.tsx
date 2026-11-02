@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/animations/gsap";
 import { SectionReveal, TextReveal } from "@/components/Reveal";
+import { TransitionLink } from "@/components/TransitionLink";
 import { projects } from "@/data/projects";
 
 export function Timeline() {
@@ -37,15 +38,17 @@ export function Timeline() {
         <div ref={line} className="absolute inset-y-0 left-0 w-0.5 origin-top bg-ember" aria-hidden />
         <ol ref={list}>
           {projects.map((project) => (
-            <li key={project.id} className="timeline-row border-b border-line py-6">
-              <div className="flex items-baseline justify-between gap-4">
-                <h3 className="display text-[clamp(1.75rem,3vw,2.75rem)] leading-none">{project.title}</h3>
-                <span className="label tabular-nums text-ember">{project.year}</span>
-              </div>
-              <p className="label mt-2">
-                {project.role} / {project.location}
-              </p>
-              <p className="mt-2 max-w-xl text-[0.9375rem] leading-snug text-ash">{project.tagline}</p>
+            <li key={project.id} className="timeline-row border-b border-line">
+              <TransitionLink href={`/work/${project.slug}`} className="group block py-6">
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="display text-[clamp(1.75rem,3vw,2.75rem)] leading-none transition-colors duration-300 group-hover:text-ember group-focus-visible:text-ember">{project.title}</h3>
+                  <span className="label tabular-nums text-ember">{project.year}</span>
+                </div>
+                <p className="label mt-2">
+                  {project.role} / {project.location}
+                </p>
+                <p className="mt-2 max-w-xl text-[0.9375rem] leading-snug text-ash">{project.tagline}</p>
+              </TransitionLink>
             </li>
           ))}
         </ol>

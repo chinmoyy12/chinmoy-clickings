@@ -149,7 +149,7 @@ export function CinematicHero() {
       <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-ink via-ink/60 to-transparent max-sm:h-3/5" />
 
       <div ref={copy} className="hero-copy gutter absolute inset-x-0 will-change-transform">
-        <p className="intro-late label mb-2 text-paper/80">Hello, I'm</p>
+        <p className="intro-late hero-greeting mb-1">Hello, I'm</p>
         <h1 id="hero-title" className="display hero-name">
           <span className="sr-only">Chinmoy Clickings, photographer and cinematographer</span>
           <Chars text="CLICKINGS" offset={7} />
@@ -158,11 +158,11 @@ export function CinematicHero() {
         <p className="intro-late mt-3 max-w-[23rem] text-[0.9375rem] leading-snug text-paper/80">{site.about.lead}</p>
         <div className="intro-late mt-5 flex flex-wrap items-center gap-5">
           <Magnetic>
-            <TransitionLink href="/#work" data-cursor="View" className="pill">
+            <TransitionLink href="/#work" className="pill">
               View work <span className="arrow" aria-hidden>→</span>
             </TransitionLink>
           </Magnetic>
-          <button type="button" onClick={() => setPlaying(true)} data-cursor="Play" className="label sweep flex items-center gap-2 text-paper">
+          <button type="button" onClick={() => setPlaying(true)} className="label sweep flex items-center gap-2 text-paper">
             <span className="h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-ember" aria-hidden />
             Play showreel
           </button>

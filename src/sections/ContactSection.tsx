@@ -53,16 +53,20 @@ function useDust(canvas: React.RefObject<HTMLCanvasElement | null>) {
 export function ContactSection() {
   const dust = useRef<HTMLCanvasElement>(null);
   const [topic, setTopic] = useState(site.contact.availability[0]);
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState("");
   useDust(dust);
 
   const message = `Hi Chinmoy, I'd like to talk about ${topic.toLowerCase()}.`;
   const mailto = `mailto:${social.email}?subject=${encodeURIComponent(topic)}&body=${encodeURIComponent(message)}`;
 
   const copyEmail = async () => {
-    await navigator.clipboard.writeText(social.email);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(social.email);
+      setCopied("Copied");
+    } catch {
+      setCopied("Press and hold the address to copy");
+    }
+    window.setTimeout(() => setCopied(""), 2500);
   };
 
   return (
@@ -88,17 +92,17 @@ export function ContactSection() {
           <li className="border-t border-line py-3">
             <div className="flex items-center justify-between gap-4">
               <span className="label">Email</span>
-              <button type="button" onClick={copyEmail} data-cursor="Copy" className="label sweep text-paper" aria-live="polite">
-                {copied ? "Copied" : "Copy"}
+              <button type="button" onClick={copyEmail} className="label sweep text-paper" aria-live="polite">
+                {copied || "Copy"}
               </button>
             </div>
-            <a href={mailto} data-cursor="Write" className="mt-1 block break-all text-[clamp(0.9375rem,1.5vw,1.25rem)] transition-colors duration-500 hover:text-ember">
+            <a href={mailto} className="mt-1 block break-all text-[clamp(0.9375rem,1.5vw,1.25rem)] transition-colors duration-500 hover:text-ember">
               {social.email} <span className="arrow" aria-hidden>→</span>
             </a>
           </li>
           <li className="border-y border-line">
             <Magnetic className="w-full">
-              <a href={social.instagram.url} target="_blank" rel="noreferrer" data-cursor="Open" className="flex items-baseline justify-between gap-4 py-3 transition-colors duration-500 hover:text-ember">
+              <a href={social.instagram.url} target="_blank" rel="noreferrer" className="flex items-baseline justify-between gap-4 py-3 transition-colors duration-500 hover:text-ember">
                 <span className="label">Instagram</span>
                 <span className="text-[0.9375rem]">
                   {social.instagram.handle} <span className="arrow" aria-hidden>→</span>
@@ -109,7 +113,7 @@ export function ContactSection() {
         </ul>
       </div>
 
-      <a href={mailto} data-cursor="Write" className="relative flex min-h-[20rem] flex-col justify-between overflow-hidden bg-wine p-6 transition-transform duration-700 ease-cine hover:scale-[1.01] lg:col-span-4 lg:col-start-9">
+      <a href={mailto} className="relative flex min-h-[20rem] flex-col justify-between overflow-hidden bg-wine p-6 transition-transform duration-700 ease-cine hover:scale-[1.01] lg:col-span-4 lg:col-start-9">
         <canvas ref={dust} className="absolute inset-0 h-full w-full" aria-hidden />
         <span className="label relative text-paper/80">Start something</span>
         <span className="display relative text-[clamp(3rem,5.5vw,5.5rem)] leading-[0.95]">

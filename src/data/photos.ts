@@ -10,49 +10,49 @@ const STD = [1800, 1200] as const;
 const TALL = [1280, 1600] as const;
 const SQ = [1400, 1400] as const;
 
-type Row = [string, string, readonly [number, number], string, string, string];
+type Row = [string, string, readonly [number, number]];
 
 const rows: Record<(typeof photoCategories)[number], Row[]> = {
   Portraits: [
-    ["Edge", "A face in profile, drawn only by a thin line of rose light.", TALL, "Guwahati", "2026", "Lit by one window and a lot of waiting."],
-    ["Half Light", "A profile turned to the right, warm against the dark.", TALL, "Guwahati", "2026", "The shot came after the sitter stopped posing."],
-    ["Window Seat", "A figure holding still against a bright rose window.", STD, "Shillong", "2025", "Exposed for the glass, the person falls to shadow."],
+    ["Edge", "A face in profile, drawn only by a thin line of rose light.", TALL],
+    ["Half Light", "A profile turned to the right, warm against the dark.", TALL],
+    ["Window Seat", "A figure holding still against a bright rose window.", STD],
   ],
   Events: [
-    ["Encore", "A performer raises both arms in amber light above a crowd.", STD, "Guwahati", "2026", "Third song. Everyone had their hands up by then."],
-    ["String Lights", "Rose-coloured lights sweep over a crowd of silhouettes.", WIDE, "Guwahati", "2025", "Shot wide open from inside the crowd."],
-    ["Teal Hour", "Cold beams of stage light cross through haze.", TALL, "Tezpur", "2025", "Haze machines are a photographer's best friend."],
+    ["Encore", "A performer raises both arms in amber light above a crowd.", STD],
+    ["String Lights", "Rose-coloured lights sweep over a crowd of silhouettes.", WIDE],
+    ["Teal Hour", "Cold beams of stage light cross through haze.", TALL],
   ],
   Street: [
-    ["Pink Rain", "A lone figure under an umbrella on a shining rose street.", STD, "Guwahati", "2026", "Waited under an awning for forty minutes."],
-    ["Crossing", "A monochrome figure with an umbrella, doubled by wet tarmac.", TALL, "Kolkata", "2025", "Black and white made the rain the subject."],
-    ["Stepwell", "A small walker crossing hard diagonal stairs.", SQ, "Shillong", "2025", "Hard noon light, for once on purpose."],
+    ["Pink Rain", "A lone figure under an umbrella on a shining rose street.", STD],
+    ["Crossing", "A monochrome figure with an umbrella, doubled by wet tarmac.", TALL],
+    ["Stepwell", "A small walker crossing hard diagonal stairs.", SQ],
   ],
   Travel: [
-    ["Ridgeline", "A figure on rose-coloured hills under a burning sky.", WIDE, "Meghalaya", "2026", "A two-hour climb for the last ten minutes of sun."],
-    ["First Crossing", "A boat moves across gold water at sunrise.", STD, "Majuli", "2025", "The ferryman let me ride along for free."],
-    ["Blue Ridge", "Teal mountains recede beneath a pale glow.", TALL, "Arunachal Pradesh", "2025", "Everything turns blue at this altitude."],
+    ["Ridgeline", "A figure on rose-coloured hills under a burning sky.", WIDE],
+    ["First Crossing", "A boat moves across gold water at sunrise.", STD],
+    ["Blue Ridge", "Teal mountains recede beneath a pale glow.", TALL],
   ],
   Lifestyle: [
-    ["Slow Morning", "Someone stands in a window filled with warm light.", TALL, "Guwahati", "2026", "Nothing happened that morning. That was the point."],
-    ["Afternoon Bars", "Warm blinds of light stretch across a wall and a shadow.", STD, "Guwahati", "2025", "The light lasts about six minutes in this room."],
-    ["Fairground", "Pale green lights loop above a quiet crowd.", SQ, "Dibrugarh", "2025", "Long after the rides stopped."],
+    ["Slow Morning", "Someone stands in a window filled with warm light.", TALL],
+    ["Afternoon Bars", "Warm blinds of light stretch across a wall and a shadow.", STD],
+    ["Fairground", "Pale green lights loop above a quiet crowd.", SQ],
   ],
   Campus: [
-    ["Commons", "Students walk beneath a great tree in muted evening light.", WIDE, "Guwahati", "2026", "The same tree, the same hour, a different year."],
-    ["The Long Hall", "A figure in a corridor where amber light falls across the floor.", TALL, "Guwahati", "2025", "Between lectures the building belongs to the light."],
-    ["Last Bell", "Rose dusk behind a tree as people head home.", STD, "Guwahati", "2025", "Everyone is always leaving at this hour."],
+    ["Commons", "Students walk beneath a great tree in muted evening light.", WIDE],
+    ["The Long Hall", "A figure in a corridor where amber light falls across the floor.", TALL],
+    ["Last Bell", "Rose dusk behind a tree as people head home.", STD],
   ],
   Editorial: [
-    ["Silk I", "Crimson ribbons of light twist over a shadowed figure.", TALL, "Studio", "2026", "A six-second exposure and one very patient dancer."],
-    ["Silk II", "Amber fabric traced through a long exposure.", WIDE, "Studio", "2025", "The cloth moves. The camera does not."],
-    ["Bars", "Rose light through blinds falls across a still silhouette.", TALL, "Studio", "2025", "One bulb, one blind, one hour."],
+    ["Silk I", "Crimson ribbons of light twist over a shadowed figure.", TALL],
+    ["Silk II", "Amber fabric traced through a long exposure.", WIDE],
+    ["Bars", "Rose light through blinds falls across a still silhouette.", TALL],
   ],
 };
 
 export const photos: Photo[] = photoCategories.flatMap((category) =>
-  rows[category].map(([title, alt, size, location, year, note], i) => {
+  rows[category].map(([title, alt, size], i) => {
     const id = `${category.toLowerCase()}-0${i + 1}`;
-    return { id, title, category, location, year, note, alt, src: `/media/photography/${id}.jpg`, width: size[0], height: size[1] };
+    return { id, title, category, alt, src: `/media/photography/${id}.jpg`, width: size[0], height: size[1] };
   }),
 );

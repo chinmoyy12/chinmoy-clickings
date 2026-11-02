@@ -43,16 +43,18 @@ export function RawToReal() {
         </SectionReveal>
       </div>
 
-      <div ref={panel} data-cursor="Drag" className="relative aspect-[4/5] touch-pan-y select-none overflow-hidden bg-surface sm:aspect-video lg:col-span-8">
+      <div ref={panel} className="relative aspect-[4/5] touch-pan-y select-none overflow-hidden bg-surface has-[:focus-visible]:outline has-[:focus-visible]:outline-1 has-[:focus-visible]:outline-offset-4 has-[:focus-visible]:outline-paper sm:aspect-video lg:col-span-8">
         <Frame image={graded} sizes="(min-width: 1024px) 66vw, 100vw" quality={85} />
         <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - split}% 0 0)` }}>
           <Frame image={raw} sizes="(min-width: 1024px) 66vw, 100vw" decorative />
         </div>
         <div className="pointer-events-none absolute inset-y-0 w-px bg-ember" style={{ left: `${split}%` }}>
-          <span className="absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ember" aria-hidden />
+          <span className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-ember text-paper" aria-hidden>
+            ↔
+          </span>
         </div>
-        <span className="label absolute left-3 top-3 text-paper">Raw</span>
-        <span className="label absolute right-3 top-3 text-paper">Graded</span>
+        <span className="label absolute left-3 top-3 bg-black/60 px-2 py-1 text-paper">Raw</span>
+        <span className="label absolute right-3 top-3 bg-black/60 px-2 py-1 text-paper">Graded</span>
         <input
           type="range"
           min={0}
@@ -62,6 +64,9 @@ export function RawToReal() {
           onChange={(event) => {
             touched.current = true;
             setSplit(Number(event.target.value));
+          }}
+          onPointerDown={() => {
+            touched.current = true;
           }}
           className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
         />

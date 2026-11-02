@@ -28,7 +28,6 @@ function ProjectCard({ project }: { project: Project }) {
       <TransitionLink
         href={`/work/${project.slug}`}
         morphSrc={optimizedUrl(project.hero.src, 2048)}
-        data-cursor="View"
         aria-label={`${project.title}, view project`}
         onPointerEnter={enter}
         onPointerLeave={() => clip.current?.pause()}

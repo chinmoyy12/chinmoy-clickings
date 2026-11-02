@@ -17,5 +17,5 @@ Recommended sizes: long edge 2000–2560 px, JPEG quality around 85. The site
 produces AVIF, WebP and smaller sizes automatically when hosted.
 
 When you swap images, also update the `alt` text and any `width` / `height` in
-the data file. Photo locations, notes, project copy and credits are placeholder
+the data file. Project copy and credits are placeholder
 writing too and must be replaced with true details.

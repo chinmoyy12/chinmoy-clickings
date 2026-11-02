@@ -3,7 +3,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { SoundToggle } from "@/components/SoundToggle";
 import { TransitionLink } from "@/components/TransitionLink";
 import { useModal } from "@/hooks/useModal";
 import { navigation, site } from "@/data/site";
@@ -59,7 +58,6 @@ export function Navigation() {
                 {item.label}
               </TransitionLink>
             ))}
-            <SoundToggle className="ml-4 border-l border-line pl-6" />
           </nav>
 
           <button type="button" onClick={() => setOpen(true)} aria-haspopup="dialog" aria-expanded={open} className="ctrl -mr-2 lg:hidden">

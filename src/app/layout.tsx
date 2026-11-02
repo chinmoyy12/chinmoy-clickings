@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, Inter, JetBrains_Mono } from "next/font/google";
+import { Anton, Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { CustomCursor } from "@/components/CustomCursor";
 import { GrainOverlay } from "@/components/GrainOverlay";
 import { Navigation } from "@/components/Navigation";
@@ -12,6 +12,7 @@ import "@/styles/globals.css";
 
 const display = Anton({ weight: "400", subsets: ["latin"], variable: "--font-anton", display: "swap" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono-face", display: "swap" });
+const script = Instrument_Serif({ weight: "400", style: "italic", subsets: ["latin"], variable: "--font-script", display: "swap" });
 const sans = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
@@ -36,7 +37,7 @@ const boot = `document.documentElement.classList.add("js");document.documentElem
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable} ${script.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: boot }} />
         <noscript>

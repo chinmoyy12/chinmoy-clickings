@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useMotionValue, useTransform } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -8,15 +8,15 @@ import type { Photo } from "@/data/types";
 import { useModal } from "@/hooks/useModal";
 import { pad } from "@/utils/media";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const EASE = [0.16, 1, 0.3, 1] as const;
+const SWIPE = 70;
 
-/** Full-screen editorial viewer. Drag a frame aside to find its notes underneath. */
+/** Full-screen viewer with keyboard, swipe, backdrop and button controls. */
 export function Lightbox({ items, start, onClose }: { items: Photo[]; start: number; onClose: () => void }) {
   const [index, setIndex] = useState(start);
   const ref = useModal<HTMLDivElement>(onClose);
   const photo = items[index];
-  const dragX = useMotionValue(0);
-  const noteOpacity = useTransform(dragX, [0, 120], [0, 1]);
+  const single = items.length < 2;
 
   const step = (by: number) => setIndex((i) => (i + by + items.length) % items.length);
 
@@ -41,10 +41,10 @@ export function Lightbox({ items, start, onClose }: { items: Photo[]; start: num
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="gutter relative z-10 flex items-center justify-between py-2">
-        <p className="label tabular-nums">
+        <p className="label tabular-nums" aria-live="polite">
           <span className="text-ember">{pad(index + 1)}</span> / {pad(items.length)}
         </p>
         <button type="button" data-autofocus onClick={onClose} className="ctrl -mr-2">
@@ -52,29 +52,22 @@ export function Lightbox({ items, start, onClose }: { items: Photo[]; start: num
         </button>
       </div>
 
-      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden px-[var(--gutter)]">
-        <motion.div style={{ opacity: noteOpacity }} className="absolute inset-y-0 left-[var(--gutter)] flex w-[min(15rem,50vw)] flex-col justify-center gap-3">
-          <p className="label text-ember">Field note</p>
-          <p className="display text-2xl sm:text-3xl">{photo.note}</p>
-          <p className="label">
-            {photo.location} / {photo.year}
-          </p>
-        </motion.div>
-
+      <div data-backdrop onClick={(event) => event.target === event.currentTarget && onClose()} className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden px-[var(--gutter)]">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={photo.id}
-            data-cursor="Drag"
-            className={`relative max-h-full touch-pan-y ${portrait ? "h-full" : "w-full max-w-[min(100%,calc((100svh-9rem)*1.5))]"}`}
-            style={{ aspectRatio: `${photo.width} / ${photo.height}`, x: dragX }}
-            drag="x"
+            className={`relative max-h-full touch-pan-y ${portrait ? "h-full" : "w-full max-w-[min(100%,calc((100svh-10rem)*1.5))]"}`}
+            style={{ aspectRatio: `${photo.width} / ${photo.height}` }}
+            drag={single ? false : "x"}
             dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={{ left: 0.04, right: 0.42 }}
-            dragTransition={{ bounceStiffness: 220, bounceDamping: 26 }}
-            initial={{ opacity: 0, scale: 1.04 }}
+            dragElastic={0.25}
+            onDragEnd={(_, info) => {
+              if (Math.abs(info.offset.x) > SWIPE) step(info.offset.x < 0 ? 1 : -1);
+            }}
+            initial={{ opacity: 0, scale: 1.03 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.55, ease: EASE }}
+            transition={{ duration: 0.35, ease: EASE }}
           >
             <Image src={photo.src} alt={photo.alt} fill sizes="100vw" quality={85} draggable={false} className="object-contain" />
           </motion.div>
@@ -84,16 +77,15 @@ export function Lightbox({ items, start, onClose }: { items: Photo[]; start: num
       <div className="gutter relative z-10 flex items-center justify-between gap-4 py-2">
         <div className="min-w-0">
           <p className="display truncate text-2xl">{photo.title}</p>
-          <p className="label">
-            {photo.category} <span className="sm:hidden">/ drag for notes</span>
-            <span className="max-sm:hidden">/ drag the frame for notes</span>
+          <p className="truncate text-[0.8125rem] text-ash">
+            {photo.category} — {photo.alt}
           </p>
         </div>
         <div className="flex shrink-0 gap-2">
-          <button type="button" onClick={() => step(-1)} className="ctrl">
+          <button type="button" disabled={single} onClick={() => step(-1)} aria-label="Previous photograph" className="ctrl disabled:opacity-30">
             Prev
           </button>
-          <button type="button" onClick={() => step(1)} className="ctrl">
+          <button type="button" disabled={single} onClick={() => step(1)} aria-label="Next photograph" className="ctrl disabled:opacity-30">
             Next
           </button>
         </div>

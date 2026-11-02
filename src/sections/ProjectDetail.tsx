@@ -79,7 +79,7 @@ export function ProjectDetail({ project, next }: { project: Project; next: Proje
             <section data-nav="solid" aria-label="Film" className="gutter pt-24 sm:pt-44">
               <div className="ml-auto lg:w-10/12">
                 <ImageReveal>
-                  <button type="button" onClick={() => setPlaying(true)} data-cursor="Play" aria-label={`Play ${project.video.title}`} className="zoom-host relative block aspect-video w-full overflow-hidden bg-surface">
+                  <button type="button" onClick={() => setPlaying(true)} aria-label={`Play ${project.video.title}`} className="zoom-host relative block aspect-video w-full overflow-hidden bg-surface">
                     <div className="zoom-img absolute inset-0">
                       <Frame image={project.video.poster} sizes="(min-width: 1024px) 80vw, 100vw" />
                     </div>
@@ -145,7 +145,6 @@ export function ProjectDetail({ project, next }: { project: Project; next: Proje
           morphSrc={optimizedUrl(next.hero.src, 2048)}
           strip
           data-nav="image"
-          data-cursor="Next"
           className="zoom-host relative block h-[86svh] overflow-hidden bg-black"
         >
           <div className="zoom-img absolute inset-0">

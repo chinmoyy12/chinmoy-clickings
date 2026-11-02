@@ -47,10 +47,6 @@ export interface Photo extends MediaImage {
   id: string;
   title: string;
   category: string;
-  location: string;
-  year: string;
-  /** Revealed when the frame is dragged aside in the viewer. */
-  note: string;
 }
 
 export interface ServiceGroup {
