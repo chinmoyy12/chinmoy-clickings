@@ -18,9 +18,9 @@ export function ScrollWords({ text, className }: { text: string; className?: str
   }, []);
 
   return (
-    <p ref={root} className={className} aria-label={text}>
+    <p ref={root} className={className}>
       {text.split(" ").map((word, i) => (
-        <span key={i} aria-hidden className="inline-block whitespace-pre">
+        <span key={i} className="inline-block whitespace-pre">
           {word}{" "}
         </span>
       ))}
