@@ -5,13 +5,15 @@ import { useReveal } from "@/hooks/useReveal";
 type TextTag = "h1" | "h2" | "h3" | "p";
 
 /** Masked line-by-line text reveal. Lines are authored, so nothing reflows mid-animation. */
-export function TextReveal({ lines, as: Tag = "h2", className, delay }: { lines: string[]; as?: TextTag; className?: string; delay?: number }) {
+export function TextReveal({ lines, as: Tag = "h2", className, delay, accent = 0 }: { lines: string[]; as?: TextTag; className?: string; delay?: number; accent?: number }) {
   const ref = useReveal<HTMLHeadingElement>();
   return (
     <Tag ref={ref} data-reveal="text" className={className} style={{ "--delay": `${delay ?? 0}ms` } as React.CSSProperties}>
       {lines.map((line, i) => (
         <span key={line} className="ml">
-          <span style={{ "--i": i } as React.CSSProperties}>{line}</span>
+          <span className={i >= lines.length - accent ? "red" : undefined} style={{ "--i": i } as React.CSSProperties}>
+            {line}
+          </span>
         </span>
       ))}
     </Tag>

@@ -17,7 +17,7 @@ const film = (id: string, title: string, category: string, description: string):
 
 export const reel = film("reel", "Showreel 2026", "Reel", "A minute of the year, cut for feeling rather than order.");
 
-export const films: Film[] = [
+const films: Film[] = [
   film("film-the-moment", "Golden Hour Reel", "Reels", "Vertical stories made for a thumb and a held breath."),
   film("film-the-people", "One Night, Everyone", "Event Films", "The room, the noise, and the people inside it."),
   film("film-between-frames", "Between Frames", "Short Films", "Small fictions built out of long corridors."),

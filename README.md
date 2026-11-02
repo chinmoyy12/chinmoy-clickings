@@ -4,7 +4,7 @@
 
 # CHINMOY CLICKINGS
 
-*An interactive film made from photographs.*
+*I capture moments that deserve to stay.*
 
 Photography · Cinematography · Visual Stories
 <br />
@@ -21,48 +21,48 @@ Guwahati, India
 </div>
 
 > [!NOTE]
-> The photographs, films and project text currently on the site are generated placeholders. Real work is on its way.
+> Apart from Chinmoy's portrait, the photographs, films and project text on the site are generated placeholders. Real work is on its way.
 
 ---
 
 ## The experience
 
-A cinematic portfolio where the interface steps back and the work leads. Every scene change is built from one shared motion language, so the site plays like a single film rather than a stack of sections.
+A bold, cinematic portfolio in black, off-white and one hot red. Every scene shares one motion language, so the site plays like a single film.
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/hero.jpg" alt="Hero with the name layered around a photographer" /></td>
-    <td width="50%"><img src="docs/work.jpg" alt="Selected work scene with an editorial project number" /></td>
+    <td width="50%"><img src="docs/hero.jpg" alt="Chinmoy standing in front of the giant red word CHINMOY" /></td>
+    <td width="50%"><img src="docs/work.jpg" alt="Horizontal film strip of selected work" /></td>
   </tr>
   <tr>
-    <td><img src="docs/film.jpg" alt="Film slats, one expanded on hover" /></td>
-    <td><img src="docs/archive.jpg" alt="3D gallery of floating photographs" /></td>
+    <td><img src="docs/film.jpg" alt="The Work. The Recognition. counter and ranked list" /></td>
+    <td><img src="docs/archive.jpg" alt="From Raw. To Real. drag wipe" /></td>
   </tr>
 </table>
 
 | Scene | What happens |
 | --- | --- |
-| **Opening** | A short loader, then a layered hero that reacts to the cursor, device tilt and scroll speed |
-| **Selected Work** | Six projects change like film scenes, with rolling numerals and shifting ambient colour |
-| **Project pages** | The chosen image morphs to fill the screen, and closing returns you to your exact scroll position |
-| **Photography** | A horizontal strip with depth, cinematic category wipes and a full-screen viewer |
-| **Philosophy** | Light, Motion, People, Places, Moments: each word changes the scene |
-| **Cinematography** | Showreel with hover preview, expanding film slats and a minimal player with captions |
-| **The Archive** | Walk through floating photographs in WebGL, then select one to fly to it |
-| **The ending** | The contact scene slowly loses its colour, then the film fades to black |
+| **Hero** | A real depth-mapped cutout stands in front of a giant word and reacts to the cursor, device tilt and a moving red rim light |
+| **Selected Work** | A horizontal film strip with hover-play cards and a category marquee |
+| **The Recognition** | An animated project counter with a ranked list of the work |
+| **From Raw. To Real.** | A drag and scroll wipe between the ungraded and graded frame |
+| **Photography** | A depth strip with category wipes and a full-screen viewer |
+| **About** | A split statement with portrait, craft list and a red quote card |
+| **The Journey** | A red timeline that fills as you scroll and lights each row |
+| **Contact** | Copy-to-clipboard email, Instagram and a dust-filled call to action |
 
 ## Built for everyone
 
 - **Dedicated mobile layouts,** recomposed for tall screens rather than shrunk
-- **Graceful fallbacks:** a 2D gallery when WebGL, battery or memory are limited
+- **Graceful fallbacks:** the hero becomes a CSS 3D tilt if WebGL is unavailable, and is never blank
 - **Reduced motion respected** throughout
 - **Full keyboard support,** visible focus, captions and alt text
-- **Responsive AVIF and WebP images,** lazy video and on-demand 3D
+- **Responsive AVIF and WebP images,** lazy video and a dynamically loaded hero scene
 - **Offline shell** through a small service worker
 
 ## Stack
 
-Next.js · React · TypeScript · Tailwind CSS · GSAP · Lenis · Framer Motion · Three.js · React Three Fiber · Drei
+Next.js · React · TypeScript · Tailwind CSS · GSAP · Lenis · Framer Motion · Three.js
 
 ## Run it locally
 
@@ -79,7 +79,7 @@ src/
   sections/     one file per page section
   components/   cursor, loader, transitions, viewer, player
   animations/   shared easing and transition vocabulary
-  three/        the WebGL archive
+  three/        the depth-reactive hero shader
   data/         all site content, ready for a CMS
 public/media/   images, films and textures
 ```

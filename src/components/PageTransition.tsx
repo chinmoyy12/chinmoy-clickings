@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/animations/gsap";
-import { CLIP } from "@/animations/transitions";
+import { CLIP_FULL } from "@/animations/transitions";
 import { projects } from "@/data/projects";
 import { prefersReducedMotion } from "@/utils/device";
 import { optimizedUrl, preloadImage } from "@/utils/media";
@@ -117,7 +117,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
         const ready = preloadImage(morph.src);
 
         if (reduced) {
-          gsap.set(root, { autoAlpha: 1, clipPath: CLIP.full });
+          gsap.set(root, { autoAlpha: 1, clipPath: CLIP_FULL });
           gsap.fromTo(root, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "none", onComplete: () => void ready.then(() => push(href)) });
           return;
         }
@@ -132,7 +132,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
 
         const tl = gsap.timeline({ onComplete: () => void ready.then(() => push(href)) });
         tl.to(shade, { autoAlpha: 1, duration: 0.7, ease: "none" }, 0)
-          .to(root, { clipPath: CLIP.full, duration: 1, ease: "inout" }, 0)
+          .to(root, { clipPath: CLIP_FULL, duration: 1, ease: "inout" }, 0)
           .to(picture, { scale: 1, duration: 1.1, ease: "inout" }, 0)
           .set(shade, { autoAlpha: 0 });
         if (morph.strip && strip.current) {

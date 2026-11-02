@@ -1,8 +1,7 @@
-import type { PhilosophyScene, Photo } from "./types";
+import type { Photo } from "./types";
 
 // REPLACE: photographs live in /public/media/photography/<category>-0N.jpg.
-// Add a row to add a frame; the gallery, filters, 3D archive and viewer all
-// read from this one list.
+// Add a row to add a frame; the gallery, filters and viewer all read this list.
 
 export const photoCategories = ["Portraits", "Events", "Street", "Travel", "Lifestyle", "Campus", "Editorial"] as const;
 
@@ -57,23 +56,3 @@ export const photos: Photo[] = photoCategories.flatMap((category) =>
     return { id, title, category, location, year, note, alt, src: `/media/photography/${id}.jpg`, width: size[0], height: size[1] };
   }),
 );
-
-const photo = (id: string) => {
-  const match = photos.find((p) => p.id === id);
-  if (!match) throw new Error(`Unknown photo: ${id}`);
-  return match;
-};
-
-export const philosophy: PhilosophyScene[] = [
-  { word: "Light", line: "Everything begins with where it falls.", image: photo("lifestyle-02") },
-  { word: "Motion", line: "A still frame can still be moving.", image: photo("editorial-02") },
-  { word: "People", line: "The reason any of it matters.", image: photo("events-01") },
-  { word: "Places", line: "Every location has a mood if you stay.", image: photo("travel-02") },
-  { word: "Moments", line: "They only happen once. Be ready.", image: photo("street-01") },
-];
-
-/** Frames hung in the 3D archive, in the order the camera meets them. */
-export const archive = [
-  "travel-01", "portraits-01", "events-02", "street-02", "campus-01", "editorial-01", "travel-03", "lifestyle-01",
-  "events-01", "street-03", "portraits-03", "editorial-02", "campus-02", "travel-02", "lifestyle-03", "street-01",
-].map(photo);

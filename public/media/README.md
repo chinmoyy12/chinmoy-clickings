@@ -1,11 +1,11 @@
 # Replacing the media
 
-Every image and film here is a generated placeholder. Nothing in this folder is
-real work yet. Overwrite a file with the same name and it updates across the site.
+Everything here except your portrait is a generated placeholder. Overwrite a file with the same name and it updates across the site.
 
 | Folder | What goes here | Edit |
 | --- | --- | --- |
-| `hero/` | `background.jpg` (sky), `midground.webp` (near landscape, transparent), `subject.webp` (cut-out subject, transparent) | — |
+| `hero/` | `subject.webp` (your transparent cutout), `depth.webp` (matching depth map, light is near) | `src/data/site.ts` |
+| `raw-real/` | `raw.jpg` (ungraded frame, currently simulated), `graded.jpg` (the final grade) | `src/data/site.ts` |
 | `projects/<slug>/` | `hero.jpg`, `01–03.jpg`, `bts.jpg` | `src/data/projects.ts` |
 | `photography/` | `<category>-0N.jpg` | `src/data/photos.ts` |
 | `videos/` | `<id>.mp4`, `<id>-480.mp4`, `<id>-poster.jpg`, captions `.vtt` | `src/data/videos.ts` |

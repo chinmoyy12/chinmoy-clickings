@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Anton, Inter, JetBrains_Mono } from "next/font/google";
 import { CustomCursor } from "@/components/CustomCursor";
 import { GrainOverlay } from "@/components/GrainOverlay";
 import { Navigation } from "@/components/Navigation";
@@ -10,7 +10,8 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { site } from "@/data/site";
 import "@/styles/globals.css";
 
-const display = Instrument_Serif({ weight: "400", subsets: ["latin"], variable: "--font-instrument", display: "swap" });
+const display = Anton({ weight: "400", subsets: ["latin"], variable: "--font-anton", display: "swap" });
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono-face", display: "swap" });
 const sans = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
@@ -28,14 +29,14 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: site.title, description: site.description, images: [site.ogImage] },
 };
 
-export const viewport: Viewport = { themeColor: "#080808", colorScheme: "dark" };
+export const viewport: Viewport = { themeColor: "#070707", colorScheme: "dark" };
 
 // Runs before first paint so animated elements start hidden only when JS can reveal them.
 const boot = `document.documentElement.classList.add("js");document.documentElement.dataset.intro="pending";`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: boot }} />
         <noscript>

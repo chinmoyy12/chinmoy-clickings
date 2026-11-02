@@ -125,9 +125,9 @@ export function PhotographyGallery() {
       <header className="gutter mb-10 grid grid-cols-4 gap-x-4 sm:grid-cols-8 lg:mb-14 lg:grid-cols-12 lg:items-end">
         <div className="col-span-4 sm:col-span-8 lg:col-span-6">
           <SectionReveal>
-            <p className="label mb-5 text-ember">02 / Photography</p>
+            <p className="label mb-5 text-ember">04 / Photography</p>
           </SectionReveal>
-          <TextReveal lines={["Stills that", "keep moving."]} className="display type-section" />
+          <TextReveal lines={["Stills that", "keep moving."]} accent={1} className="display type-section" />
         </div>
         <SectionReveal className="col-span-4 mt-8 sm:col-span-8 lg:col-span-6 lg:mt-0">
           <div role="group" aria-label="Filter photographs by category" className="-mx-[var(--gutter)] flex gap-5 overflow-x-auto px-[var(--gutter)] [scrollbar-width:none] lg:mx-0 lg:flex-wrap lg:justify-end lg:gap-x-6 lg:gap-y-1 lg:overflow-visible lg:px-0">

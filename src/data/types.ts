@@ -53,12 +53,6 @@ export interface Photo extends MediaImage {
   note: string;
 }
 
-export interface PhilosophyScene {
-  word: string;
-  line: string;
-  image: MediaImage;
-}
-
 export interface ServiceGroup {
   title: string;
   items: string[];
