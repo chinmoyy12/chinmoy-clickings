@@ -2,7 +2,7 @@ export const site = {
   name: "CHINMOY CLICKINGS",
   title: "CHINMOY CLICKINGS — Photography & Cinematography",
   description: "Cinematic photography and videography portfolio by Chinmoy Clickings.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://chinmoy-clickings.vercel.app",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? process.env.URL ?? "http://localhost:3000",
   ogImage: "/media/og.jpg",
   descriptor: "Photography / Cinematography / Visual Stories",
   location: "Guwahati, India",
