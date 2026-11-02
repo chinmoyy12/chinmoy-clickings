@@ -38,14 +38,9 @@ void main() {
 
 const rgb = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
 
-/** Cinematic beams from above. Half resolution, paused off screen, a single still frame on low-power devices. */
-export function LightRays({ color = "#ff8a5c", spread = 0.9, reach = 1.7, className = "" }: { color?: string; spread?: number; reach?: number; className?: string }) {
-  const canvas = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const element = canvas.current;
-    const gl = element?.getContext("webgl2", { antialias: false, alpha: false, powerPreference: "low-power" });
-    if (!element || !gl) return;
+function paint(element: HTMLCanvasElement, color: string, spread: number, reach: number) {
+    const gl = element.getContext("webgl2", { antialias: false, alpha: false, powerPreference: "low-power" });
+    if (!gl) return;
     const compile = (type: number, source: string) => {
       const shader = gl.createShader(type)!;
       gl.shaderSource(shader, source);
@@ -90,9 +85,12 @@ export function LightRays({ color = "#ff8a5c", spread = 0.9, reach = 1.7, classN
     draw(4000);
 
     let frame = 0;
+    let skip = false;
     const loop = (now: number) => {
       frame = requestAnimationFrame(loop);
-      draw(now);
+      if (document.documentElement.dataset.intro !== "done") return;
+      skip = power !== "high" && !skip;
+      if (!skip) draw(now);
     };
     const io = new IntersectionObserver(([entry]) => {
       cancelAnimationFrame(frame);
@@ -115,6 +113,29 @@ export function LightRays({ color = "#ff8a5c", spread = 0.9, reach = 1.7, classN
       io.disconnect();
       resize.disconnect();
       window.removeEventListener("pointermove", onPointer);
+    };
+}
+
+/** Cinematic beams from above. Half resolution, paused off screen, a single still frame on low-power devices. */
+export function LightRays({ color = "#ff8a5c", spread = 0.9, reach = 1.7, className = "" }: { color?: string; spread?: number; reach?: number; className?: string }) {
+  const canvas = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const element = canvas.current;
+    if (!element) return;
+    let stop: (() => void) | undefined;
+    const gate = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        gate.disconnect();
+        stop = paint(element, color, spread, reach);
+      },
+      { rootMargin: "50% 0px" },
+    );
+    gate.observe(element);
+    return () => {
+      gate.disconnect();
+      stop?.();
     };
   }, [color, spread, reach]);
 

@@ -136,7 +136,7 @@ async function pixels(url: string, width: number, height: number) {
 export async function createHeroScene(canvas: HTMLCanvasElement, pointer: HeroPointer, onReady: () => void, onFail: () => void) {
   const small = window.innerWidth < 768;
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !small, powerPreference: small ? "low-power" : "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 1.75));
   renderer.setClearColor(0x000000, 0);
 
   const W = small ? 150 : 230;
@@ -209,6 +209,9 @@ export async function createHeroScene(canvas: HTMLCanvasElement, pointer: HeroPo
     uniforms.fit.value = Math.min(0.68, uniforms.aspect.value * 0.8);
   };
   size();
+  // Compile and upload now, not on the first frame anyone can see.
+  renderer.compile(scene, camera);
+  renderer.render(scene, camera);
   const observer = new ResizeObserver(size);
   observer.observe(canvas);
 
@@ -221,6 +224,8 @@ export async function createHeroScene(canvas: HTMLCanvasElement, pointer: HeroPo
   let started = 0;
   let nextBlink = 3;
   let spinTarget = 0;
+  let frames = 0;
+  let slowFrames = 0;
   const onLost = (event: Event) => {
     event.preventDefault();
     onFail();
@@ -229,9 +234,20 @@ export async function createHeroScene(canvas: HTMLCanvasElement, pointer: HeroPo
 
   const tick = (now: number) => {
     frame = requestAnimationFrame(tick);
-    if (!visible || document.hidden) return;
-    const dt = Math.min(0.05, (now - last) / 1000);
+    const raw = now - last;
     last = now;
+    if (!visible || document.hidden || document.documentElement.dataset.intro !== "done") return;
+    const dt = Math.min(0.05, raw / 1000);
+    frames += 1;
+    if (raw > 28) slowFrames += 1;
+    if (frames === 90) {
+      if (slowFrames > 45 && renderer.getPixelRatio() > 1) {
+        renderer.setPixelRatio(1);
+        uniforms.pixel.value = 1;
+        size();
+      }
+      frames = slowFrames = 0;
+    }
     const time = (uniforms.time.value += dt);
     uniforms.tilt.value.x += (pointer.x * 0.85 - uniforms.tilt.value.x) * 0.07;
     uniforms.tilt.value.y += (pointer.y * 0.5 - uniforms.tilt.value.y) * 0.07;
@@ -249,12 +265,10 @@ export async function createHeroScene(canvas: HTMLCanvasElement, pointer: HeroPo
       uniforms.mouse.value.y += (-pointer.y / fit - 0.07 - uniforms.mouse.value.y) * 0.18;
     }
     uniforms.scroll.value = Math.min(1, window.scrollY / Math.max(1, canvas.clientHeight));
-    if (document.documentElement.dataset.intro === "done") {
-      started ||= now;
-      const elapsed = (now - started) / 2200;
-      uniforms.progress.value = Math.min(1, elapsed);
-      uniforms.reveal.value = Math.min(1, Math.max(0, (elapsed - 0.8) / 0.4));
-    }
+    started ||= now;
+    const elapsed = (now - started) / 2200;
+    uniforms.progress.value = Math.min(1, elapsed);
+    uniforms.reveal.value = Math.min(1, Math.max(0, (elapsed - 0.8) / 0.4));
     renderer.render(scene, camera);
   };
   frame = requestAnimationFrame(tick);

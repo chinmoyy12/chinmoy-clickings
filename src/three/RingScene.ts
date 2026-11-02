@@ -19,18 +19,15 @@ export function createRingScene(canvas: HTMLCanvasElement, items: Item[], progre
   scene.add(group);
 
   const radius = 4.1;
-  const loader = new THREE.TextureLoader();
+  const pending: { bitmap: ImageBitmap; material: THREE.MeshBasicMaterial }[] = [];
+  const loader = new THREE.ImageBitmapLoader();
+  loader.setOptions({ imageOrientation: "flipY", resizeWidth: 640, resizeQuality: "medium" });
   const meshes = items.map((item, i) => {
     const aspect = item.width / item.height;
     const height = aspect > 1 ? 1.5 : 2.1;
     const geometry = new THREE.PlaneGeometry(height * aspect, height);
     const material = new THREE.MeshBasicMaterial({ color: 0x151515, side: THREE.DoubleSide, transparent: true });
-    loader.load(optimizedUrl(item.src, 640), (texture) => {
-      texture.colorSpace = THREE.SRGBColorSpace;
-      material.map = texture;
-      material.color.set(0xffffff);
-      material.needsUpdate = true;
-    });
+    loader.load(optimizedUrl(item.src, 640), (bitmap) => pending.push({ bitmap, material }));
     const mesh = new THREE.Mesh(geometry, material);
     const angle = (i / items.length) * Math.PI * 2;
     mesh.position.set(Math.sin(angle) * radius, (i % 2 ? 0.34 : -0.34), Math.cos(angle) * radius);
@@ -84,14 +81,25 @@ export function createRingScene(canvas: HTMLCanvasElement, items: Item[], progre
 
   let frame = 0;
   let turn = 0;
+  const world = new THREE.Vector3();
   const tick = () => {
     frame = requestAnimationFrame(tick);
     if (!visible) return;
+    const next = pending.shift();
+    if (next) {
+      const texture = new THREE.Texture(next.bitmap);
+      texture.flipY = false;
+      texture.colorSpace = THREE.SRGBColorSpace;
+      texture.needsUpdate = true;
+      next.material.map = texture;
+      next.material.color.set(0xffffff);
+      next.material.needsUpdate = true;
+    }
     turn += 0.0009;
     const target = progress.value * Math.PI * 2.4 + turn;
     group.rotation.y += (target - group.rotation.y) * 0.08;
     for (const mesh of meshes) {
-      const world = mesh.getWorldPosition(new THREE.Vector3());
+      mesh.getWorldPosition(world);
       (mesh.material as THREE.MeshBasicMaterial).opacity = THREE.MathUtils.clamp(0.14 + (world.z + radius) / (radius * 2), 0.14, 1);
     }
     renderer.render(scene, camera);

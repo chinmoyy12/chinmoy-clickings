@@ -1,20 +1,23 @@
+import dynamic from "next/dynamic";
 import { Footer } from "@/components/Footer";
 import { site } from "@/data/site";
 import { social } from "@/data/social";
 import { AboutSection } from "@/sections/AboutSection";
 import { AvatarGuide } from "@/components/AvatarGuide";
 import { CinematicHero } from "@/sections/CinematicHero";
-import { ContactSection } from "@/sections/ContactSection";
 import { KineticBand } from "@/sections/KineticBand";
-import { PhotoRing } from "@/sections/PhotoRing";
-import { PhotographyGallery } from "@/sections/PhotographyGallery";
-import { PixelGame } from "@/sections/PixelGame";
-import { RawToReal } from "@/sections/RawToReal";
-import { Recognition } from "@/sections/Recognition";
 import { ServicesSection } from "@/sections/ServicesSection";
-import { StoryFrame } from "@/sections/StoryFrame";
-import { Timeline } from "@/sections/Timeline";
-import { WalletShowcase } from "@/sections/WalletShowcase";
+
+// Still server rendered; splitting them keeps the first hydration short.
+const StoryFrame = dynamic(() => import("@/sections/StoryFrame").then((m) => m.StoryFrame));
+const WalletShowcase = dynamic(() => import("@/sections/WalletShowcase").then((m) => m.WalletShowcase));
+const Recognition = dynamic(() => import("@/sections/Recognition").then((m) => m.Recognition));
+const PhotoRing = dynamic(() => import("@/sections/PhotoRing").then((m) => m.PhotoRing));
+const PhotographyGallery = dynamic(() => import("@/sections/PhotographyGallery").then((m) => m.PhotographyGallery));
+const RawToReal = dynamic(() => import("@/sections/RawToReal").then((m) => m.RawToReal));
+const Timeline = dynamic(() => import("@/sections/Timeline").then((m) => m.Timeline));
+const PixelGame = dynamic(() => import("@/sections/PixelGame").then((m) => m.PixelGame));
+const ContactSection = dynamic(() => import("@/sections/ContactSection").then((m) => m.ContactSection));
 
 const schema = {
   "@context": "https://schema.org",

@@ -35,10 +35,13 @@ export function TubesBackdrop() {
     let loading = false;
 
     // The tubes only exist while the section is on screen, so they cost nothing elsewhere.
+    const library = () => import("threejs-components/build/cursors/tubes1.min.js");
+    // Parse it while the visitor is idle after the intro, never mid-scroll on arrival.
+    const early = window.setTimeout(() => void library().catch(() => undefined), 11000);
     const io = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && !app && !loading) {
         loading = true;
-        import("threejs-components/build/cursors/tubes1.min.js")
+        library()
           .then(({ default: TubesCursor }) => {
             loading = false;
             if (cancelled || !canvas.current) return;
@@ -46,7 +49,7 @@ export function TubesBackdrop() {
           })
           .catch(() => setTubes(false));
       }
-    });
+    }, { rootMargin: "50% 0px" });
     io.observe(element);
 
     const onClick = (event: MouseEvent) => {
@@ -58,6 +61,7 @@ export function TubesBackdrop() {
     section?.addEventListener("click", onClick);
     return () => {
       cancelled = true;
+      window.clearTimeout(early);
       io.disconnect();
       section?.removeEventListener("click", onClick);
       app?.dispose();

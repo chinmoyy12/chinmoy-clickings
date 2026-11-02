@@ -31,11 +31,11 @@ A 3D, heavily animated portfolio in onyx, chrome and molten coral.
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/hero.jpg" alt="Chinmoy standing in front of the giant red word CHINMOY" /></td>
-    <td width="50%"><img src="docs/work.jpg" alt="Selected work grid" /></td>
+    <td width="50%"><img src="docs/hero.jpg" alt="The 3D avatar between the chrome words PORT and FOLIO under warm light rays" /></td>
+    <td width="50%"><img src="docs/work.jpg" alt="The services bento grid" /></td>
   </tr>
   <tr>
-    <td><img src="docs/film.jpg" alt="Selected work counter and project index" /></td>
+    <td><img src="docs/film.jpg" alt="A chapter of the lens story, with the word Feel" /></td>
     <td><img src="docs/archive.jpg" alt="From Raw. To Real. drag wipe" /></td>
   </tr>
 </table>
@@ -43,21 +43,24 @@ A 3D, heavily animated portfolio in onyx, chrome and molten coral.
 | Scene | What happens |
 | --- | --- |
 | **Loader** | A dot bounces, rises into "!", levers out CHINMOY, then the name turns into PORTFOLIO letter by letter |
-| **Hero** | The portrait as a 3D point cloud that bursts into place, tilts and parts around the cursor |
+| **Hero** | A 3D avatar under animated light rays that watches the cursor, blinks, spins on click and bursts apart on scroll |
+| **Navigation** | A dynamic island with a scroll progress ring, the current chapter and an avatar guide |
 | **Intro** | Chrome type, scroll-lit words, spotlight glass cards and a two-way craft marquee |
-| **What I Can Do** | An accordion of services |
-| **Selected Work** | Frames that swing up in 3D on scroll and tilt under the cursor |
+| **What I Can Do** | A magic bento grid with tilt, stars and click ripples |
+| **The Story** | A scroll-driven lens story that ends in a choice and jumps to that part of the gallery |
+| **Selected Work** | Two digital wallets of projects and stills: fan the cards, then pull one out |
 | **3D Ring** | Stills on a scroll-driven cylinder; click any frame to open it |
 | **Photography** | A filterable gallery of 21 stills with a full lightbox |
 | **From Raw. To Real.** | A draggable, keyboard-operable before and after of a real portrait edit |
 | **The Journey** | A red timeline that fills as you scroll |
 | **One More Thing** | A playable pixel breakout of the name |
-| **Contact** | Live WebGL smoke, copy-to-clipboard email and Instagram |
+| **Contact** | Interactive light tubes (click to change colours), copy-to-clipboard email and Instagram |
 
 ## Built for everyone
 
 - **Dedicated mobile layouts,** recomposed for tall screens rather than shrunk
-- **Graceful fallbacks:** the hero becomes a CSS 3D tilt if WebGL is unavailable, and is never blank
+- **Power-aware effects:** light rays, the 3D hero and tubes scale down or switch off on slower devices
+- **Graceful fallbacks:** the hero shows the avatar image if WebGL is unavailable, and is never blank
 - **Reduced motion respected** throughout
 - **Full keyboard support,** visible focus, captions and alt text
 - **Responsive AVIF and WebP images,** lazy video and a dynamically loaded hero scene

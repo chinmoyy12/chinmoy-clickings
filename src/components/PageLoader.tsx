@@ -34,7 +34,9 @@ export function PageLoader() {
     }
 
     let tl: gsap.core.Timeline | undefined;
+    let cancelled = false;
     const skip = () => {
+      cancelled = true;
       window.clearTimeout(backstop);
       window.removeEventListener("keydown", skip);
       window.removeEventListener("pointerdown", skip);
@@ -44,7 +46,7 @@ export function PageLoader() {
       gsap.to(root.current, { autoAlpha: 0, duration: 0.3, ease: "none", overwrite: true });
     };
     // Animation frames stop in a background tab; a timer still guarantees the reveal.
-    const backstop = window.setTimeout(skip, 12000);
+    const backstop = window.setTimeout(skip, 14000);
     window.addEventListener("keydown", skip, { once: true });
     window.addEventListener("pointerdown", skip, { once: true });
 
@@ -152,10 +154,13 @@ export function PageLoader() {
       });
     };
 
-    // Wait for the display font so measurements match what is painted, but never for long.
-    let cancelled = false;
+    // Wait for the display font and the 3D scene, so the film plays on a quiet main thread, but never for long.
     const family = getComputedStyle(word.current!).fontFamily;
-    void Promise.race([document.fonts.load(`800 100px ${family}`), new Promise((done) => setTimeout(done, 1500))]).then(() => !cancelled && start());
+    const scene = new Promise((done) => {
+      if (html.dataset.heroReady) done(true);
+      else window.addEventListener("cc:hero-ready", done, { once: true });
+    });
+    void Promise.race([Promise.all([document.fonts.load(`800 100px ${family}`), scene]), new Promise((done) => setTimeout(done, 1800))]).then(() => !cancelled && start());
 
     return () => {
       cancelled = true;

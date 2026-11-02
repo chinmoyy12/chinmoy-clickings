@@ -37,7 +37,7 @@ export function PhotoRing() {
           })
           .catch(() => setOff(true));
       },
-      { rootMargin: "100% 0px" },
+      { rootMargin: "150% 0px" },
     );
     if (root.current) io.observe(root.current);
     return () => {

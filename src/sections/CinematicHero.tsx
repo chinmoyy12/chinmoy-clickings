@@ -27,7 +27,7 @@ function RotatingRole() {
   return (
     <span className="hero-greeting relative ml-1 inline-block min-w-[9em] overflow-hidden align-bottom text-ember">
       <AnimatePresence mode="wait" initial={false}>
-        <motion.span key={ROLES[index]} className="inline-block" initial={{ y: "70%", opacity: 0, filter: "blur(6px)" }} animate={{ y: 0, opacity: 1, filter: "blur(0px)" }} exit={{ y: "-70%", opacity: 0, filter: "blur(6px)" }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}>
+        <motion.span key={ROLES[index]} className="inline-block" initial={{ y: "70%", opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: "-70%", opacity: 0 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}>
           {ROLES[index]}
         </motion.span>
       </AnimatePresence>
@@ -61,7 +61,12 @@ export function CinematicHero() {
         teardown = await createHeroScene(canvas.current, pointer, () => setLive(true), () => setLive(false));
         if (cancelled) teardown();
       })
-      .catch(() => setLive(false));
+      .catch(() => setLive(false))
+      // The intro waits for this so nothing heavy competes with it.
+      .finally(() => {
+        document.documentElement.dataset.heroReady = "true";
+        window.dispatchEvent(new Event("cc:hero-ready"));
+      });
 
     const onPointer = (event: PointerEvent) => {
       pointer.x = event.clientX / window.innerWidth - 0.5;
@@ -71,10 +76,14 @@ export function CinematicHero() {
       if (!(event.target as Element).closest("a, button")) pointer.spins += 1;
     };
     section.addEventListener("click", onSpin);
+    let drawn = "";
     const render = () => {
       if (!visible || !word.current) return;
       const progress = Math.min(1, window.scrollY / section.offsetHeight);
-      word.current.style.transform = `translate3d(${(pointer.x * 22).toFixed(1)}px, ${(progress * 90).toFixed(1)}px, 0) scale(${(1 + progress * 0.25).toFixed(3)})`;
+      const transform = `translate3d(${(pointer.x * 22).toFixed(1)}px, ${(progress * 90).toFixed(1)}px, 0) scale(${(1 + progress * 0.25).toFixed(3)})`;
+      if (transform === drawn) return;
+      drawn = transform;
+      word.current.style.transform = transform;
       word.current.style.opacity = String(1 - progress * 1.2);
     };
     const observer = new IntersectionObserver(([entry]) => (visible = entry.isIntersecting));

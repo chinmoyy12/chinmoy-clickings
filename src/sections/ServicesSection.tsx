@@ -74,8 +74,6 @@ function BentoCard({ className, children }: { className: string; children: React
 
   return (
     <div ref={card} className={`bento-card ${className}`}>
-      <span className="bento-spot" aria-hidden />
-      <span className="bento-edge" aria-hidden />
       {children}
     </div>
   );
@@ -108,29 +106,6 @@ function Stat({ value, label, className }: { value: string; label: string; class
 }
 
 export function ServicesSection() {
-  const grid = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (devicePower() !== "high") return;
-    let frame = 0;
-    const onMove = (event: PointerEvent) => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        grid.current?.querySelectorAll<HTMLElement>(".bento-card").forEach((card) => {
-          const box = card.getBoundingClientRect();
-          card.style.setProperty("--mx", `${event.clientX - box.left}px`);
-          card.style.setProperty("--my", `${event.clientY - box.top}px`);
-        });
-      });
-    };
-    const element = grid.current;
-    element?.addEventListener("pointermove", onMove, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      element?.removeEventListener("pointermove", onMove);
-    };
-  }, []);
-
   return (
     <section id="services" data-nav="solid" aria-labelledby="services-title" className="gutter pt-24 sm:pt-40">
       <div className="text-right">
@@ -141,7 +116,7 @@ export function ServicesSection() {
           <TextReveal lines={["What I", "can do."]} accent={1} className="display type-section" />
         </div>
       </div>
-      <div ref={grid} className="bento-grid">
+      <div className="bento-grid">
         <Service index={0} className="bento-wide" />
         <Stat value={pad(projects.length)} label="Selected projects" className="" />
         <Service index={2} className="bento-tall" />

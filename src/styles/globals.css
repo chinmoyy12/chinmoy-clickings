@@ -353,22 +353,10 @@ html.js:not([data-landed]) .hero-word { visibility: hidden; }
 .glass {
   position: relative;
   border-radius: 1.1rem;
-  background: rgb(255 255 255 / 0.035);
+  background: rgb(255 255 255 / 0.05);
   border: 1px solid rgb(255 255 255 / 0.09);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   overflow: hidden;
 }
-.glass::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s linear;
-  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgb(255 106 61 / 0.14), transparent 70%);
-}
-.glass:hover::before { opacity: 1; }
 
 .zoom-host { border-radius: 1rem; overflow: hidden; }
 
@@ -426,18 +414,6 @@ html.js:not([data-landed]) .hero-word { visibility: hidden; }
   border: 1px solid rgb(255 255 255 / 0.07);
   will-change: transform;
 }
-.bento-spot, .bento-edge { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s linear; }
-.bento-spot { background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), rgb(255 106 61 / 0.15), transparent 80%); }
-.bento-edge {
-  border-radius: inherit;
-  padding: 1px;
-  background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), rgb(255 106 61 / 0.85), transparent 45%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-}
-.bento-grid:hover .bento-spot, .bento-grid:hover .bento-edge { opacity: 1; }
 .bento-star, .bento-ripple { position: absolute; pointer-events: none; border-radius: 50%; }
 .bento-star { width: 3px; height: 3px; background: #ff8a5c; box-shadow: 0 0 6px rgb(255 106 61 / 0.7); }
 .bento-ripple { width: 8px; height: 8px; margin: -4px; background: rgb(255 106 61 / 0.4); }
@@ -445,10 +421,8 @@ html.js:not([data-landed]) .hero-word { visibility: hidden; }
 /* ---------- Island navigation ---------- */
 
 .island {
-  background: rgb(14 14 18 / 0.72);
+  background: rgb(14 14 18 / 0.92);
   border: 1px solid rgb(255 255 255 / 0.1);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
   box-shadow: 0 12px 40px -14px rgb(0 0 0 / 0.8);
 }
 
@@ -461,8 +435,8 @@ html.js:not([data-landed]) .hero-word { visibility: hidden; }
 }
 .story-chapter { animation: story-in 0.7s var(--ease-cine) both; }
 @keyframes story-in {
-  from { opacity: 0; transform: translateY(26px) scale(0.97); filter: blur(10px); }
-  to { opacity: 1; transform: none; filter: blur(0); }
+  from { opacity: 0; transform: translateY(26px) scale(0.97); }
+  to { opacity: 1; transform: none; }
 }
 .story-word {
   font-size: clamp(3.5rem, 13vw, 13rem);
