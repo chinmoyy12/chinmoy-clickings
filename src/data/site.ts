@@ -8,7 +8,7 @@ export const site = {
   roles: "Photographer and Cinematographer",
   heroWord: "PORTFOLIO",
   loaderName: "CHINMOY",
-  heroAlt: "Chinmoy in a dark suit, adjusting the blazer, lit by a red rim light.",
+  heroAlt: "An illustrated 3D avatar of Chinmoy with dark wavy hair and a short beard, smiling.",
   location: "Guwahati, India",
   year: "2026",
   statement: ["I capture moments", "that deserve to stay."],
@@ -45,9 +45,9 @@ export const site = {
 };
 
 export const navigation = [
+  { label: "Story", href: "/#story", id: "story" },
   { label: "Work", href: "/#work", id: "work" },
   { label: "Photo", href: "/#photo", id: "photo" },
   { label: "About", href: "/#about", id: "about" },
-  { label: "Process", href: "/#process", id: "process" },
   { label: "Contact", href: "/#contact", id: "contact" },
 ];

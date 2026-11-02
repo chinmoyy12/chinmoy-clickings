@@ -69,7 +69,8 @@ export function PageLoader() {
 
       const flash = (at: string | number) => tl!.fromTo(glow.current, { opacity: 0.9 }, { opacity: 0.25, duration: 0.5, ease: "power2.out" }, at);
 
-      tl = gsap.timeline();
+      // Phones get a brisker version of the same film.
+      tl = gsap.timeline().timeScale(window.innerWidth < 768 ? 1.5 : 1);
 
       // Fall, squash, bounce, fall, squash, settle.
       tl.to(dot.current, { y: rest, duration: 0.62, ease: "power2.in" });

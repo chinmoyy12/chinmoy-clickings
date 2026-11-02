@@ -9,7 +9,7 @@ export function ServicesSection() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section data-nav="solid" aria-labelledby="services-title" className="gutter pt-24 sm:pt-40">
+    <section id="services" data-nav="solid" aria-labelledby="services-title" className="gutter pt-24 sm:pt-40">
       <div className="text-right">
         <SectionReveal>
           <p className="label mb-3 text-ember">02 / Services</p>

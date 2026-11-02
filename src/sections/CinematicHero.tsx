@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/animations/gsap";
@@ -13,6 +13,26 @@ import { site } from "@/data/site";
 import { reel } from "@/data/videos";
 import { hasFinePointer, prefersReducedMotion } from "@/utils/device";
 import { pad } from "@/utils/media";
+
+const ROLES = ["Cinematographer", "Storyteller", "Colorist", "Frame hunter"];
+
+function RotatingRole() {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    const timer = window.setInterval(() => setIndex((value) => (value + 1) % ROLES.length), 2400);
+    return () => window.clearInterval(timer);
+  }, []);
+  return (
+    <span className="hero-greeting relative ml-1 inline-block min-w-[9em] overflow-hidden align-bottom text-ember">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span key={ROLES[index]} className="inline-block" initial={{ y: "70%", opacity: 0, filter: "blur(6px)" }} animate={{ y: 0, opacity: 1, filter: "blur(0px)" }} exit={{ y: "-70%", opacity: 0, filter: "blur(6px)" }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}>
+          {ROLES[index]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
 
 const STATS = [
   [pad(projects.length), "Projects"],
@@ -29,7 +49,7 @@ export function CinematicHero() {
   useEffect(() => {
     const section = root.current;
     if (!section || prefersReducedMotion()) return;
-    const pointer = { x: 0, y: 0 };
+    const pointer = { x: 0, y: 0, spins: 0 };
     let teardown: (() => void) | undefined;
     let cancelled = false;
     let visible = true;
@@ -46,6 +66,10 @@ export function CinematicHero() {
       pointer.x = event.clientX / window.innerWidth - 0.5;
       pointer.y = event.clientY / window.innerHeight - 0.5;
     };
+    const onSpin = (event: MouseEvent) => {
+      if (!(event.target as Element).closest("a, button")) pointer.spins += 1;
+    };
+    section.addEventListener("click", onSpin);
     const render = () => {
       if (!visible || !word.current) return;
       const progress = Math.min(1, window.scrollY / section.offsetHeight);
@@ -60,6 +84,7 @@ export function CinematicHero() {
       cancelled = true;
       teardown?.();
       observer.disconnect();
+      section.removeEventListener("click", onSpin);
       window.removeEventListener("pointermove", onPointer);
       gsap.ticker.remove(render);
     };
@@ -70,7 +95,7 @@ export function CinematicHero() {
       <div className="hero-glow absolute inset-0" aria-hidden />
 
       <div className="hero-subject absolute">
-        <Image src="/media/hero/subject.webp" alt={site.heroAlt} fill priority fetchPriority="high" sizes="(max-width: 768px) 90vw, 50vw" quality={85} className={`object-contain object-top transition-opacity duration-500 ${live ? "opacity-0" : "opacity-100"}`} />
+        <Image src="/media/hero/avatar.webp" alt={site.heroAlt} fill priority fetchPriority="high" sizes="(max-width: 768px) 90vw, 60vw" quality={85} className={`object-contain object-top transition-opacity duration-500 ${live ? "opacity-0" : "opacity-100"}`} />
       </div>
       <canvas ref={canvas} aria-hidden className="absolute inset-0 h-full w-full" />
 
@@ -90,7 +115,8 @@ export function CinematicHero() {
 
       <div className="hero-copy gutter absolute inset-x-0 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
         <p className="intro-late text-[clamp(0.9375rem,1.4vw,1.25rem)] font-semibold">
-          Photographer <span className="hero-greeting ml-1 font-normal text-ash">&amp; Cinematographer</span>
+          Photographer <span className="hero-greeting font-normal text-ash">&amp;</span>
+          <RotatingRole />
         </p>
         <div className="intro-late flex items-center gap-5">
           {site.showreelReady && (

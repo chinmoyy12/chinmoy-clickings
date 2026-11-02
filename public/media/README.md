@@ -4,7 +4,7 @@ Everything here except your portrait is a generated placeholder. Overwrite a fil
 
 | Folder | What goes here | Edit |
 | --- | --- | --- |
-| `hero/` | `subject.webp` (your transparent cutout), `depth.webp` (matching depth map, light is near) | `src/data/site.ts` |
+| `hero/` | `avatar.webp` (transparent avatar), `avatar-depth.webp` (matching depth map, light is near), `avatar-small.webp` (guide and navigation) | `src/data/site.ts` |
 | `raw-real/` | `edited.jpg` (the edited portrait). Add a true raw and graded pair when you have one | `src/data/site.ts` |
 | `projects/<slug>/` | `hero.jpg`, `01–03.jpg`, `bts.jpg` | `src/data/projects.ts` |
 | `photography/` | `<category>-0N.jpg` | `src/data/photos.ts` |

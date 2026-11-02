@@ -102,15 +102,18 @@ body {
 /* ---------- Reveal system: states are CSS, triggered by [data-in] ---------- */
 
 .ml { display: block; overflow: hidden; padding-block: 0.06em; margin-block: -0.06em; }
-.ml > span { display: block; will-change: transform; }
+.ml > span { display: block; }
 
-html.js [data-reveal="text"] .ml > span {
-  transform: translateY(108%);
+.ml { perspective: 700px; }
+.ch { display: inline-block; }
+html.js [data-reveal="text"] .ch {
+  transform: translateY(102%) rotateX(-80deg);
+  transform-origin: 50% 100%;
   opacity: 0;
-  transition: transform 1s var(--ease-cine), opacity 0.7s linear;
-  transition-delay: calc(var(--i, 0) * 70ms + var(--delay, 0ms));
+  transition: transform 0.9s var(--ease-cine), opacity 0.35s linear;
+  transition-delay: calc(var(--i, 0) * 90ms + var(--c, 0) * 24ms + var(--delay, 0ms));
 }
-html.js [data-reveal="text"][data-in] .ml > span { transform: none; opacity: 1; }
+html.js [data-reveal="text"][data-in] .ch { transform: none; opacity: 1; }
 
 html.js [data-reveal="fade"] {
   opacity: 0;
@@ -293,7 +296,7 @@ html.js[data-intro="pending"] .intro-late { opacity: 0; }
 .hero-glow { background: radial-gradient(40% 52% at 50% 44%, rgb(255 106 61 / 0.13), transparent 72%); }
 .hero-word { bottom: 11%; }
 html.js:not([data-landed]) .hero-word { visibility: hidden; }
-.hero-subject { top: 2%; left: 50%; height: 118%; aspect-ratio: 854 / 1280; translate: -50% 0; }
+.hero-subject { top: 8%; left: 50%; height: 68%; aspect-ratio: 1274 / 1234; translate: -50% 0; }
 .hero-copy { bottom: 3.5%; }
 .hero-greeting { font-family: var(--font-script), Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: 0; }
 .hero-giant, .loader-word {
@@ -310,7 +313,7 @@ html.js:not([data-landed]) .hero-word { visibility: hidden; }
 .hero-part-right { transform: translateX(calc(var(--hero-gap) * 0.5vw)); }
 
 /* A white-to-graphite fill: light from above, falling into shadow. */
-.chrome-word, .chrome-char, .type-section .ml > span:not(.red) {
+.chrome-word, .chrome-char, .type-section .line:not(.red) .ch {
   color: transparent;
   background: linear-gradient(180deg, #ffffff 12%, #d1d5db 52%, #2f3136 104%);
   -webkit-background-clip: text;
@@ -352,8 +355,57 @@ html.js:not([data-landed]) .hero-word { visibility: hidden; }
 @media (max-aspect-ratio: 1 / 1) {
   :root { --hero-gap: 0; --type-hero: 16.4vw; }
   .hero-word { bottom: 15%; }
-  .hero-subject { top: 8%; height: 76%; }
+  .hero-subject { top: 14%; height: auto; width: 78%; }
   .hero-copy { bottom: 3%; }
+}
+
+/* ---------- Island navigation ---------- */
+
+.island {
+  background: rgb(14 14 18 / 0.72);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: 0 12px 40px -14px rgb(0 0 0 / 0.8);
+}
+
+/* ---------- Story ---------- */
+
+.lens {
+  --iris: 18%;
+  clip-path: circle(var(--iris) at 50% 50%);
+  transition: clip-path 0.25s linear;
+}
+.story-chapter { animation: story-in 0.7s var(--ease-cine) both; }
+@keyframes story-in {
+  from { opacity: 0; transform: translateY(26px) scale(0.97); filter: blur(10px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+.story-word {
+  font-size: clamp(3.5rem, 13vw, 13rem);
+  line-height: 0.92;
+  text-shadow: 0 6px 50px rgb(0 0 0 / 0.55);
+}
+
+/* ---------- Kinetic type ---------- */
+
+.kinetic {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3rem, 11vw, 12rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(236 233 226 / 0.34);
+}
+.kinetic-serif {
+  font-family: var(--font-script), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--color-ember);
+  -webkit-text-stroke: 0;
 }
 
 /* ---------- Work strip ---------- */
@@ -391,7 +443,7 @@ section[id] { scroll-margin-top: 4.5rem; }
   .scroll-tick { animation: none; transform: scaleY(1); }
   .intro-nav, .intro-late { transition: opacity 0.4s linear; transition-delay: 0ms; }
 
-  html.js [data-reveal="text"] .ml > span,
+  html.js [data-reveal="text"] .ch,
   html.js [data-reveal="fade"] { transform: none; transition: opacity 0.5s linear; transition-delay: 0ms; }
   html.js [data-reveal="image"] .reveal-clip, html.js [data-reveal="image"][data-dir="up"] .reveal-clip {
     clip-path: none;
@@ -403,5 +455,7 @@ section[id] { scroll-margin-top: 4.5rem; }
   html.js [data-reveal="image"] .reveal-scale { transform: none; transition: none; }
   .zoom-host:hover .zoom-img { transform: none; }
   .marquee-track { animation: none; }
+  .story-chapter { animation: none; }
+  .lens { clip-path: none; }
   .timeline-row { opacity: 1; }
 }

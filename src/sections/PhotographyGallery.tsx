@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ScrollTrigger } from "@/animations/gsap";
 import { darknessWipe } from "@/animations/transitions";
 import { Frame } from "@/components/Frame";
@@ -22,6 +22,14 @@ export function PhotographyGallery() {
 
   const list = useMemo(() => (shown === "All" ? photos : photos.filter((photo) => photo.category === shown)), [shown]);
 
+  // The story section can hand over a choice.
+  const chooseRef = useRef<(next: string) => void>(() => undefined);
+  useEffect(() => {
+    const onFilter = (event: Event) => chooseRef.current((event as CustomEvent<string>).detail);
+    window.addEventListener("cc:filter", onFilter);
+    return () => window.removeEventListener("cc:filter", onFilter);
+  }, []);
+
   const choose = (next: string) => {
     if (next === filter || wiping.current) return;
     setFilter(next);
@@ -38,6 +46,8 @@ export function PhotographyGallery() {
       wiping.current = false;
     });
   };
+
+  chooseRef.current = choose;
 
   return (
     <section id="photo" data-nav="solid" aria-labelledby="photo-title" className="gutter relative pt-24 sm:pt-40">

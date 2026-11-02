@@ -2,14 +2,17 @@ import { Footer } from "@/components/Footer";
 import { site } from "@/data/site";
 import { social } from "@/data/social";
 import { AboutSection } from "@/sections/AboutSection";
+import { AvatarGuide } from "@/components/AvatarGuide";
 import { CinematicHero } from "@/sections/CinematicHero";
 import { ContactSection } from "@/sections/ContactSection";
+import { KineticBand } from "@/sections/KineticBand";
 import { PhotoRing } from "@/sections/PhotoRing";
 import { PhotographyGallery } from "@/sections/PhotographyGallery";
 import { PixelGame } from "@/sections/PixelGame";
 import { RawToReal } from "@/sections/RawToReal";
 import { Recognition } from "@/sections/Recognition";
 import { ServicesSection } from "@/sections/ServicesSection";
+import { StoryFrame } from "@/sections/StoryFrame";
 import { Timeline } from "@/sections/Timeline";
 import { WorkStrip } from "@/sections/WorkStrip";
 
@@ -32,6 +35,8 @@ export default function HomePage() {
         <CinematicHero />
         <AboutSection />
         <ServicesSection />
+        <KineticBand />
+        <StoryFrame />
         <WorkStrip />
         <Recognition />
         <PhotoRing />
@@ -42,6 +47,7 @@ export default function HomePage() {
         <ContactSection />
       </main>
       <Footer />
+      <AvatarGuide />
     </>
   );
 }
