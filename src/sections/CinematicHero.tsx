@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/animations/gsap";
+import { LightRays } from "@/components/LightRays";
 import { Magnetic } from "@/components/MagneticButton";
 import { TransitionLink } from "@/components/TransitionLink";
 import { VideoPlayer } from "@/components/VideoPlayer";
@@ -93,6 +94,7 @@ export function CinematicHero() {
   return (
     <section ref={root} data-nav="image" aria-labelledby="hero-title" className="hero relative h-svh min-h-[34rem] overflow-hidden bg-black">
       <div className="hero-glow absolute inset-0" aria-hidden />
+      <LightRays color="#ff8a5c" className="opacity-55" />
 
       <div className="hero-subject absolute">
         <Image src="/media/hero/avatar.webp" alt={site.heroAlt} fill priority fetchPriority="high" sizes="(max-width: 768px) 90vw, 60vw" quality={85} className={`object-contain object-top transition-opacity duration-500 ${live ? "opacity-0" : "opacity-100"}`} />

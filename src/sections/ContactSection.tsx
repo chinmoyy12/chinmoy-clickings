@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FlowBackground } from "@/components/FlowBackground";
 import { Magnetic } from "@/components/MagneticButton";
 import { TextReveal } from "@/components/Reveal";
+import { TubesBackdrop } from "@/components/TubesBackdrop";
 import { site } from "@/data/site";
 import { social } from "@/data/social";
 import { prefersReducedMotion } from "@/utils/device";
@@ -72,7 +72,8 @@ export function ContactSection() {
 
   return (
     <section id="contact" data-nav="solid" aria-labelledby="contact-title" className="gutter relative mt-24 grid gap-10 overflow-hidden pb-10 pt-24 sm:mt-40 sm:pt-32 lg:grid-cols-12 lg:gap-6">
-      <FlowBackground />
+      <TubesBackdrop />
+      <span className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/70 via-black/25 to-transparent" aria-hidden />
       <div className="relative lg:col-span-7">
         <p className="label mb-3 text-ember">09 / Contact</p>
         <div id="contact-title">

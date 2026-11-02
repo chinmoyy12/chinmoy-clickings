@@ -47,7 +47,7 @@ export function AvatarGuide() {
   };
 
   return (
-    <div className="intro-late fixed bottom-[5.5rem] left-3 z-[70] flex items-end gap-2 sm:left-[var(--gutter)]">
+    <div className="intro-late fixed bottom-[8.5rem] left-3 z-[70] sm:bottom-[5.5rem] flex items-end gap-2 sm:left-[var(--gutter)]">
       <motion.button type="button" onClick={next} aria-label="Go to the next section" whileHover={{ scale: 1.12, rotate: -6 }} whileTap={{ scale: 0.9 }} animate={{ y: talking ? [0, -5, 0] : 0 }} transition={{ repeat: talking ? Infinity : 0, duration: 1.3, ease: "easeInOut" }} className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-ember bg-raised shadow-[0_8px_30px_-8px_rgb(255_106_61/0.6)]">
         <Image src="/media/hero/avatar-small.webp" alt="" fill sizes="48px" className="object-cover" />
       </motion.button>

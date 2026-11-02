@@ -14,7 +14,7 @@ import { Recognition } from "@/sections/Recognition";
 import { ServicesSection } from "@/sections/ServicesSection";
 import { StoryFrame } from "@/sections/StoryFrame";
 import { Timeline } from "@/sections/Timeline";
-import { WorkStrip } from "@/sections/WorkStrip";
+import { WalletShowcase } from "@/sections/WalletShowcase";
 
 const schema = {
   "@context": "https://schema.org",
@@ -37,7 +37,7 @@ export default function HomePage() {
         <ServicesSection />
         <KineticBand />
         <StoryFrame />
-        <WorkStrip />
+        <WalletShowcase />
         <Recognition />
         <PhotoRing />
         <PhotographyGallery />

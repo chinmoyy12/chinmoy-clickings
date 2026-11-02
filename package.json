@@ -14,7 +14,8 @@
     "next": "^16.4.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "three": "^0.187.0"
+    "three": "^0.187.0",
+    "threejs-components": "^0.0.19"
   },
   "devDependencies": {
     "@next/swc-wasm-nodejs": "^16.4.3",

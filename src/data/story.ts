@@ -20,8 +20,9 @@ export const storyChoices = ["Portraits", "Events", "Travel", "Campus"];
 export const guideLines: Record<string, string> = {
   hero: "Hi, I'm Chinmoy. Click my face, then scroll. I'll show you around.",
   about: "This is me. The real one, in the suit.",
+  services: "Move across these cards. They react.",
   story: "Keep scrolling. Watch the lens open.",
-  work: "Hover a frame. They move.",
+  work: "Open my wallet. Pull out a card.",
   recognition: "Six projects so far. Every one has a page.",
   photo: "Pick a category, then open any still.",
   raw: "Grab the handle and drag it.",
