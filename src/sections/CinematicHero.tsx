@@ -79,8 +79,11 @@ export function CinematicHero() {
       <div ref={word} className="hero-word absolute inset-x-0 text-center will-change-transform">
         <h1 id="hero-title" className="display hero-giant inline-block">
           <span className="sr-only">Chinmoy Clickings, photographer and cinematographer</span>
-          <span aria-hidden className="chrome-word">
-            {site.heroWord}
+          <span aria-hidden className="hero-part hero-part-left chrome-word">
+            {site.heroWord.slice(0, 4)}
+          </span>
+          <span aria-hidden className="hero-part hero-part-right chrome-word">
+            {site.heroWord.slice(4)}
           </span>
         </h1>
       </div>

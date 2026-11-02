@@ -7,12 +7,15 @@ import { prefersReducedMotion } from "@/utils/device";
 
 const SEEN = "cc:seen";
 
-/** A dot falls, bounces, stretches into "!", then ribbons out into the name in 3D and lands in the hero. */
+/**
+ * The intro: a dot falls and bounces, a bar rises to form "!", the bar levers
+ * around the dot sweeping the name out and becoming its letter I, then the name
+ * changes letter by letter into the hero word and slides down into place.
+ */
 export function PageLoader() {
   const root = useRef<HTMLDivElement>(null);
   const glow = useRef<HTMLDivElement>(null);
   const dot = useRef<HTMLDivElement>(null);
-  const bar = useRef<HTMLDivElement>(null);
   const word = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,81 +24,146 @@ export function PageLoader() {
       html.dataset.intro = "done";
       sessionStorage.setItem(SEEN, "1");
     };
+    const land = () => {
+      html.dataset.landed = "true";
+    };
     if (sessionStorage.getItem(SEEN) || prefersReducedMotion()) {
+      land();
       gsap.to(root.current, { autoAlpha: 0, duration: 0.25, ease: "none", onStart: finish });
       return;
     }
 
+    let tl: gsap.core.Timeline | undefined;
     // Animation frames stop in a background tab; a timer still guarantees the reveal.
     const backstop = window.setTimeout(() => {
+      tl?.kill();
       finish();
+      land();
       if (root.current) root.current.style.visibility = "hidden";
-    }, 7000);
+    }, 12000);
 
-    const letters = [...(word.current?.children ?? [])] as HTMLElement[];
-    const vh = window.innerHeight;
-    const tl = gsap.timeline({ onComplete: () => window.clearTimeout(backstop) });
+    const start = () => {
+      const element = word.current!;
+      const letters = [...element.children] as HTMLElement[];
+      const pivotIndex = letters.findIndex((letter) => letter.textContent === "I");
+      const bar = letters[pivotIndex];
+      const size = parseFloat(getComputedStyle(element).fontSize);
+      const vh = window.innerHeight;
+      const box = bar.getBoundingClientRect();
+      const shift = window.innerWidth / 2 - (box.left + box.width / 2);
+      const diameter = Math.max(14, size * 0.17);
+      const baseline = box.top + size * 0.8;
+      const rest = baseline + size * 0.1;
+      const pivotX = box.left + box.width / 2 + shift;
 
-    gsap.set(word.current, { scale: 0.62 });
-    gsap.set(letters, { opacity: 0 });
-    gsap.set(bar.current, { scaleY: 0, transformOrigin: "50% 100%" });
-    gsap.set(dot.current, { y: -vh * 0.62 });
+      gsap.set(element, { x: shift, visibility: "visible" });
+      gsap.set(letters, { opacity: 0 });
+      gsap.set(bar, { opacity: 1, scaleY: 0, transformOrigin: `50% ${size * 0.8}px` });
+      gsap.set(dot.current, { width: diameter, height: diameter, x: pivotX - diameter / 2, y: -40, scaleX: 0.82, scaleY: 1.25 });
 
-    // The fall, with each landing squashing the dot.
-    tl.to(dot.current, { y: vh * 0.06, duration: 0.42, ease: "power2.in" })
-      .to(dot.current, { scaleY: 0.55, scaleX: 1.5, duration: 0.05 })
-      .to(dot.current, { y: -vh * 0.16, scaleX: 1, scaleY: 1.2, duration: 0.24, ease: "power2.out" })
-      .to(dot.current, { y: vh * 0.06, scaleY: 1, duration: 0.22, ease: "power2.in" })
-      .to(dot.current, { scaleY: 0.7, scaleX: 1.3, duration: 0.04 })
-      .to(dot.current, { scaleX: 1, scaleY: 1, duration: 0.1 })
-      // The exclamation mark rises out of the dot.
-      .to(glow.current, { opacity: 1, duration: 0.3, ease: "none" }, "-=0.05")
-      .to(bar.current, { scaleY: 1, duration: 0.26, ease: "back.out(2.4)" }, "<")
-      .to({}, { duration: 0.14 })
-      .to(bar.current, { rotationZ: -68, x: -30, opacity: 0, duration: 0.3, ease: "power2.in" })
-      .to(dot.current, { x: () => (letters.at(-1)?.getBoundingClientRect().right ?? 0) - window.innerWidth / 2 + 12, y: vh * 0.045, duration: 0.8, ease: "power3.out" }, "<")
-      // Letters unfold in 3D along the path, one by one.
-      .fromTo(
-        letters,
-        { opacity: 1, rotationY: -115, rotationX: 55, rotationZ: -30, x: 90, z: -240, scale: 0.4 },
-        { rotationY: 0, rotationX: 0, rotationZ: 0, x: 0, z: 0, scale: 1, duration: 0.62, ease: "back.out(1.5)", stagger: 0.085, immediateRender: false },
-        "<",
-      )
-      .to(dot.current, { opacity: 0, scale: 0, duration: 0.2 }, "-=0.2")
-      .to(glow.current, { opacity: 0.4, duration: 0.3, ease: "none" }, "<")
-      .to({}, { duration: 0.28 })
-      // A quick full flip of the word, then it lands exactly on the hero's word.
-      .to(letters, { rotationX: 360, duration: 0.6, ease: "power3.inOut", stagger: 0.03 })
-      .add(() => {
+      const flash = (at: string | number) => tl!.fromTo(glow.current, { opacity: 0.9 }, { opacity: 0.25, duration: 0.5, ease: "power2.out" }, at);
+
+      tl = gsap.timeline({ onComplete: () => window.clearTimeout(backstop) });
+
+      // Fall, squash, bounce, fall, squash, settle.
+      tl.to(dot.current, { y: rest, duration: 0.62, ease: "power2.in" });
+      tl.addLabel("first");
+      flash("first");
+      tl.to(dot.current, { scaleX: 1.6, scaleY: 0.5, duration: 0.07, ease: "none" }, "first")
+        .to(dot.current, { y: rest - vh * 0.2, scaleX: 0.9, scaleY: 1.15, duration: 0.36, ease: "power2.out" })
+        .to(dot.current, { y: rest, scaleX: 0.92, scaleY: 1.1, duration: 0.3, ease: "power2.in" });
+      tl.addLabel("second");
+      flash("second");
+      tl.to(dot.current, { scaleX: 1.4, scaleY: 0.62, duration: 0.06, ease: "none" }, "second")
+        .to(dot.current, { scaleX: 1, scaleY: 1, duration: 0.3, ease: "elastic.out(1.2, 0.5)" })
+        // The bar rises: an exclamation mark.
+        .addLabel("bang", "-=0.1");
+      flash("bang");
+      tl.to(bar, { scaleY: 1, duration: 0.34, ease: "back.out(2.2)" }, "bang")
+        .to({}, { duration: 0.22 })
+        .set(bar, { transformOrigin: `${box.width / 2}px ${rest + diameter / 2 - box.top}px` })
+        // The bar levers left around the dot and throws out the first letters.
+        .addLabel("sweep")
+        .to(bar, { rotationZ: -62, duration: 0.5, ease: "power2.inOut" }, "sweep")
+        .to(element, { x: 0, duration: 1.6, ease: "power2.inOut" }, "sweep");
+
+      const unfold = (group: HTMLElement[], at: string, side: number) => {
+        group.forEach((letter, i) => {
+          const rect = letter.getBoundingClientRect();
+          const originX = pivotX - shift - rect.left;
+          const originY = rest + diameter / 2 - rect.top;
+          gsap.set(letter, { transformOrigin: `${originX}px ${originY}px` });
+          tl!.fromTo(letter, { opacity: 0, rotationZ: side * 88, rotationY: side * -70, scale: 0.72 }, { opacity: 1, rotationZ: 0, rotationY: 0, scale: 1, duration: 0.62, ease: "back.out(1.3)", immediateRender: false }, `${at}+=${i * 0.1}`);
+        });
+      };
+      unfold(letters.slice(0, pivotIndex).reverse(), "sweep+=0.12", 1);
+      tl.addLabel("swing", "sweep+=0.46")
+        .to(bar, { rotationZ: 48, duration: 0.5, ease: "power2.inOut" }, "swing");
+      unfold(letters.slice(pivotIndex + 1), "swing+=0.14", -1);
+      tl.to(bar, { rotationZ: 0, duration: 0.5, ease: "back.out(2)" }, "swing+=0.5")
+        // The dot drops away once the word stands on its own.
+        .to(dot.current, { y: rest + vh * 0.16, opacity: 0, duration: 0.42, ease: "power2.in" }, "-=0.18")
+        .to(glow.current, { opacity: 0, duration: 0.5, ease: "none" }, "<")
+        .to({}, { duration: 0.34 });
+
+      // Letter by letter, the name becomes the hero word.
+      const from = site.loaderName;
+      const to = site.heroWord;
+      tl.call(() => {
+        gsap.set(element, { clearProps: "transform" });
+        element.classList.add("chrome-word");
+        element.textContent = from;
+      });
+      for (let i = 1; i <= to.length; i++) tl.call(() => (element.textContent = to.slice(0, i) + from.slice(i)), undefined, `+=0.13`);
+
+      // It slides into the hero and opens around the portrait as the particles arrive.
+      tl.to({}, { duration: 0.25 }).add(() => {
+        element.innerHTML = `<span class="inline-block">${to.slice(0, 4)}</span><span class="inline-block">${to.slice(4)}</span>`;
         const target = document.querySelector(".hero-giant")?.getBoundingClientRect();
-        const box = word.current?.getBoundingClientRect();
-        if (!target || !box) return;
-        const scale = (target.width / box.width) * 0.62;
-        gsap.to(word.current, { y: target.top + target.height / 2 - window.innerHeight / 2, scale, duration: 0.8, ease: "power3.inOut" });
-      })
-      .to(glow.current, { opacity: 0, duration: 0.5, ease: "none" })
-      .add(finish, "+=0.1")
-      .to(root.current, { backgroundColor: "rgba(0,0,0,0)", duration: 0.5, ease: "none" }, "<")
-      .to(root.current, { autoAlpha: 0, duration: 0.3, ease: "none" }, "+=0.15");
+        if (!target) return;
+        const gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--hero-gap")) || 0;
+        const offset = (gap * window.innerWidth) / 200;
+        const [left, right] = [...element.children];
+        const y = target.top + target.height / 2 - (window.innerHeight / 2);
+        finish();
+        gsap.to(root.current, { backgroundColor: "rgba(0,0,0,0)", duration: 1.1, ease: "none" });
+        gsap.to(element, { y, duration: 1.5, ease: "power3.inOut" });
+        gsap.to(left, { x: -offset, duration: 1.5, ease: "power3.out", delay: 0.3 });
+        gsap.to(right, {
+          x: offset,
+          duration: 1.5,
+          ease: "power3.out",
+          delay: 0.3,
+          onComplete: () => {
+            land();
+            gsap.to(root.current, { autoAlpha: 0, duration: 0.2, ease: "none" });
+          },
+        });
+      });
+    };
+
+    // Wait for the display font so measurements match what is painted.
+    let cancelled = false;
+    void document.fonts.ready.then(() => !cancelled && start());
 
     return () => {
+      cancelled = true;
       window.clearTimeout(backstop);
-      tl.kill();
+      tl?.kill();
     };
   }, []);
 
   return (
-    <div ref={root} id="loader" className="pointer-events-none fixed inset-0 z-[110] flex items-center justify-center overflow-hidden bg-black [perspective:900px]" aria-hidden>
-      <div ref={glow} className="absolute inset-0 opacity-0" style={{ background: "radial-gradient(circle at 50% 50%, rgb(255 255 255 / 0.2), transparent 34%)" }} />
-      <div ref={word} className="loader-word display flex [transform-style:preserve-3d]">
-        {[...site.heroWord].map((char, i) => (
-          <span key={i} className="chrome-char inline-block [backface-visibility:visible]">
+    <div ref={root} id="loader" className="pointer-events-none fixed inset-0 z-[110] flex items-center justify-center overflow-hidden bg-black [perspective:1100px]" aria-hidden>
+      <div ref={glow} className="absolute inset-0 opacity-0" style={{ background: "radial-gradient(circle at 50% 50%, rgb(255 255 255 / 0.26), transparent 30%)" }} />
+      <div ref={word} className="loader-word invisible flex justify-center [transform-style:preserve-3d]">
+        {[...site.loaderName].map((char, i) => (
+          <span key={i} className="chrome-char inline-block">
             {char}
           </span>
         ))}
       </div>
-      <div ref={bar} className="absolute left-1/2 top-[calc(50%-5.5rem)] h-24 w-5 -translate-x-1/2 rounded-sm bg-gradient-to-b from-white to-neutral-400" />
-      <div ref={dot} className="absolute left-1/2 top-1/2 -ml-[11px] mt-[1.4rem] h-[22px] w-[22px] rounded-full bg-white" />
+      <div ref={dot} className="absolute left-0 top-0 rounded-full bg-gray-200" />
     </div>
   );
 }

@@ -27,7 +27,7 @@ Guwahati, India
 
 ## The experience
 
-A loud, 3D, heavily animated portfolio in black, chrome and one hot red.
+A 3D, heavily animated portfolio in onyx, chrome and molten coral.
 
 <table>
   <tr>
@@ -42,9 +42,9 @@ A loud, 3D, heavily animated portfolio in black, chrome and one hot red.
 
 | Scene | What happens |
 | --- | --- |
-| **Loader** | A dot falls, bounces, stretches into "!", then ribbons out into CHINMOY in 3D chrome |
+| **Loader** | A dot bounces, rises into "!", levers out CHINMOY, then the name turns into PORTFOLIO letter by letter |
 | **Hero** | The portrait as a 3D point cloud that bursts into place, tilts and parts around the cursor |
-| **Intro** | Chrome type, a glass card, a red quote and a two-way craft marquee |
+| **Intro** | Chrome type, scroll-lit words, spotlight glass cards and a two-way craft marquee |
 | **What I Can Do** | An accordion of services |
 | **Selected Work** | Frames that swing up in 3D on scroll and tilt under the cursor |
 | **3D Ring** | Stills on a scroll-driven cylinder; click any frame to open it |

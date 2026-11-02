@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { hasFinePointer, prefersReducedMotion } from "@/utils/device";
 
-const COLORS = ["#e8262d", "#e8262d", "#ff7b8a", "#f4f2ee"];
+const COLORS = ["#ff6a3d", "#ff6a3d", "#ffb199", "#ece9e2"];
 const POOL = 24;
 const SPACING = 20;
 const NATIVE = "input, textarea, select, [role='slider'], [role='dialog'], video";
@@ -98,6 +98,13 @@ export function CustomCursor() {
       pointer.style.opacity = native ? "0" : "1";
       pointer.dataset.hover = target.closest?.("a, button, label") ? "true" : "false";
       pointer.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
+      // Glass panels carry a soft light that tracks the pointer.
+      const panel = target.closest?.<HTMLElement>(".glass");
+      if (panel) {
+        const box = panel.getBoundingClientRect();
+        panel.style.setProperty("--mx", `${event.clientX - box.left}px`);
+        panel.style.setProperty("--my", `${event.clientY - box.top}px`);
+      }
       if (native || Math.hypot(event.clientX - lastX, event.clientY - lastY) < SPACING) return;
       const dx = event.clientX - lastX;
       const dy = event.clientY - lastY;

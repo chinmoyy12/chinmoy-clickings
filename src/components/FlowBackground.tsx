@@ -20,8 +20,8 @@ void main(){
   vec2 r = vec2(fbm(uv*1.6 + 3.*q + t*1.5), fbm(uv*1.6 + 3.*q + 7.));
   float f = fbm(uv*1.6 + 3.*r);
   float band = smoothstep(.34, .78, f) * smoothstep(.0, .5, length(r));
-  vec3 c = mix(vec3(.012), vec3(.15, .012, .02), band);
-  c += vec3(.05, .012, .014) * pow(band, 3.);
+  vec3 c = mix(vec3(.012, .012, .016), vec3(.17, .06, .03), band);
+  c += vec3(.07, .035, .02) * pow(band, 3.);
   color = vec4(c, 1.);
 }`;
 

@@ -62,7 +62,7 @@ export function PixelGame() {
       context.clearRect(0, 0, W, H);
       context.fillStyle = "#f4f2ee";
       for (const brick of bricks) if (brick.on) context.fillRect(brick.x + 1, brick.y + 1, cell - 3, cell - 3);
-      context.fillStyle = "#e8262d";
+      context.fillStyle = "#ff6a3d";
       context.fillRect(paddle.x - paddle.w / 2, H - 26, paddle.w, paddle.h);
       context.beginPath();
       context.arc(ball.x, ball.y, ball.r, 0, 6.3);
@@ -149,7 +149,7 @@ export function PixelGame() {
           {message}
         </p>
       </div>
-      <div className="border border-line">
+      <div className="overflow-hidden rounded-2xl border border-line">
         <canvas ref={canvas} role="img" aria-label="A breakout game with the name Chinmoy built from pixels" className="block aspect-[96/46] w-full touch-none" />
       </div>
       <div className="mt-3 flex items-center justify-between gap-4">

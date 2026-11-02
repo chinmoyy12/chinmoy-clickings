@@ -44,7 +44,7 @@ void main() {
   gl_PointSize = (1.7 + lum * 2.4) * pixel * persp;
 
   vec3 cool = mix(vec3(0.62, 0.68, 0.82), vec3(1.0, 0.99, 0.97), smoothstep(0.15, 0.75, lum));
-  vColor = mix(cool, vec3(0.95, 0.16, 0.2), clamp(force * 1.4 + (1.0 - t) * 0.5, 0.0, 1.0));
+  vColor = mix(cool, vec3(1.0, 0.42, 0.24), clamp(force * 1.4 + (1.0 - t) * 0.5, 0.0, 1.0));
   vAlpha = (0.72 + lum * 0.28) * (1.0 - scroll * 0.8);
 }`;
 

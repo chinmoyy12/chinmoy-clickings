@@ -1,5 +1,6 @@
 import { Frame } from "@/components/Frame";
 import { ImageReveal, SectionReveal, TextReveal } from "@/components/Reveal";
+import { ScrollWords } from "@/components/ScrollWords";
 import { services } from "@/data/services";
 import { site } from "@/data/site";
 
@@ -37,7 +38,7 @@ export function AboutSection() {
             <TextReveal lines={["Intro"]} className="display type-section" />
           </div>
           <ImageReveal dir="up" className="mt-8">
-            <div className="relative aspect-[4/5] overflow-hidden bg-surface lg:aspect-square">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-surface lg:aspect-square">
               <Frame image={about.portrait} sizes="(min-width: 1024px) 40vw, 100vw" />
             </div>
           </ImageReveal>
@@ -45,9 +46,7 @@ export function AboutSection() {
 
         <div className="lg:col-span-6 lg:col-start-7 lg:self-end">
           <SectionReveal className="glass p-6 sm:p-8">
-            <p className="display text-[clamp(1.5rem,2.6vw,2.5rem)] leading-[1.05]">
-              {site.statement.join(" ")}
-            </p>
+            <ScrollWords text={site.statement.join(" ")} className="display text-[clamp(1.75rem,3.2vw,3.25rem)] leading-[1.05]" />
             <p className="mt-5 text-[clamp(1.0625rem,1.4vw,1.25rem)] leading-snug">{about.lead}</p>
             <p className="mt-3 text-ash">{about.details.join(" ")}</p>
             <p className="mt-3 text-ash">{about.close}</p>
@@ -60,9 +59,9 @@ export function AboutSection() {
               ))}
             </ul>
           </SectionReveal>
-          <SectionReveal delay={100} className="mt-3 bg-wine p-6">
-            <blockquote className="display text-[clamp(1.25rem,2vw,1.75rem)] leading-[1.1]">{site.philosophyLine}</blockquote>
-            <p className="label mt-3 text-paper/85">Chinmoy</p>
+          <SectionReveal delay={100} className="glass mt-3 p-6">
+            <blockquote className="quote text-[clamp(1.375rem,2.2vw,2rem)] leading-[1.15]">{site.philosophyLine}</blockquote>
+            <p className="label mt-3 text-ember">Chinmoy</p>
           </SectionReveal>
         </div>
       </div>

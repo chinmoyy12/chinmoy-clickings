@@ -50,7 +50,7 @@ export function RawToReal() {
         onPointerMove={(event) => dragging.current && moveTo(event.clientX)}
         onPointerUp={() => (dragging.current = false)}
         onPointerCancel={() => (dragging.current = false)}
-        className="relative mx-auto aspect-[2/3] max-h-[86svh] w-full max-w-[32rem] cursor-ew-resize touch-pan-y select-none overflow-hidden bg-surface lg:col-span-5 lg:col-start-8"
+        className="relative mx-auto aspect-[2/3] max-h-[86svh] w-full max-w-[32rem] cursor-ew-resize touch-pan-y select-none overflow-hidden rounded-2xl bg-surface lg:col-span-5 lg:col-start-8"
       >
         <Frame image={after} sizes="(min-width: 1024px) 34vw, 100vw" quality={85} />
         <div className="absolute inset-0" data-before style={{ clipPath: `inset(0 ${100 - split}% 0 0)` }}>

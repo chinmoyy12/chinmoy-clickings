@@ -15,7 +15,7 @@ export function ServicesSection() {
           <p className="label mb-3 text-ember">02 / Services</p>
         </SectionReveal>
         <div id="services-title" className="mb-10">
-          <TextReveal lines={["What I", "can do"]} className="display type-section" />
+          <TextReveal lines={["What I", "can do."]} accent={1} className="display type-section" />
         </div>
       </div>
       <ul className="border-t border-line">

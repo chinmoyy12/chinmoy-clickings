@@ -42,7 +42,7 @@ function ProjectRow({ project, flipped }: { project: Project; flipped: boolean }
       <div className={`[perspective:1100px] lg:col-span-7 ${flipped ? "lg:order-2 lg:col-start-6" : ""}`} onPointerMove={onMove} onPointerLeave={onLeave}>
         <div className="[transform-style:preserve-3d]">
           <div ref={tilt}>
-            <TransitionLink href={`/work/${project.slug}`} morphSrc={optimizedUrl(project.hero.src, 2048)} aria-label={`${project.title}, view project`} className="zoom-host group relative block aspect-[16/10] overflow-hidden bg-surface shadow-[0_30px_80px_-30px_rgb(232_38_45/0.4)]">
+            <TransitionLink href={`/work/${project.slug}`} morphSrc={optimizedUrl(project.hero.src, 2048)} aria-label={`${project.title}, view project`} className="zoom-host group relative block aspect-[16/10] overflow-hidden bg-surface shadow-[0_30px_80px_-34px_rgb(255_106_61/0.45)]">
               <span className="zoom-img absolute inset-0 block">
                 <Frame image={project.hero} sizes="(min-width: 1024px) 58vw, 100vw" quality={85} />
               </span>
@@ -59,7 +59,7 @@ function ProjectRow({ project, flipped }: { project: Project; flipped: boolean }
           {project.category} / {project.year}
         </p>
         <p className="mt-3 max-w-sm text-ash">{project.tagline}</p>
-        <TransitionLink href={`/work/${project.slug}`} className="pill mt-5">
+        <TransitionLink href={`/work/${project.slug}`} className="pill pill-ghost mt-5">
           View project <span className="arrow" aria-hidden>→</span>
         </TransitionLink>
       </div>

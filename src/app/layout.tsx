@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo_Black, Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { CustomCursor } from "@/components/CustomCursor";
 import { GrainOverlay } from "@/components/GrainOverlay";
 import { Navigation } from "@/components/Navigation";
@@ -9,10 +9,10 @@ import { ServiceWorker } from "@/components/ServiceWorker";
 import { site } from "@/data/site";
 import "@/styles/globals.css";
 
-const display = Archivo_Black({ weight: "400", subsets: ["latin"], variable: "--font-anton", display: "swap" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono-face", display: "swap" });
+const display = Bricolage_Grotesque({ weight: ["700", "800"], subsets: ["latin"], variable: "--font-display-face", display: "swap" });
+const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono-face", display: "swap" });
 const script = Instrument_Serif({ weight: "400", style: "italic", subsets: ["latin"], variable: "--font-script", display: "swap" });
-const sans = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const sans = Geist({ subsets: ["latin"], variable: "--font-sans-face", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: site.title, description: site.description, images: [site.ogImage] },
 };
 
-export const viewport: Viewport = { themeColor: "#070707", colorScheme: "dark" };
+export const viewport: Viewport = { themeColor: "#08080a", colorScheme: "dark" };
 
 // Runs before first paint so animated elements start hidden only when JS can reveal them.
 const boot = `document.documentElement.classList.add("js");document.documentElement.dataset.intro="pending";`;
