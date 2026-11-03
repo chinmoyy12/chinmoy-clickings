@@ -8,6 +8,10 @@
 
 *I capture moments that deserve to stay.*
 
+### 🌐 Live at [starlit-arithmetic-38f269.netlify.app](https://starlit-arithmetic-38f269.netlify.app)
+
+<a href="https://starlit-arithmetic-38f269.netlify.app"><img src="https://img.shields.io/website?url=https%3A%2F%2Fstarlit-arithmetic-38f269.netlify.app&up_message=online&down_message=offline&up_color=ff6a3d&label=live%20site&style=flat-square" alt="Live site status" /></a>
+
 <br />
 
 <a href="https://starlit-arithmetic-38f269.netlify.app"><img src="https://img.shields.io/badge/Open_the_live_site-ff6a3d?style=for-the-badge&logo=netlify&logoColor=white" alt="Open the live site" /></a>
