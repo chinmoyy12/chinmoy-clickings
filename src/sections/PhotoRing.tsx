@@ -7,7 +7,8 @@ import { Lightbox } from "@/components/Lightbox";
 import { photos } from "@/data/photos";
 import { prefersReducedMotion } from "@/utils/device";
 
-const items = photos.filter((_, i) => i % 2 === 0).slice(0, 10);
+// Every other still keeps the ring varied without crowding it.
+const items = photos.filter((_, i) => i % 2 === 0);
 
 /** A 3D ring of stills. The filterable gallery below holds the same work for keyboards and 2D fallbacks. */
 export function PhotoRing() {

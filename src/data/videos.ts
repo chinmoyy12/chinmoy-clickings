@@ -1,34 +1,31 @@
 import type { Film } from "./types";
 
-// REPLACE: drop real footage into /public/media/videos using the same file
-// names, or point these paths at new ones. Files ending in -480 are the light
-// versions served to phones and data-saver connections.
-const film = (id: string, title: string, category: string, description: string): Film => ({
+// Every film is Chinmoy's own, in /public/media/work/films. The full file plays as
+// delivered; -preview.mp4 is a short silent loop for cards, -poster.jpg its cover.
+
+type Row = [id: string, title: string, category: string, description: string, width: number, height: number, frame: [number, number], seconds: number];
+
+const rows: Row[] = [
+  ["mumbai", "Mumbai", "Travel", "Trains, towers and the Gateway of India, a city cut to its own rhythm.", 1276, 718, [1276, 718], 48],
+  ["sunburn-campus-2026", "Sunburn Campus 2026", "Concerts", "The stage, the cryo jets and the crowd, from the barricade.", 720, 1280, [720, 404], 22],
+  ["consensio", "Consensio", "Campus", "A whole campus breaks into a dance on the lawn.", 1276, 718, [1276, 718], 83],
+  ["prayer-flags", "Prayer Flags", "Travel", "Flags in the wind, a stupa in the trees and a quiet sky.", 1276, 718, [1276, 718], 19],
+  ["campus-days", "Campus Days", "Campus", "Two friends, one afternoon, and every corner of the campus.", 1276, 718, [1276, 718], 42],
+  ["college-ke-campus", "College ke Campus", "Concerts", "A night of DJs on campus, cut as a vertical reel.", 720, 1280, [720, 1280], 17],
+  ["from-above", "From Above", "Events", "A traditional dance performance on the steps, seen from overhead.", 720, 1280, [720, 404], 13],
+];
+
+export const films: Film[] = rows.map(([id, title, category, description, width, height, frame, seconds]) => ({
   id,
   title,
   category,
-  year: "2026",
   description,
-  src: `/media/videos/${id}.mp4`,
-  srcMobile: `/media/videos/${id}-480.mp4`,
-  poster: { src: `/media/videos/${id}-poster.jpg`, alt: `Still frame from ${title}.`, width: 1280, height: 720 },
-  captions: "/media/videos/ambient.vtt",
-});
+  width,
+  height,
+  seconds,
+  src: `/media/work/films/${id}.mp4`,
+  preview: `/media/work/films/${id}-preview.mp4`,
+  poster: { src: `/media/work/films/${id}-poster.jpg`, alt: `A still from ${title}.`, width: frame[0], height: frame[1] },
+}));
 
-export const reel = film("reel", "Showreel 2026", "Reel", "A minute of the year, cut for feeling rather than order.");
-
-const films: Film[] = [
-  film("film-the-moment", "Golden Hour Reel", "Reels", "Vertical stories made for a thumb and a held breath."),
-  film("film-the-people", "One Night, Everyone", "Event Films", "The room, the noise, and the people inside it."),
-  film("film-between-frames", "Between Frames", "Short Films", "Small fictions built out of long corridors."),
-  film("film-after-dark", "After Dark", "Promotional Films", "Brands and places, lit the way they feel at night."),
-  film("film-the-journey", "The Long Way", "Cinematic Stories", "Slow films about going somewhere on purpose."),
-];
-
-const unseen = film("film-unseen", "Unseen", "Short Films", "Movement studied until it stops being a body.");
-
-export const filmById = (id: string) => {
-  const match = [reel, ...films, unseen].find((f) => f.id === id);
-  if (!match) throw new Error(`Unknown film: ${id}`);
-  return match;
-};
+export const duration = (seconds: number) => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;

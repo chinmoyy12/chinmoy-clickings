@@ -7,40 +7,19 @@ export interface MediaImage {
   height: number;
 }
 
-export interface Credit {
-  role: string;
-  name: string;
-}
-
 export interface Film {
   id: string;
   title: string;
   category: string;
-  year: string;
   description: string;
+  /** The delivered file, played untouched. */
   src: string;
-  srcMobile: string;
+  /** A short silent loop for cards. */
+  preview: string;
   poster: MediaImage;
-  captions: string;
-}
-
-export interface Project {
-  id: string;
-  slug: string;
-  title: string;
-  category: string;
-  year: string;
-  role: string;
-  location: string;
-  tagline: string;
-  description: string;
-  /** Scene colour behind this project in the selected work sequence. */
-  ambient: string;
-  hero: MediaImage;
-  images: MediaImage[];
-  bts: MediaImage[];
-  video?: Film;
-  credits: Credit[];
+  width: number;
+  height: number;
+  seconds: number;
 }
 
 export interface Photo extends MediaImage {

@@ -11,11 +11,9 @@ import { ServicesSection } from "@/sections/ServicesSection";
 // Still server rendered; splitting them keeps the first hydration short.
 const StoryFrame = dynamic(() => import("@/sections/StoryFrame").then((m) => m.StoryFrame));
 const WalletShowcase = dynamic(() => import("@/sections/WalletShowcase").then((m) => m.WalletShowcase));
-const Recognition = dynamic(() => import("@/sections/Recognition").then((m) => m.Recognition));
+const FilmsSection = dynamic(() => import("@/sections/FilmsSection").then((m) => m.FilmsSection));
 const PhotoRing = dynamic(() => import("@/sections/PhotoRing").then((m) => m.PhotoRing));
 const PhotographyGallery = dynamic(() => import("@/sections/PhotographyGallery").then((m) => m.PhotographyGallery));
-const RawToReal = dynamic(() => import("@/sections/RawToReal").then((m) => m.RawToReal));
-const Timeline = dynamic(() => import("@/sections/Timeline").then((m) => m.Timeline));
 const PixelGame = dynamic(() => import("@/sections/PixelGame").then((m) => m.PixelGame));
 const ContactSection = dynamic(() => import("@/sections/ContactSection").then((m) => m.ContactSection));
 
@@ -41,11 +39,9 @@ export default function HomePage() {
         <KineticBand />
         <StoryFrame />
         <WalletShowcase />
-        <Recognition />
+        <FilmsSection />
         <PhotoRing />
         <PhotographyGallery />
-        <RawToReal />
-        <Timeline />
         <PixelGame />
         <ContactSection />
       </main>

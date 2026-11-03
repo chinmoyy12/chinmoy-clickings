@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { guideLines } from "@/data/story";
 import { prefersReducedMotion } from "@/utils/device";
 
-const ORDER = ["about", "story", "work", "photo", "raw", "process", "play", "contact"];
+const ORDER = ["about", "story", "work", "films", "photo", "play", "contact"];
 
 /** A small version of Chinmoy who narrates each section and jumps to the next one when tapped. */
 export function AvatarGuide() {

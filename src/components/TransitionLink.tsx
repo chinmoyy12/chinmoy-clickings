@@ -10,10 +10,9 @@ type Props = Omit<React.ComponentProps<typeof Link>, "href"> & {
   href: string;
   /** Image to carry across the cut; turns the wipe into a morph. */
   morphSrc?: string;
-  strip?: boolean;
 };
 
-export function TransitionLink({ href, morphSrc, strip, onClick, ...props }: Props) {
+export function TransitionLink({ href, morphSrc, onClick, ...props }: Props) {
   const { go } = useTransitionRouter();
   const pathname = usePathname();
   const ref = useRef<HTMLAnchorElement>(null);
@@ -34,7 +33,7 @@ export function TransitionLink({ href, morphSrc, strip, onClick, ...props }: Pro
           history.replaceState(null, "", hash ? `#${hash}` : path);
           return;
         }
-        go(href, morphSrc && ref.current ? { source: ref.current, src: morphSrc, strip } : undefined);
+        go(href, morphSrc && ref.current ? { source: ref.current, src: morphSrc } : undefined);
       }}
     />
   );

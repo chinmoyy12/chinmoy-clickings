@@ -18,27 +18,16 @@ export function VideoPlayer({ film, onClose }: { film: Film; onClose: () => void
   const video = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
-  const [captions, setCaptions] = useState(true);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
   const [failed, setFailed] = useState(false);
   const [idle, setIdle] = useState(false);
-
-  const [src] = useState(() => {
-    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-    return window.innerWidth < 768 || connection?.saveData ? film.srcMobile : film.src;
-  });
 
   useEffect(() => {
     const element = video.current;
     if (!element) return;
     void element.play().catch(() => setPlaying(false));
   }, []);
-
-  useEffect(() => {
-    const element = video.current;
-    if (element?.textTracks[0]) element.textTracks[0].mode = captions ? "showing" : "hidden";
-  }, [captions, duration]);
 
   useEffect(() => {
     if (!playing) return setIdle(false);
@@ -109,12 +98,11 @@ export function VideoPlayer({ film, onClose }: { film: Film; onClose: () => void
       ) : (
         <video
           ref={video}
-          src={src}
+          src={film.src}
           poster={film.poster.src}
           muted={muted}
           playsInline
-          preload="metadata"
-          crossOrigin="anonymous"
+          preload="auto"
           className="h-full w-full object-contain"
           onClick={toggle}
           onPlay={() => setPlaying(true)}
@@ -122,9 +110,7 @@ export function VideoPlayer({ film, onClose }: { film: Film; onClose: () => void
           onTimeUpdate={(event) => setCurrent(event.currentTarget.currentTime)}
           onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
           onError={() => setFailed(true)}
-        >
-          <track kind="captions" src={film.captions} srcLang="en" label="English" default />
-        </video>
+        />
       )}
 
       <div className={`absolute inset-x-0 top-0 flex items-center justify-between bg-gradient-to-b from-black/60 to-transparent px-[var(--gutter)] py-2 transition-opacity duration-500 ${idle ? "opacity-0" : ""}`}>
@@ -159,9 +145,6 @@ export function VideoPlayer({ film, onClose }: { film: Film; onClose: () => void
               </button>
               <button type="button" onClick={() => setMuted(!muted)} aria-pressed={muted} className="ctrl">
                 {muted ? "Unmute" : "Mute"}
-              </button>
-              <button type="button" onClick={() => setCaptions(!captions)} aria-pressed={captions} aria-label="Captions" className="ctrl">
-                CC
               </button>
             </div>
             <div className="flex items-center gap-4">

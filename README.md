@@ -42,7 +42,7 @@
 
 <table>
   <tr>
-    <td width="72%" align="center"><img src="docs/tour.gif" alt="A scroll through the site: the 3D hero, the services bento, the lens story, the wallets and contact." width="100%" /><br /><sub><b>On a laptop</b></sub></td>
+    <td width="72%" align="center"><img src="docs/tour.gif" alt="A scroll through the site: the 3D hero, the α6400 camera, the lens story, the wallets, the film reel, the gallery and contact." width="100%" /><br /><sub><b>On a laptop</b></sub></td>
     <td width="28%" align="center"><img src="docs/phone.gif" alt="The same journey recomposed for a phone." width="100%" /><br /><sub><b>On a phone</b></sub></td>
   </tr>
 </table>
@@ -61,28 +61,21 @@ Every link jumps straight to that scene on the live site.
 | --- | --- |
 | [**Hero**](https://starlit-arithmetic-38f269.netlify.app/) | A 3D avatar under animated light rays that watches the cursor, blinks, spins on click and bursts apart on scroll |
 | **Navigation** | A dynamic island with a scroll progress ring and the current chapter, plus an avatar guide who talks you through the page |
-| [**About**](https://starlit-arithmetic-38f269.netlify.app/#about) | Chrome type, scroll-lit words and a two-way craft marquee |
+| [**Intro**](https://starlit-arithmetic-38f269.netlify.app/#about) | A 3D model of Chinmoy's Sony α6400 and 18–135mm lens behind the intro: drag to turn it, click to fire the shutter, and scroll to zoom the lens and flip the screen |
 | [**What I Can Do**](https://starlit-arithmetic-38f269.netlify.app/#services) | A bento grid with 3D tilt, drifting stars and click ripples |
 | [**The Story**](https://starlit-arithmetic-38f269.netlify.app/#story) | A lens opens as you scroll, then your choice jumps to that part of the gallery |
-| [**Selected Work**](https://starlit-arithmetic-38f269.netlify.app/#work) | Two digital wallets, one of projects and one of stills |
-| [**Recognition**](https://starlit-arithmetic-38f269.netlify.app/#recognition) | Laurels drawn in fine line art |
+| [**Selected Work**](https://starlit-arithmetic-38f269.netlify.app/#work) | Two digital wallets, one of films and one of stills: pull a film card to play it |
+| [**Films**](https://starlit-arithmetic-38f269.netlify.app/#films) | A 3D reel of seven films: drag it, the front one plays, and each opens full screen at its original quality |
 | **3D Ring** | Stills on a scroll-driven cylinder; click any frame to open it |
-| [**Photography**](https://starlit-arithmetic-38f269.netlify.app/#photo) | A filterable gallery of 21 stills with a full lightbox |
-| [**From Raw. To Real.**](https://starlit-arithmetic-38f269.netlify.app/#raw) | A draggable, keyboard-operable before and after of a portrait edit |
-| [**The Journey**](https://starlit-arithmetic-38f269.netlify.app/#process) | A coral timeline that fills as you scroll |
+| [**Photography**](https://starlit-arithmetic-38f269.netlify.app/#photo) | A masonry gallery of 22 stills in their real shapes, in five categories, opening as the original files |
 | [**One More Thing**](https://starlit-arithmetic-38f269.netlify.app/#play) | A playable pixel breakout of the name |
 | [**Contact**](https://starlit-arithmetic-38f269.netlify.app/#contact) | Interactive light tubes (click to change their colours), copy-to-clipboard email and Instagram |
 
-**Projects:**
-[The Moment](https://starlit-arithmetic-38f269.netlify.app/work/the-moment) ·
-[After Dark](https://starlit-arithmetic-38f269.netlify.app/work/after-dark) ·
-[Between Frames](https://starlit-arithmetic-38f269.netlify.app/work/between-frames) ·
-[The People](https://starlit-arithmetic-38f269.netlify.app/work/the-people) ·
-[The Journey](https://starlit-arithmetic-38f269.netlify.app/work/the-journey) ·
-[Unseen](https://starlit-arithmetic-38f269.netlify.app/work/unseen)
+**Films:** Mumbai · Sunburn Campus 2026 · Consensio · Prayer Flags · Campus Days · College ke Campus · From Above
 
-> [!NOTE]
-> Apart from Chinmoy's portrait and avatar, the photographs, films and project text are generated placeholders. Real work is on its way.
+**Stills:** Concerts · Portraits · Fashion · Events · Landscapes
+
+Every photograph and film on the site is Chinmoy's own work, served as the original files.
 
 <img src="docs/divider.svg" alt="" width="100%" />
 
@@ -135,9 +128,8 @@ All content lives in `src/data`, so nothing needs changing inside the components
 
 | Change | Edit |
 | --- | --- |
-| Projects | [`src/data/projects.ts`](src/data/projects.ts) and [`public/media/projects/`](public/media/projects) |
-| Photographs | [`src/data/photos.ts`](src/data/photos.ts) and [`public/media/photography/`](public/media/photography) |
-| Films | [`src/data/videos.ts`](src/data/videos.ts) and [`public/media/videos/`](public/media/videos) |
+| Photographs | [`src/data/photos.ts`](src/data/photos.ts) and [`public/media/work/photos/`](public/media/work/photos) |
+| Films | [`src/data/videos.ts`](src/data/videos.ts) and [`public/media/work/films/`](public/media/work/films) |
 | Email and Instagram | [`src/data/social.ts`](src/data/social.ts) |
 | Name, about text, web address | [`src/data/site.ts`](src/data/site.ts) |
 
@@ -156,7 +148,7 @@ src/
   sections/     one file per page section
   components/   cursor, loader, wallet, rays, transitions, viewer, player
   animations/   shared easing and transition vocabulary
-  three/        the 3D avatar and photo ring
+  three/        the 3D avatar, the α6400 camera and the photo ring
   data/         all site content, ready for a CMS
 public/media/   images, films and textures
 docs/           the banner and recordings in this README

@@ -31,6 +31,14 @@ export function Lightbox({ items, start, onClose }: { items: Photo[]; start: num
 
   const portrait = photo.height > photo.width;
 
+  useEffect(() => {
+    if (single) return;
+    for (const by of [1, -1]) {
+      const image = new window.Image();
+      image.src = items[(index + by + items.length) % items.length].src;
+    }
+  }, [index, items, single]);
+
   return createPortal(
     <motion.div
       ref={ref}
@@ -69,7 +77,7 @@ export function Lightbox({ items, start, onClose }: { items: Photo[]; start: num
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.35, ease: EASE }}
           >
-            <Image src={photo.src} alt={photo.alt} fill sizes="100vw" quality={85} draggable={false} className="object-contain" />
+            <Image src={photo.src} alt={photo.alt} fill unoptimized draggable={false} className="object-contain" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -79,6 +87,9 @@ export function Lightbox({ items, start, onClose }: { items: Photo[]; start: num
           <p className="display truncate text-2xl">{photo.title}</p>
           <p className="truncate text-[0.8125rem] text-ash">
             {photo.category} — {photo.alt}
+          </p>
+          <p className="label mt-1">
+            Original, {photo.width} × {photo.height}
           </p>
         </div>
         <div className="flex shrink-0 gap-2">

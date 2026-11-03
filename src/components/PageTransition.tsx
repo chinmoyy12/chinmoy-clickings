@@ -4,9 +4,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/animations/gsap";
 import { CLIP_FULL } from "@/animations/transitions";
-import { projects } from "@/data/projects";
 import { prefersReducedMotion } from "@/utils/device";
-import { optimizedUrl, preloadImage } from "@/utils/media";
+import { preloadImage } from "@/utils/media";
 import { scrollToTarget } from "@/utils/scroll";
 
 const HOME_SCROLL = "cc:home-scroll";
@@ -14,8 +13,6 @@ const HOME_SCROLL = "cc:home-scroll";
 interface Morph {
   source: HTMLElement;
   src: string;
-  /** Run a film strip across the cut, used when moving between projects. */
-  strip?: boolean;
 }
 
 interface TransitionApi {
@@ -31,16 +28,8 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
   const curtain = useRef<HTMLDivElement>(null);
   const morphRoot = useRef<HTMLDivElement>(null);
   const morphImage = useRef<HTMLImageElement>(null);
-  const strip = useRef<HTMLDivElement>(null);
   const pending = useRef<{ kind: "wipe" | "morph"; hash: string } | null>(null);
   const busy = useRef(false);
-  // Only project pages can use the strip, so the homepage never pays for its images.
-  const [stripReady, setStripReady] = useState(false);
-
-  useEffect(() => {
-    if (pathname.startsWith("/work/")) setStripReady(true);
-  }, [pathname]);
-
   useEffect(() => {
     history.scrollRestoration = "manual";
   }, []);
@@ -104,10 +93,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       if (busy.current) return;
       busy.current = true;
       const [path, hash = ""] = href.split("#");
-      if (pathname === "/") {
-        if (path.startsWith("/work/")) sessionStorage.setItem(HOME_SCROLL, String(window.scrollY));
-        else sessionStorage.removeItem(HOME_SCROLL);
-      }
+      if (pathname === "/") sessionStorage.removeItem(HOME_SCROLL);
       pending.current = { kind: morph ? "morph" : "wipe", hash: hash ? `#${hash}` : "" };
       const reduced = prefersReducedMotion();
 
@@ -139,9 +125,6 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
           .to(root, { clipPath: CLIP_FULL, duration: 1, ease: "inout" }, 0)
           .to(picture, { scale: 1, duration: 1.1, ease: "inout" }, 0)
           .set(shade, { autoAlpha: 0 });
-        if (morph.strip && strip.current) {
-          tl.fromTo(strip.current, { autoAlpha: 1, xPercent: 12 }, { xPercent: -62, duration: 1, ease: "none" }, 0).set(strip.current, { autoAlpha: 0 }, 1);
-        }
         return;
       }
 
@@ -165,11 +148,6 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       <div className="invisible fixed inset-0 z-[100] bg-black opacity-0" aria-hidden />
       <div ref={morphRoot} className="invisible fixed inset-0 z-[101] overflow-hidden bg-ink" aria-hidden>
         <img ref={morphImage} alt="" className="h-full w-full object-cover" />
-      </div>
-      <div ref={strip} className="invisible fixed inset-y-[38%] left-0 z-[102] flex w-[220vw] gap-2 opacity-0" aria-hidden>
-        {stripReady && [...projects, ...projects].map((project, i) => (
-          <img key={i} src={optimizedUrl(project.hero.src, 640)} alt="" loading="lazy" className="h-full w-[18vw] object-cover brightness-75" />
-        ))}
       </div>
       <div ref={curtain} className="invisible fixed inset-0 z-[103] bg-ink opacity-0" aria-hidden />
     </Context.Provider>

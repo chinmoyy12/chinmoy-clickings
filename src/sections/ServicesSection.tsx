@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "@/animations/gsap";
 import { SectionReveal, TextReveal } from "@/components/Reveal";
 import { photos } from "@/data/photos";
-import { projects } from "@/data/projects";
+import { films } from "@/data/videos";
 import { services } from "@/data/services";
 import { site } from "@/data/site";
 import { devicePower, prefersReducedMotion } from "@/utils/device";
@@ -118,7 +118,7 @@ export function ServicesSection() {
       </div>
       <div className="bento-grid">
         <Service index={0} className="bento-wide" />
-        <Stat value={pad(projects.length)} label="Selected projects" className="" />
+        <Stat value={pad(films.length)} label="Films" className="" />
         <Service index={2} className="bento-tall" />
         <Stat value={pad(photos.length)} label="Stills in the gallery" className="" />
         <Service index={1} className="bento-wide" />

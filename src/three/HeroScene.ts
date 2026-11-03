@@ -113,13 +113,7 @@ void main() {
   gl_FragColor = vec4(color * a, a);
 }`;
 
-export function canUseWebGL() {
-  try {
-    return Boolean(document.createElement("canvas").getContext("webgl2"));
-  } catch {
-    return false;
-  }
-}
+export { canUseWebGL } from "@/utils/device";
 
 async function pixels(url: string, width: number, height: number) {
   const bitmap = await createImageBitmap(await (await fetch(url)).blob());

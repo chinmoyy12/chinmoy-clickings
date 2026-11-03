@@ -1,11 +1,14 @@
 "use client";
 
-import { useMemo } from "react";
+import { AnimatePresence } from "framer-motion";
+import { useMemo, useState } from "react";
 import { LightRays } from "@/components/LightRays";
 import { PhotoWallet, type WalletItem } from "@/components/PhotoWallet";
 import { SectionReveal, TextReveal } from "@/components/Reveal";
+import { VideoPlayer } from "@/components/VideoPlayer";
 import { photoCategories, photos } from "@/data/photos";
-import { projects } from "@/data/projects";
+import type { Film } from "@/data/types";
+import { duration, films } from "@/data/videos";
 import { pad } from "@/utils/media";
 import { scrollToTarget } from "@/utils/scroll";
 
@@ -16,7 +19,8 @@ const openCategory = (category: string) => {
 };
 
 export function WalletShowcase() {
-  const work = useMemo<WalletItem[]>(() => projects.map((project) => ({ id: project.id, title: project.title, meta: project.year, image: project.hero, href: `/work/${project.slug}`, action: "View project" })), []);
+  const [playing, setPlaying] = useState<Film | null>(null);
+  const reels = useMemo<WalletItem[]>(() => films.map((film) => ({ id: film.id, title: film.title, meta: duration(film.seconds), image: film.poster, onOpen: () => setPlaying(film), action: "Play film" })), []);
   const stills = useMemo<WalletItem[]>(
     () =>
       photoCategories.map((category) => {
@@ -41,9 +45,10 @@ export function WalletShowcase() {
         </SectionReveal>
       </header>
       <div className="relative grid gap-x-8 gap-y-6 lg:grid-cols-2">
-        <PhotoWallet label="Projects" total={`${pad(projects.length)} films`} items={work} />
+        <PhotoWallet label="Films" total={`${pad(films.length)} films`} items={reels} />
         <PhotoWallet label="Photography" total={`${pad(photos.length)} stills`} items={stills} />
       </div>
+      <AnimatePresence>{playing && <VideoPlayer film={playing} onClose={() => setPlaying(null)} />}</AnimatePresence>
     </section>
   );
 }

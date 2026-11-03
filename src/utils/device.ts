@@ -2,6 +2,15 @@ export const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-mo
 export const hasFinePointer = () => window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 export const isDesktop = () => window.matchMedia("(min-width: 64rem)").matches;
 
+/** three.js needs WebGL2; without it the 3D scenes stay hidden and their fallbacks show. */
+export function canUseWebGL() {
+  try {
+    return Boolean(document.createElement("canvas").getContext("webgl2"));
+  } catch {
+    return false;
+  }
+}
+
 export type Power = "high" | "mid" | "low";
 
 /** One decision for every heavy effect: high gets everything, mid the essentials, low stays static. */

@@ -7,11 +7,9 @@ import { gsap } from "@/animations/gsap";
 import { LightRays } from "@/components/LightRays";
 import { Magnetic } from "@/components/MagneticButton";
 import { TransitionLink } from "@/components/TransitionLink";
-import { VideoPlayer } from "@/components/VideoPlayer";
 import { photos } from "@/data/photos";
-import { projects } from "@/data/projects";
 import { site } from "@/data/site";
-import { reel } from "@/data/videos";
+import { films } from "@/data/videos";
 import { hasFinePointer, prefersReducedMotion } from "@/utils/device";
 import { pad } from "@/utils/media";
 
@@ -36,7 +34,7 @@ function RotatingRole() {
 }
 
 const STATS = [
-  [pad(projects.length), "Projects"],
+  [pad(films.length), "Films"],
   [pad(photos.length), "Stills"],
 ];
 
@@ -45,7 +43,6 @@ export function CinematicHero() {
   const word = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const [live, setLive] = useState(false);
-  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const section = root.current;
@@ -130,11 +127,6 @@ export function CinematicHero() {
           <RotatingRole />
         </p>
         <div className="intro-late flex items-center gap-5">
-          {site.showreelReady && (
-            <button type="button" onClick={() => setPlaying(true)} className="label sweep text-paper">
-              Play showreel
-            </button>
-          )}
           <Magnetic>
             <TransitionLink href="/#work" className="pill">
               View selected work <span className="arrow" aria-hidden>→</span>
@@ -152,7 +144,6 @@ export function CinematicHero() {
         ))}
       </dl>
 
-      <AnimatePresence>{playing && <VideoPlayer film={reel} onClose={() => setPlaying(false)} />}</AnimatePresence>
     </section>
   );
 }

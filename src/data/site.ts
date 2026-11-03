@@ -26,16 +26,6 @@ export const site = {
       height: 1280,
     },
   },
-  // REPLACE: when a true raw and graded pair exists, use it here with the labels "Raw" and "Graded".
-  comparison: {
-    caption: "Every frame starts somewhere plain. This is my own portrait, as shot and as edited for this site. Drag to see the difference.",
-    beforeLabel: "Original",
-    afterLabel: "Edited",
-    before: { src: "/media/about/portrait.jpg", alt: "The original black and white portrait in a corridor.", width: 854, height: 1280 },
-    after: { src: "/media/raw-real/edited.jpg", alt: "The same portrait cut out from the corridor and set against a deep red glow.", width: 854, height: 1280 },
-  },
-  // Set to true once a real showreel is in /public/media/videos.
-  showreelReady: false,
   philosophyLine: "Every frame should make you feel something before you understand it.",
   contact: {
     headline: ["Let's work", "together."],

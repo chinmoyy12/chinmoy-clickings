@@ -376,6 +376,11 @@ html.js:not([data-landed]) .hero-word { visibility: hidden; }
   .hero-copy { bottom: 3%; }
 }
 
+/* ---------- Camera ---------- */
+
+.camera-backdrop { pointer-events: none; }
+.camera-glow { background: radial-gradient(42% 46% at 50% 52%, rgb(255 106 61 / 0.16), transparent 72%); }
+
 /* ---------- Wallet ---------- */
 
 .wallet {

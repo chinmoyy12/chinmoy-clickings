@@ -1,3 +1,4 @@
+import { CameraBackdrop } from "@/components/CameraBackdrop";
 import { Frame } from "@/components/Frame";
 import { ImageReveal, SectionReveal, TextReveal } from "@/components/Reveal";
 import { ScrollWords } from "@/components/ScrollWords";
@@ -28,8 +29,10 @@ export function AboutSection() {
   const { about } = site;
 
   return (
-    <section id="about" data-nav="solid" aria-labelledby="about-title" className="pt-24 sm:pt-40">
-      <div className="gutter grid gap-x-6 gap-y-10 lg:grid-cols-12">
+    <section id="about" data-nav="solid" aria-labelledby="about-title" className="relative pt-24 sm:pt-40">
+      <CameraBackdrop className="absolute right-0 top-[10rem] h-[18rem] w-full sm:top-[13rem] sm:h-[24rem] lg:right-[2%] lg:top-28 lg:h-[min(42rem,78vh)] lg:w-[58%]" />
+      {/* The camera sits behind the content; gaps between the cards let pointers reach it. */}
+      <div className="gutter pointer-events-none relative z-10 grid gap-x-6 gap-y-10 lg:grid-cols-12 [&_.glass]:pointer-events-auto [&_.glass]:bg-ink/80">
         <div className="lg:col-span-5">
           <SectionReveal>
             <p className="label mb-3 text-ember">01 / About me</p>
@@ -37,14 +40,14 @@ export function AboutSection() {
           <div id="about-title">
             <TextReveal lines={["Intro"]} className="display type-section" />
           </div>
-          <ImageReveal dir="up" className="mt-8">
+          <ImageReveal dir="up" className="pointer-events-auto mt-[18rem] sm:mt-[24rem] lg:mt-8">
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-surface lg:aspect-square">
               <Frame image={about.portrait} sizes="(min-width: 1024px) 40vw, 100vw" />
             </div>
           </ImageReveal>
         </div>
 
-        <div className="lg:col-span-6 lg:col-start-7 lg:self-end">
+        <div className="lg:col-span-6 lg:col-start-7 lg:self-end lg:pt-[min(30rem,52vh)]">
           <SectionReveal className="glass p-6 sm:p-8">
             <ScrollWords text={site.statement.join(" ")} className="display text-[clamp(1.75rem,3.2vw,3.25rem)] leading-[1.05]" />
             <p className="mt-5 text-[clamp(1.0625rem,1.4vw,1.25rem)] leading-snug">{about.lead}</p>

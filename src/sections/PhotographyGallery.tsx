@@ -77,10 +77,10 @@ export function PhotographyGallery() {
       </p>
 
       <div className="relative">
-        <ul className="grid grid-cols-2 gap-x-3 gap-y-5 lg:grid-cols-3 lg:gap-x-4 lg:gap-y-8">
+        <ul className="columns-2 gap-3 lg:columns-3 lg:gap-4">
           {list.map((photo, i) => (
-            <li key={photo.id} className="gallery-item">
-              <button type="button" onClick={() => setOpen(i)} aria-label={`Open ${photo.title}, ${photo.category}`} className="zoom-host group relative block aspect-[4/5] w-full overflow-hidden bg-surface sm:aspect-[4/3]">
+            <li key={photo.id} className="gallery-item mb-5 break-inside-avoid lg:mb-8">
+              <button type="button" onClick={() => setOpen(i)} aria-label={`Open ${photo.title}, ${photo.category}`} style={{ aspectRatio: `${photo.width} / ${photo.height}` }} className="zoom-host group relative block w-full overflow-hidden bg-surface">
                 <div className="zoom-img absolute inset-0">
                   <Frame image={photo} sizes="(min-width: 1024px) 33vw, 50vw" />
                 </div>
