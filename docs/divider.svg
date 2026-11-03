@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 12" width="1280" height="12" aria-hidden="true">
+<defs><linearGradient id="g"><stop offset="0" stop-color="#ff6a3d" stop-opacity="0"/><stop offset=".5" stop-color="#ff8a5c"/><stop offset="1" stop-color="#ff6a3d" stop-opacity="0"/></linearGradient></defs>
+<style>.s{animation:sweep 5s cubic-bezier(.45,0,.55,1) infinite alternate}@keyframes sweep{from{transform:translateX(-360px)}to{transform:translateX(1280px)}}@media (prefers-reduced-motion:reduce){.s{animation:none;transform:translateX(460px)}}</style>
+<rect y="5.5" width="1280" height="1" fill="#8d93a0" fill-opacity=".28"/>
+<rect class="s" y="4.5" width="360" height="3" rx="1.5" fill="url(#g)"/>
+</svg>

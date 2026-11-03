@@ -1,124 +1,186 @@
 <div align="center">
 
-<img src="public/media/og.jpg" alt="Chinmoy Clickings" width="100%" />
+<a href="https://starlit-arithmetic-38f269.netlify.app">
+  <img src="docs/banner.svg" alt="CHINMOY CLICKINGS. Photographer and cinematographer in Guwahati, India." width="100%" />
+</a>
 
-# CHINMOY CLICKINGS
+<br /><br />
 
 *I capture moments that deserve to stay.*
 
-Photography · Cinematography · Visual Stories
 <br />
-Guwahati, India
 
-### [**View the live website →**](https://starlit-arithmetic-38f269.netlify.app)
+<a href="https://starlit-arithmetic-38f269.netlify.app"><img src="https://img.shields.io/badge/Open_the_live_site-ff6a3d?style=for-the-badge&logo=netlify&logoColor=white" alt="Open the live site" /></a>
+<a href="https://www.instagram.com/chinmoy_clickings/"><img src="https://img.shields.io/badge/@chinmoy__clickings-111114?style=for-the-badge&logo=instagram&logoColor=ff8a5c" alt="Instagram: @chinmoy_clickings" /></a>
+<a href="mailto:chinmoykashyapthakuria@gmail.com"><img src="https://img.shields.io/badge/Email_me-111114?style=for-the-badge&logo=gmail&logoColor=ff8a5c" alt="Email Chinmoy" /></a>
 
-[![Live site](https://img.shields.io/badge/live-starlit--arithmetic--38f269.netlify.app-e8262d?style=flat-square)](https://starlit-arithmetic-38f269.netlify.app)
-[![Instagram](https://img.shields.io/badge/instagram-@chinmoy__clickings-171717?style=flat-square&logo=instagram&logoColor=f2f0ea)](https://www.instagram.com/chinmoy_clickings/)
-![Next.js](https://img.shields.io/badge/Next.js-16-171717?style=flat-square&logo=nextdotjs)
-![TypeScript](https://img.shields.io/badge/TypeScript-171717?style=flat-square&logo=typescript)
-![Three.js](https://img.shields.io/badge/Three.js-171717?style=flat-square&logo=threedotjs)
+<br /><br />
+
+[**Story**](https://starlit-arithmetic-38f269.netlify.app/#story) &nbsp;·&nbsp;
+[**Work**](https://starlit-arithmetic-38f269.netlify.app/#work) &nbsp;·&nbsp;
+[**Photography**](https://starlit-arithmetic-38f269.netlify.app/#photo) &nbsp;·&nbsp;
+[**About**](https://starlit-arithmetic-38f269.netlify.app/#about) &nbsp;·&nbsp;
+[**Contact**](https://starlit-arithmetic-38f269.netlify.app/#contact)
 
 </div>
 
-> [!NOTE]
-> Apart from Chinmoy's portrait, the photographs, films and project text on the site are generated placeholders. Real work is on its way.
+<img src="docs/divider.svg" alt="" width="100%" />
 
----
+## It starts with one drop
 
-## The experience
+<div align="center">
+  <img src="docs/intro.gif" alt="The intro: a dot falls and bounces, rises into an exclamation mark, levers out the name CHINMOY, changes letter by letter into PORTFOLIO, then opens around a 3D avatar." width="100%" />
+  <br />
+  <sub>A dot, a bounce, an exclamation mark, a name. Tap or press any key to skip it.</sub>
+</div>
 
-A 3D, heavily animated portfolio in onyx, chrome and molten coral.
+## Then the page comes alive
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/hero.jpg" alt="The 3D avatar between the chrome words PORT and FOLIO under warm light rays" /></td>
-    <td width="50%"><img src="docs/work.jpg" alt="The services bento grid" /></td>
-  </tr>
-  <tr>
-    <td><img src="docs/film.jpg" alt="A chapter of the lens story, with the word Feel" /></td>
-    <td><img src="docs/archive.jpg" alt="From Raw. To Real. drag wipe" /></td>
+    <td width="72%" align="center"><img src="docs/tour.gif" alt="A scroll through the site: the 3D hero, the services bento, the lens story, the wallets and contact." width="100%" /><br /><sub><b>On a laptop</b></sub></td>
+    <td width="28%" align="center"><img src="docs/phone.gif" alt="The same journey recomposed for a phone." width="100%" /><br /><sub><b>On a phone</b></sub></td>
   </tr>
 </table>
 
+<div align="center">
+  <img src="docs/wallet.gif" alt="A digital wallet fanning out its cards, with one pulled free to open its project." width="78%" />
+  <br />
+  <sub>Selected work lives in a wallet. Fan the cards, then pull one out.</sub>
+</div>
+
+## Walk through it
+
+Every link jumps straight to that scene on the live site.
+
 | Scene | What happens |
 | --- | --- |
-| **Loader** | A dot bounces, rises into "!", levers out CHINMOY, then the name turns into PORTFOLIO letter by letter |
-| **Hero** | A 3D avatar under animated light rays that watches the cursor, blinks, spins on click and bursts apart on scroll |
-| **Navigation** | A dynamic island with a scroll progress ring, the current chapter and an avatar guide |
-| **Intro** | Chrome type, scroll-lit words, spotlight glass cards and a two-way craft marquee |
-| **What I Can Do** | A magic bento grid with tilt, stars and click ripples |
-| **The Story** | A scroll-driven lens story that ends in a choice and jumps to that part of the gallery |
-| **Selected Work** | Two digital wallets of projects and stills: fan the cards, then pull one out |
+| [**Hero**](https://starlit-arithmetic-38f269.netlify.app/) | A 3D avatar under animated light rays that watches the cursor, blinks, spins on click and bursts apart on scroll |
+| **Navigation** | A dynamic island with a scroll progress ring and the current chapter, plus an avatar guide who talks you through the page |
+| [**About**](https://starlit-arithmetic-38f269.netlify.app/#about) | Chrome type, scroll-lit words and a two-way craft marquee |
+| [**What I Can Do**](https://starlit-arithmetic-38f269.netlify.app/#services) | A bento grid with 3D tilt, drifting stars and click ripples |
+| [**The Story**](https://starlit-arithmetic-38f269.netlify.app/#story) | A lens opens as you scroll, then your choice jumps to that part of the gallery |
+| [**Selected Work**](https://starlit-arithmetic-38f269.netlify.app/#work) | Two digital wallets, one of projects and one of stills |
+| [**Recognition**](https://starlit-arithmetic-38f269.netlify.app/#recognition) | Laurels drawn in fine line art |
 | **3D Ring** | Stills on a scroll-driven cylinder; click any frame to open it |
-| **Photography** | A filterable gallery of 21 stills with a full lightbox |
-| **From Raw. To Real.** | A draggable, keyboard-operable before and after of a real portrait edit |
-| **The Journey** | A red timeline that fills as you scroll |
-| **One More Thing** | A playable pixel breakout of the name |
-| **Contact** | Interactive light tubes (click to change colours), copy-to-clipboard email and Instagram |
+| [**Photography**](https://starlit-arithmetic-38f269.netlify.app/#photo) | A filterable gallery of 21 stills with a full lightbox |
+| [**From Raw. To Real.**](https://starlit-arithmetic-38f269.netlify.app/#raw) | A draggable, keyboard-operable before and after of a portrait edit |
+| [**The Journey**](https://starlit-arithmetic-38f269.netlify.app/#process) | A coral timeline that fills as you scroll |
+| [**One More Thing**](https://starlit-arithmetic-38f269.netlify.app/#play) | A playable pixel breakout of the name |
+| [**Contact**](https://starlit-arithmetic-38f269.netlify.app/#contact) | Interactive light tubes (click to change their colours), copy-to-clipboard email and Instagram |
 
-## Built for everyone
+**Projects:**
+[The Moment](https://starlit-arithmetic-38f269.netlify.app/work/the-moment) ·
+[After Dark](https://starlit-arithmetic-38f269.netlify.app/work/after-dark) ·
+[Between Frames](https://starlit-arithmetic-38f269.netlify.app/work/between-frames) ·
+[The People](https://starlit-arithmetic-38f269.netlify.app/work/the-people) ·
+[The Journey](https://starlit-arithmetic-38f269.netlify.app/work/the-journey) ·
+[Unseen](https://starlit-arithmetic-38f269.netlify.app/work/unseen)
 
-- **Dedicated mobile layouts,** recomposed for tall screens rather than shrunk
-- **Power-aware effects:** light rays, the 3D hero and tubes scale down or switch off on slower devices
-- **Graceful fallbacks:** the hero shows the avatar image if WebGL is unavailable, and is never blank
-- **Reduced motion respected** throughout
-- **Full keyboard support,** visible focus, captions and alt text
-- **Responsive AVIF and WebP images,** lazy video and a dynamically loaded hero scene
-- **Offline shell** through a small service worker
+> [!NOTE]
+> Apart from Chinmoy's portrait and avatar, the photographs, films and project text are generated placeholders. Real work is on its way.
 
-## Stack
+<img src="docs/divider.svg" alt="" width="100%" />
 
-Next.js · React · TypeScript · Tailwind CSS · GSAP · Framer Motion · Three.js · custom WebGL shaders
+## Smooth on every screen
 
-> The intro plays on every visit to the home page. Tap or press any key to skip it.
+| | |
+| --- | --- |
+| **Quiet intro** | The 3D loads first, so the intro plays with nothing competing behind it |
+| **Power-aware effects** | Light rays, the 3D hero and the tubes scale down or switch off on slower devices |
+| **Split loading** | Sections below the fold load in small pieces, and photos decode off the main thread |
+| **Every size** | Layouts recomposed for phones, tablets, landscape phones and 4K rather than shrunk |
+| **Never blank** | The hero shows the avatar image if WebGL is unavailable |
+| **Accessible** | Reduced motion respected, full keyboard support, visible focus and alt text |
+| **Offline shell** | A small service worker keeps the basics available |
+
+## Built with
+
+<div align="center">
+
+![Next.js](https://img.shields.io/badge/Next.js_16-111114?style=flat-square&logo=nextdotjs&logoColor=ece9e2)
+![React](https://img.shields.io/badge/React_19-111114?style=flat-square&logo=react&logoColor=ff8a5c)
+![TypeScript](https://img.shields.io/badge/TypeScript-111114?style=flat-square&logo=typescript&logoColor=ff8a5c)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-111114?style=flat-square&logo=tailwindcss&logoColor=ff8a5c)
+![Three.js](https://img.shields.io/badge/Three.js-111114?style=flat-square&logo=threedotjs&logoColor=ece9e2)
+![GSAP](https://img.shields.io/badge/GSAP-111114?style=flat-square&logo=greensock&logoColor=ff8a5c)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-111114?style=flat-square&logo=framer&logoColor=ece9e2)
+![WebGL](https://img.shields.io/badge/WebGL_shaders-111114?style=flat-square&logo=webgl&logoColor=ff8a5c)
+![Netlify](https://img.shields.io/badge/Netlify-111114?style=flat-square&logo=netlify&logoColor=ff8a5c)
+
+</div>
 
 ## Run it locally
 
 ```bash
 npm install
+```
+
+```bash
 npm run dev
 ```
 
-## Project structure
+Then open [localhost:3000](http://localhost:3000).
 
-```text
-src/
-  app/          routes, metadata, sitemap and robots
-  sections/     one file per page section
-  components/   cursor, loader, transitions, viewer, player
-  animations/   shared easing and transition vocabulary
-  three/        the particle portrait and 3D photo ring
-  data/         all site content, ready for a CMS
-public/media/   images, films and textures
-```
+<details>
+<summary><b>Update the content</b></summary>
 
-## Updating the content
+<br />
 
 All content lives in `src/data`, so nothing needs changing inside the components.
 
 | Change | Edit |
 | --- | --- |
-| Projects | `src/data/projects.ts` and `public/media/projects/` |
-| Photographs | `src/data/photos.ts` and `public/media/photography/` |
-| Films | `src/data/videos.ts` and `public/media/videos/` |
-| Email and Instagram | `src/data/social.ts` |
-| Name, about text, web address | `src/data/site.ts` |
+| Projects | [`src/data/projects.ts`](src/data/projects.ts) and [`public/media/projects/`](public/media/projects) |
+| Photographs | [`src/data/photos.ts`](src/data/photos.ts) and [`public/media/photography/`](public/media/photography) |
+| Films | [`src/data/videos.ts`](src/data/videos.ts) and [`public/media/videos/`](public/media/videos) |
+| Email and Instagram | [`src/data/social.ts`](src/data/social.ts) |
+| Name, about text, web address | [`src/data/site.ts`](src/data/site.ts) |
 
 [`public/media/README.md`](public/media/README.md) lists every file and the recommended sizes.
 
+</details>
+
 <details>
-<summary>Building on a Windows PC with Application Control</summary>
+<summary><b>Project structure</b></summary>
+
+<br />
+
+```text
+src/
+  app/          routes, metadata, sitemap and robots
+  sections/     one file per page section
+  components/   cursor, loader, wallet, rays, transitions, viewer, player
+  animations/   shared easing and transition vocabulary
+  three/        the 3D avatar and photo ring
+  data/         all site content, ready for a CMS
+public/media/   images, films and textures
+docs/           the banner and recordings in this README
+```
+
+</details>
+
+<details>
+<summary><b>Building on a Windows PC with Application Control</b></summary>
+
+<br />
 
 The scripts use webpack with `@next/swc-wasm-nodejs`, because this project was developed on a machine that blocks Next's native compiler and `sharp`. When `sharp` can't load, `next.config.mjs` serves images unoptimized. Netlify optimizes them as normal.
 
 </details>
 
----
+<br />
 
 <div align="center">
 
-**[starlit-arithmetic-38f269.netlify.app](https://starlit-arithmetic-38f269.netlify.app)** · [@chinmoy_clickings](https://www.instagram.com/chinmoy_clickings/) · [chinmoykashyapthakuria@gmail.com](mailto:chinmoykashyapthakuria@gmail.com)
+<a href="https://starlit-arithmetic-38f269.netlify.app/#contact">
+  <img src="docs/cta.svg" alt="Let's work together. Open the live site." width="100%" />
+</a>
 
-© 2026 Chinmoy Clickings
+<br /><br />
+
+**[Live site](https://starlit-arithmetic-38f269.netlify.app)** &nbsp;·&nbsp; [Instagram](https://www.instagram.com/chinmoy_clickings/) &nbsp;·&nbsp; [chinmoykashyapthakuria@gmail.com](mailto:chinmoykashyapthakuria@gmail.com)
+
+<sub>© 2026 Chinmoy Clickings</sub>
 
 </div>
