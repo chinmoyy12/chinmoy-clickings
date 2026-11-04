@@ -49,6 +49,14 @@ export function StoryFrame() {
   return (
     <section ref={root} id="story" data-nav="solid" aria-label="The story of a frame" className="relative h-[520vh]">
       <div className="sticky top-0 h-svh overflow-hidden">
+        <div className="absolute inset-0" aria-hidden>
+          {chapters.map((chapter, i) => (
+            <div key={chapter.word} className="story-backdrop absolute inset-0 transition-opacity duration-1000 ease-cine" style={{ opacity: i === Math.min(index, last - 1) ? 1 : 0 }}>
+              <Frame image={chapter.backdrop} sizes="100vw" quality={70} decorative />
+            </div>
+          ))}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgb(8_8_10/0.78)_80%)]" />
+        </div>
         <div ref={lens} className="lens absolute inset-0">
           {chapters.map((chapter, i) => (
             <div key={chapter.word} aria-hidden={i !== index} className="absolute inset-0 transition-[opacity,transform] duration-700 ease-cine" style={{ opacity: i === Math.min(index, last - 1) ? 1 : 0, transform: i === index ? "scale(1)" : "scale(1.08)" }}>

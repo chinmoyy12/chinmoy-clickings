@@ -12,7 +12,7 @@ import { social } from "@/data/social";
 const EASE = [0.16, 1, 0.3, 1] as const;
 const SPRING = { type: "spring", stiffness: 340, damping: 32, mass: 0.7 } as const;
 const RING = 2 * Math.PI * 17;
-const CHAPTERS: Record<string, string> = { about: "About", services: "Services", story: "The story", work: "Work", films: "Films", photo: "Photography", play: "Play", contact: "Contact" };
+const CHAPTERS: Record<string, string> = { about: "About", services: "Services", story: "The story", work: "Work", films: "Films", photo: "Photography", play: "Play", hire: "Hire me", contact: "Contact" };
 
 /** A floating island: full bar at rest, a compact pill with live section and progress while scrolling. */
 export function Navigation() {
@@ -40,7 +40,7 @@ export function Navigation() {
         const box = section.getBoundingClientRect();
         return box.top <= mid && box.bottom > mid;
       });
-      setChapter(current ? (CHAPTERS[current.id] ?? "Home") : pathname === "/" ? "Home" : "Project");
+      setChapter(current ? (CHAPTERS[current.id] ?? "Home") : pathname === "/" ? "Home" : pathname.startsWith("/watch/") ? "Films" : "Stills");
       setActive(navigation.find((item) => item.id === current?.id)?.id ?? "");
     };
     const onScroll = () => {

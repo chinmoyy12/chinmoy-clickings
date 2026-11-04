@@ -69,5 +69,15 @@ export function TubesBackdrop() {
   }, [tubes]);
 
   if (!tubes) return <FlowBackground />;
-  return <canvas ref={canvas} aria-hidden className="absolute inset-0 block h-full w-full" />;
+  return (
+    <>
+      <canvas ref={canvas} aria-hidden className="absolute inset-0 block h-full w-full" />
+      <p className="label pointer-events-none absolute bottom-4 right-[var(--gutter)] flex animate-pulse items-center gap-2 text-paper/50" aria-hidden>
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6">
+          <path d="M5 3l14 7-6 2-2 6z" strokeLinejoin="round" />
+        </svg>
+        Click to change the light
+      </p>
+    </>
+  );
 }

@@ -62,9 +62,9 @@ const grain = () => {
  * It drifts, leans toward the pointer, turns when dragged, zooms and flips its screen
  * as the section scrolls, and fires its shutter on click. Returns a teardown.
  */
-export async function createCameraScene(canvas: HTMLCanvasElement, input: CameraInput, photos: string[], options: { animate: boolean; font: string }) {
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.5 : 1.75));
+export async function createCameraScene(canvas: HTMLCanvasElement, input: CameraInput, photos: string[], options: { animate: boolean; font: string; high: boolean }) {
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: options.high, powerPreference: "high-performance" });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, options.high ? 1.5 : 1.25));
   renderer.setClearColor(0x000000, 0);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
@@ -333,11 +333,31 @@ export async function createCameraScene(canvas: HTMLCanvasElement, input: Camera
   let lastScroll = -1;
   let lastX = 0;
   let lastY = 0;
+  let frames = 0;
+  let slowFrames = 0;
   const tick = (now: number) => {
     frame = requestAnimationFrame(tick);
-    const dt = Math.min(0.05, (now - last) / 1000);
+    if (!visible || document.hidden || document.documentElement.dataset.intro !== "done") {
+      last = now;
+      return;
+    }
+    // The idle drift is slow, so below the top tier it draws at about 30 frames a second.
+    const handling = drag.active || kick > 0.001;
+    if (!options.high && !handling && now - last < 30) return;
+    const raw = now - last;
+    const dt = Math.min(0.05, raw / 1000);
     last = now;
-    if (!visible || document.hidden || document.documentElement.dataset.intro !== "done") return;
+    // A device that keeps falling behind gets fewer pixels, in steps, rather than a stutter.
+    frames += 1;
+    if (raw > 45) slowFrames += 1;
+    if (frames === 60) {
+      const ratio = renderer.getPixelRatio();
+      if (slowFrames > 30 && ratio > 0.75) {
+        renderer.setPixelRatio(Math.max(0.75, ratio - 0.25));
+        size();
+      }
+      frames = slowFrames = 0;
+    }
 
     const moving = options.animate || drag.active || Math.abs(drag.velocity) > 0.0005 || kick > 0.001 || input.scroll !== lastScroll || input.x !== lastX || input.y !== lastY;
     if (!moving && !dirty) return;

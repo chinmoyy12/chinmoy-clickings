@@ -15,6 +15,7 @@ const FilmsSection = dynamic(() => import("@/sections/FilmsSection").then((m) =>
 const PhotoRing = dynamic(() => import("@/sections/PhotoRing").then((m) => m.PhotoRing));
 const PhotographyGallery = dynamic(() => import("@/sections/PhotographyGallery").then((m) => m.PhotographyGallery));
 const PixelGame = dynamic(() => import("@/sections/PixelGame").then((m) => m.PixelGame));
+const HireSection = dynamic(() => import("@/sections/HireSection").then((m) => m.HireSection));
 const ContactSection = dynamic(() => import("@/sections/ContactSection").then((m) => m.ContactSection));
 
 const schema = {
@@ -43,6 +44,7 @@ export default function HomePage() {
         <PhotoRing />
         <PhotographyGallery />
         <PixelGame />
+        <HireSection />
         <ContactSection />
       </main>
       <Footer />

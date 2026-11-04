@@ -11,6 +11,8 @@ import { prefersReducedMotion } from "@/utils/device";
  * around the dot sweeping the name out and becoming its letter I, then the name
  * changes letter by letter into the hero word and slides down into place.
  */
+let introSeen = false;
+
 export function PageLoader() {
   const root = useRef<HTMLDivElement>(null);
   const glow = useRef<HTMLDivElement>(null);
@@ -26,8 +28,10 @@ export function PageLoader() {
     const land = () => {
       html.dataset.landed = "true";
     };
-    // The intro lands on the home hero, so other pages open straight away.
-    if (pathname !== "/" || prefersReducedMotion()) {
+    // The intro lands on the home hero and plays once per visit, so other pages,
+    // and coming back home from a film or a set of stills, open straight away.
+    if (pathname !== "/" || introSeen || prefersReducedMotion()) {
+      introSeen = true;
       land();
       gsap.to(root.current, { autoAlpha: 0, duration: 0.25, ease: "none", onStart: finish });
       return;
@@ -51,6 +55,7 @@ export function PageLoader() {
     window.addEventListener("pointerdown", skip, { once: true });
 
     const start = () => {
+      introSeen = true;
       const element = word.current!;
       const letters = [...element.children] as HTMLElement[];
       const pivotIndex = letters.findIndex((letter) => letter.textContent === "I");

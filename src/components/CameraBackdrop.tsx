@@ -47,7 +47,7 @@ export function CameraBackdrop({ className = "" }: { className?: string }) {
         .then(async ({ createCameraScene }) => {
           if (cancelled || !canvas.current) return;
           const font = getComputedStyle(document.body).fontFamily;
-          const stop = await createCameraScene(canvas.current, input, SCREEN, { animate: !prefersReducedMotion() && devicePower() !== "low", font });
+          const stop = await createCameraScene(canvas.current, input, SCREEN, { animate: !prefersReducedMotion() && devicePower() !== "low", font, high: devicePower() === "high" });
           if (cancelled) return stop();
           teardown = stop;
           setLive(true);

@@ -1,16 +1,16 @@
 "use client";
 
-import { AnimatePresence } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "@/animations/gsap";
 import { Frame } from "@/components/Frame";
+import { ParallaxStars } from "@/components/ParallaxStars";
 import { SectionReveal, TextReveal } from "@/components/Reveal";
-import { VideoPlayer } from "@/components/VideoPlayer";
+import { useTransitionRouter } from "@/components/PageTransition";
 import { photos } from "@/data/photos";
 import type { Film } from "@/data/types";
 import { duration, films } from "@/data/videos";
 import { prefersReducedMotion } from "@/utils/device";
-import { pad } from "@/utils/media";
+import { optimizedUrl, pad } from "@/utils/media";
 
 const COUNT = films.length;
 const IDLE_MS = 9000;
@@ -29,7 +29,6 @@ export function FilmsSection() {
   const previews = useRef<(HTMLVideoElement | null)[]>([]);
   const reel = useRef({ position: 0 });
   const [active, setActive] = useState(0);
-  const [playing, setPlaying] = useState<Film | null>(null);
   const visible = useRef(false);
   const touched = useRef(0);
   const still = useRef(false);
@@ -134,12 +133,12 @@ export function FilmsSection() {
     const video = previews.current[active];
     if (!video || still.current) return;
     const onEnded = () => {
-      if (visible.current && !playing && performance.now() - touched.current > IDLE_MS) goTo(Math.round(reel.current.position) + 1);
+      if (visible.current && performance.now() - touched.current > IDLE_MS) goTo(Math.round(reel.current.position) + 1);
       else void video.play().catch(() => undefined);
     };
     video.addEventListener("ended", onEnded);
     return () => video.removeEventListener("ended", onEnded);
-  }, [active, goTo, playing]);
+  }, [active, goTo]);
 
   // Pause everything off screen.
   useEffect(() => {
@@ -155,8 +154,11 @@ export function FilmsSection() {
     return () => io.disconnect();
   }, [active]);
 
+  const router = useTransitionRouter();
+  const watch = (film: Film) => router.go(`/watch/${film.id}`, cards.current[films.indexOf(film)] ? { source: cards.current[films.indexOf(film)]!, src: optimizedUrl(film.poster.src, 1600) } : undefined);
+
   const open = (index: number) => {
-    if (index === active) setPlaying(films[index]);
+    if (index === active) watch(films[index]);
     else {
       touched.current = performance.now();
       goTo(Math.round(reel.current.position) + offsetOf(index, reel.current.position));
@@ -166,7 +168,8 @@ export function FilmsSection() {
   const current = films[active];
 
   return (
-    <section id="films" data-nav="solid" aria-labelledby="films-title" className="relative overflow-hidden pt-24 sm:pt-40">
+    <section id="films" data-nav="solid" aria-labelledby="films-title" className="relative isolate overflow-hidden pb-6 pt-24 sm:pt-40">
+      <ParallaxStars className="-z-10" speed={1.2} />
       <header className="gutter grid gap-6 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-7">
           <SectionReveal>
@@ -193,7 +196,7 @@ export function FilmsSection() {
         onKeyDown={(event) => {
           if (event.key === "ArrowRight") step(1);
           if (event.key === "ArrowLeft") step(-1);
-          if (event.key === "Enter" && event.target === event.currentTarget) setPlaying(films[active]);
+          if (event.key === "Enter" && event.target === event.currentTarget) watch(films[active]);
         }}
         className="film-stage relative mt-6 h-[clamp(26rem,62vh,38rem)] touch-pan-y select-none [perspective:1400px] focus-visible:outline-none"
       >
@@ -249,7 +252,7 @@ export function FilmsSection() {
       <ol className="gutter mt-12 lg:ml-[calc(100%*7/12)]">
         {films.map((film, i) => (
           <li key={film.id} className="border-t border-line last:border-b">
-            <button type="button" onClick={() => setPlaying(film)} onPointerEnter={() => i !== active && open(i)} className="row group grid w-full grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-4 text-left">
+            <button type="button" onClick={() => watch(film)} onPointerEnter={() => i !== active && open(i)} className="row group grid w-full grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-4 text-left">
               <span className={`label ${i === active ? "text-ember" : ""}`}>{pad(i + 1)}</span>
               <span className="min-w-0">
                 <span className="display block text-[clamp(1.375rem,2.2vw,2rem)] leading-none transition-[color,transform] duration-500 ease-cine group-hover:translate-x-2 group-hover:text-ember">{film.title}</span>
@@ -261,7 +264,6 @@ export function FilmsSection() {
         ))}
       </ol>
 
-      <AnimatePresence>{playing && <VideoPlayer film={playing} onClose={() => setPlaying(null)} />}</AnimatePresence>
     </section>
   );
 }

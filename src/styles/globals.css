@@ -145,6 +145,39 @@ html.js [data-reveal="image"] .reveal-scale {
 html.js [data-reveal="image"][data-in] .reveal-clip { clip-path: inset(0 0 0 0); }
 html.js [data-reveal="image"][data-in] .reveal-scale { transform: none; }
 
+/* Letters fade in, rise and sharpen in turn. */
+.blur-heading { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.035em; line-height: 0.95; transition: color 0.4s var(--ease-cine); }
+.blur-heading .bl { display: inline-block; }
+html.js [data-reveal="blur"] .bl {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(0.55em) scale(0.96);
+  transition: opacity 0.6s linear, filter 0.8s var(--ease-cine), transform 0.9s var(--ease-cine);
+  transition-delay: calc(var(--delay, 0ms) + var(--i) * 32ms);
+}
+html.js [data-reveal="blur"][data-in] .bl { opacity: 1; filter: blur(0); transform: none; }
+
+/* A hand-drawn underline, drawn once on arrival. */
+.scribble path { fill: none; stroke: var(--color-ember); stroke-width: 2.6; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.scribble path + path { stroke-width: 1.6; opacity: 0.7; }
+html.js [data-reveal="scribble"][data-in] .scribble path { stroke-dashoffset: 0; transition: stroke-dashoffset 0.9s cubic-bezier(0.65, 0, 0.35, 1) 0.35s; }
+html.js [data-reveal="scribble"][data-in] .scribble path + path { transition-delay: 0.95s; }
+html:not(.js) .scribble path { stroke-dashoffset: 0; }
+
+/* Parallax star field: three layers of box-shadow stars drifting at different speeds. */
+.stars { background: radial-gradient(ellipse at bottom, #1d1512 0%, #0b0a0c 55%, #08080b 100%); }
+.stars-layer { position: absolute; left: 0; top: 0; background: transparent; animation: star-drift linear infinite; will-change: transform; }
+.stars-layer::after { content: ""; position: absolute; top: 2000px; left: 0; width: inherit; height: inherit; box-shadow: inherit; }
+.stars[data-paused] .stars-layer { animation-play-state: paused; }
+@keyframes star-drift { to { transform: translateY(-2000px); } }
+
+/* Shown only when no WebGL context can be created. */
+.halftone-fallback {
+  background-image: radial-gradient(circle, rgb(219 224 235 / 0.22) 0.12vw, transparent 0.16vw);
+  background-size: calc(100vw / 34) calc(100vw / 34);
+  mask-image: radial-gradient(ellipse at 70% 40%, #000 20%, transparent 75%);
+}
+
 @layer components {
 /* ---------- Links and small controls ---------- */
 
@@ -187,6 +220,62 @@ html.js [data-reveal="image"][data-in] .reveal-scale { transform: none; }
 .pill:active { scale: 0.97; }
 .pill-ghost::before { animation-play-state: paused; opacity: 0.55; }
 .pill-ghost:hover::before { animation-play-state: running; opacity: 1; }
+/* The one primary action in a group: solid coral inside the same moving beam. */
+.pill-solid { color: var(--color-ink); font-weight: 600; }
+.pill-solid::after { background: linear-gradient(180deg, #ff8a5c, var(--color-ember)); }
+
+/* ---------- Hire ---------- */
+
+.rate-card {
+  position: relative;
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  background: rgb(10 10 13 / 0.82);
+  border: 1px solid rgb(255 255 255 / 0.08);
+  transition: transform 0.6s var(--ease-cine), border-color 0.4s linear;
+}
+.rate-card:hover { transform: translateY(-6px); border-color: rgb(255 106 61 / 0.45); }
+.booking { position: relative; border-radius: 1.1rem; border: 1px solid rgb(255 255 255 / 0.09); background: rgb(10 10 13 / 0.92); }
+.field { display: flex; flex-direction: column; gap: 0.5rem; }
+.field-input {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-line);
+  background: rgb(255 255 255 / 0.03);
+  padding: 0.8rem 0.95rem;
+  color: var(--color-paper);
+  font-size: 1rem;
+  color-scheme: dark;
+  transition: border-color 0.3s linear, background-color 0.3s linear;
+}
+.field-input::placeholder { color: rgb(236 233 226 / 0.38); }
+.field-input:hover { border-color: rgb(236 233 226 / 0.28); }
+.field-input:focus { outline: none; border-color: var(--color-ember); background: rgb(255 106 61 / 0.05); }
+.field-input:user-invalid { border-color: #ff4d6d; }
+/* Service choices: whole cards to tap, with the rate on each. */
+.choice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  border-radius: 0.9rem;
+  border: 1px solid var(--color-line);
+  background: rgb(255 255 255 / 0.03);
+  padding: 0.85rem 0.95rem;
+  transition: border-color 0.3s linear, background-color 0.3s linear, transform 0.4s var(--ease-cine);
+}
+.choice:hover { border-color: rgb(236 233 226 / 0.3); transform: translateY(-2px); }
+.choice:has(:checked) { border-color: var(--color-ember); background: rgb(255 106 61 / 0.1); }
+.choice:has(:focus-visible) { outline: 2px solid var(--color-ember); outline-offset: 2px; }
+.choice-dot { position: absolute; right: 0.8rem; top: 0.95rem; width: 0.7rem; height: 0.7rem; border-radius: 999px; border: 1px solid rgb(236 233 226 / 0.4); transition: background-color 0.3s linear, border-color 0.3s linear, box-shadow 0.3s linear; }
+.choice:has(:checked) .choice-dot { background: var(--color-ember); border-color: var(--color-ember); box-shadow: 0 0 0 3px rgb(255 106 61 / 0.25); }
+
+/* ---------- Viewing rooms ---------- */
+
+.ambient-canvas { filter: blur(48px) saturate(1.5); }
+@media (max-width: 47.99rem) { .ambient-canvas { filter: blur(28px) saturate(1.4); } }
+.screen { box-shadow: 0 60px 140px -40px rgb(0 0 0 / 0.95), 0 0 0 1px rgb(255 255 255 / 0.06); }
+.screen-seek { appearance: none; background: transparent; opacity: 0; }
 
 .sweep {
   position: relative;
@@ -439,6 +528,8 @@ html.js:not([data-landed]) .hero-word { visibility: hidden; }
   transition: clip-path 0.25s linear;
 }
 .story-chapter { animation: story-in 0.7s var(--ease-cine) both; }
+/* The world outside the lens: present but out of focus and in shadow. */
+.story-backdrop { filter: blur(5px) brightness(0.42) saturate(0.85); transform: scale(1.06); }
 @keyframes story-in {
   from { opacity: 0; transform: translateY(26px) scale(0.97); }
   to { opacity: 1; transform: none; }
@@ -510,6 +601,9 @@ section[id] { scroll-margin-top: 4.5rem; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  html.js [data-reveal="blur"] .bl { filter: none; transform: none; transition: opacity 0.5s linear; transition-delay: 0ms; }
+  html.js [data-reveal="scribble"] .scribble path { stroke-dashoffset: 0; transition: none; }
+  .stars-layer { animation: none; }
   .grain { animation: none; }
   .scroll-tick { animation: none; transform: scaleY(1); }
   .intro-nav, .intro-late { transition: opacity 0.4s linear; transition-delay: 0ms; }

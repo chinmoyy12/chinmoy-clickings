@@ -1,31 +1,20 @@
 "use client";
 
-import { AnimatePresence } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { LightRays } from "@/components/LightRays";
 import { PhotoWallet, type WalletItem } from "@/components/PhotoWallet";
 import { SectionReveal, TextReveal } from "@/components/Reveal";
-import { VideoPlayer } from "@/components/VideoPlayer";
 import { photoCategories, photos } from "@/data/photos";
-import type { Film } from "@/data/types";
 import { duration, films } from "@/data/videos";
 import { pad } from "@/utils/media";
-import { scrollToTarget } from "@/utils/scroll";
-
-const openCategory = (category: string) => {
-  window.dispatchEvent(new CustomEvent("cc:filter", { detail: category }));
-  // Scroll once the gallery has re-measured, or the refresh cancels the journey.
-  window.setTimeout(() => scrollToTarget("#photo"), 800);
-};
 
 export function WalletShowcase() {
-  const [playing, setPlaying] = useState<Film | null>(null);
-  const reels = useMemo<WalletItem[]>(() => films.map((film) => ({ id: film.id, title: film.title, meta: duration(film.seconds), image: film.poster, onOpen: () => setPlaying(film), action: "Play film" })), []);
+  const reels = useMemo<WalletItem[]>(() => films.map((film) => ({ id: film.id, title: film.title, meta: duration(film.seconds), image: film.poster, href: `/watch/${film.id}`, action: "Play film" })), []);
   const stills = useMemo<WalletItem[]>(
     () =>
       photoCategories.map((category) => {
         const set = photos.filter((photo) => photo.category === category);
-        return { id: category, title: category, meta: `${set.length} stills`, image: set[0], onOpen: () => openCategory(category), action: "See them" };
+        return { id: category, title: category, meta: `${set.length} stills`, image: set[0], href: `/stills/${category.toLowerCase()}`, action: "View stills" };
       }),
     [],
   );
@@ -48,7 +37,6 @@ export function WalletShowcase() {
         <PhotoWallet label="Films" total={`${pad(films.length)} films`} items={reels} />
         <PhotoWallet label="Photography" total={`${pad(photos.length)} stills`} items={stills} />
       </div>
-      <AnimatePresence>{playing && <VideoPlayer film={playing} onClose={() => setPlaying(null)} />}</AnimatePresence>
     </section>
   );
 }

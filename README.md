@@ -48,9 +48,17 @@
 </table>
 
 <div align="center">
-  <img src="docs/wallet.gif" alt="A digital wallet fanning out its cards, with one pulled free to open its project." width="78%" />
+  <img src="docs/wallet.gif" alt="A digital wallet fanning out its film cards, with one pulled free to play it." width="78%" />
   <br />
   <sub>Selected work lives in a wallet. Fan the cards, then pull one out.</sub>
+</div>
+
+<br />
+
+<div align="center">
+  <img src="docs/rooms.gif" alt="The Mumbai film playing in its own page, the room glowing in the colours of each scene, then the concert stills in their viewing page." width="100%" />
+  <br />
+  <sub>Every film and every set of stills opens in its own room, lit by the work on screen.</sub>
 </div>
 
 ## Walk through it
@@ -61,15 +69,31 @@ Every link jumps straight to that scene on the live site.
 | --- | --- |
 | [**Hero**](https://starlit-arithmetic-38f269.netlify.app/) | A 3D avatar under animated light rays that watches the cursor, blinks, spins on click and bursts apart on scroll |
 | **Navigation** | A dynamic island with a scroll progress ring and the current chapter, plus an avatar guide who talks you through the page |
-| [**Intro**](https://starlit-arithmetic-38f269.netlify.app/#about) | A 3D model of Chinmoy's Sony α6400 and 18–135mm lens behind the intro: drag to turn it, click to fire the shutter, and scroll to zoom the lens and flip the screen |
-| [**What I Can Do**](https://starlit-arithmetic-38f269.netlify.app/#services) | A bento grid with 3D tilt, drifting stars and click ripples |
-| [**The Story**](https://starlit-arithmetic-38f269.netlify.app/#story) | A lens opens as you scroll, then your choice jumps to that part of the gallery |
-| [**Selected Work**](https://starlit-arithmetic-38f269.netlify.app/#work) | Two digital wallets, one of films and one of stills: pull a film card to play it |
-| [**Films**](https://starlit-arithmetic-38f269.netlify.app/#films) | A 3D reel of seven films: drag it, the front one plays, and each opens full screen at its original quality |
+| [**Intro**](https://starlit-arithmetic-38f269.netlify.app/#about) | A 3D model of Chinmoy's Sony α6400 and 18–135mm lens behind the intro (drag it, click to fire the shutter, scroll to zoom and flip the screen), a hand-drawn underline and counters: 10+ client works, 10+ Fiverr works, 20+ freelance clients |
+| [**What I Can Do**](https://starlit-arithmetic-38f269.netlify.app/#services) | A bento grid with 3D tilt, drifting stars, click ripples and headings whose letters rise out of a blur |
+| [**The Story**](https://starlit-arithmetic-38f269.netlify.app/#story) | A lens opens as you scroll over a second, out-of-focus photo, then your choice jumps to that part of the gallery |
+| [**Selected Work**](https://starlit-arithmetic-38f269.netlify.app/#work) | Two digital wallets, one of films and one of stills: pull a card and it carries you to its own page |
+| [**Films**](https://starlit-arithmetic-38f269.netlify.app/#films) | A 3D reel of seven films over a drifting parallax star field: drag it and the front one plays |
 | **3D Ring** | Stills on a scroll-driven cylinder; click any frame to open it |
-| [**Photography**](https://starlit-arithmetic-38f269.netlify.app/#photo) | A masonry gallery of 22 stills in their real shapes, in five categories, opening as the original files |
+| [**Photography**](https://starlit-arithmetic-38f269.netlify.app/#photo) | A GSAP masonry of 22 stills in their real shapes: they rise out of a blur, and glide into place when you filter |
+| [**Hire me**](https://starlit-arithmetic-38f269.netlify.app/#hire) | Rates over an interactive halftone shader, Instagram and email buttons, and a booking form that sends straight to Chinmoy's inbox |
 | [**One More Thing**](https://starlit-arithmetic-38f269.netlify.app/#play) | A playable pixel breakout of the name |
 | [**Contact**](https://starlit-arithmetic-38f269.netlify.app/#contact) | Interactive light tubes (click to change their colours), copy-to-clipboard email and Instagram |
+
+### Rooms for the work
+
+Every film and every set of stills has its own page, lit by the work itself: the room glows in the colours of the frame on screen, breathes with the film's sound and shifts in depth with the pointer.
+
+| Page | |
+| --- | --- |
+| [**/watch/mumbai**](https://starlit-arithmetic-38f269.netlify.app/watch/mumbai) | A screening room: original file, custom controls, keyboard shortcuts, full screen and the next film |
+| [**/stills/concerts**](https://starlit-arithmetic-38f269.netlify.app/stills/concerts) | A viewing room: each photo as the original, swipe or arrow through it, a thumbnail rail and every category |
+
+| Rates | |
+| --- | --- |
+| Reels | ₹1,000 per reel, on average |
+| Photoshoots | ₹1,500–6,000, depending on your requirements |
+| Videos | ₹2,000–7,000, depending on the video's requirements |
 
 **Films:** Mumbai · Sunburn Campus 2026 · Consensio · Prayer Flags · Campus Days · College ke Campus · From Above
 

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "@/animations/gsap";
 import { SectionReveal, TextReveal } from "@/components/Reveal";
+import { BlurHeading } from "@/components/Type";
 import { photos } from "@/data/photos";
 import { films } from "@/data/videos";
 import { services } from "@/data/services";
@@ -73,7 +74,7 @@ function BentoCard({ className, children }: { className: string; children: React
   }, []);
 
   return (
-    <div ref={card} className={`bento-card ${className}`}>
+    <div ref={card} className={`bento-card group ${className}`}>
       {children}
     </div>
   );
@@ -85,7 +86,7 @@ function Service({ index, className }: { index: number; className: string }) {
     <BentoCard className={className}>
       <p className="label text-ember">{pad(index + 1)} / Service</p>
       <div className="relative mt-auto">
-        <h3 className="display text-[clamp(1.75rem,3vw,2.75rem)] leading-none">{group.title}</h3>
+        <BlurHeading text={group.title} className="text-[clamp(1.75rem,3vw,2.75rem)] group-hover:text-ember" />
         <ul className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[0.875rem] text-ash">
           {group.items.map((item) => (
             <li key={item}>{item}</li>

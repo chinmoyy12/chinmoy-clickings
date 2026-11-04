@@ -1,4 +1,6 @@
 import { CameraBackdrop } from "@/components/CameraBackdrop";
+import { CountUp } from "@/components/CountUp";
+import { Scribble } from "@/components/Type";
 import { Frame } from "@/components/Frame";
 import { ImageReveal, SectionReveal, TextReveal } from "@/components/Reveal";
 import { ScrollWords } from "@/components/ScrollWords";
@@ -50,7 +52,9 @@ export function AboutSection() {
         <div className="lg:col-span-6 lg:col-start-7 lg:self-end lg:pt-[min(30rem,52vh)]">
           <SectionReveal className="glass p-6 sm:p-8">
             <ScrollWords text={site.statement.join(" ")} className="display text-[clamp(1.75rem,3.2vw,3.25rem)] leading-[1.05]" />
-            <p className="mt-5 text-[clamp(1.0625rem,1.4vw,1.25rem)] leading-snug">{about.lead}</p>
+            <p className="mt-5 text-[clamp(1.0625rem,1.4vw,1.25rem)] leading-snug">
+              I photograph and film the <Scribble>moments</Scribble> that are easy to overlook.
+            </p>
             <p className="mt-3 text-ash">{about.details.join(" ")}</p>
             <p className="mt-3 text-ash">{about.close}</p>
             <p className="mt-3 text-ash">{about.practice}</p>
@@ -61,6 +65,16 @@ export function AboutSection() {
                 </li>
               ))}
             </ul>
+            <dl className="mt-6 grid grid-cols-3 gap-3 border-t border-line pt-5">
+              {about.stats.map((stat) => (
+                <div key={stat.label} className="flex flex-col-reverse gap-1">
+                  <dt className="label leading-snug">{stat.label}</dt>
+                  <dd className="display text-[clamp(2rem,3.6vw,3.25rem)] leading-none text-ember">
+                    <CountUp value={stat.value} suffix={stat.suffix} />
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </SectionReveal>
           <SectionReveal delay={100} className="glass mt-3 p-6">
             <blockquote className="quote text-[clamp(1.375rem,2.2vw,2rem)] leading-[1.15]">{site.philosophyLine}</blockquote>

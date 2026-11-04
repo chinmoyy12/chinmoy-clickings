@@ -93,7 +93,10 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       if (busy.current) return;
       busy.current = true;
       const [path, hash = ""] = href.split("#");
-      if (pathname === "/") sessionStorage.removeItem(HOME_SCROLL);
+      if (pathname === "/") {
+        if (/^\/(watch|stills)\//.test(path)) sessionStorage.setItem(HOME_SCROLL, String(window.scrollY));
+        else sessionStorage.removeItem(HOME_SCROLL);
+      }
       pending.current = { kind: morph ? "morph" : "wipe", hash: hash ? `#${hash}` : "" };
       const reduced = prefersReducedMotion();
 
