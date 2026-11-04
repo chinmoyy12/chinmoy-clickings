@@ -53,12 +53,25 @@ export function HireSection() {
     setStatus("sending");
     const timeout = new AbortController();
     const timer = window.setTimeout(() => timeout.abort(), 12000);
+    const fields = Object.fromEntries(FIELDS.map((key) => [key, String(data.get(key) ?? "").trim()]));
     try {
-      const body = new URLSearchParams();
-      body.set("form-name", "booking");
-      for (const [key, value] of data) body.set(key, String(value));
-      const response = await fetch("/__forms.html", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString(), signal: timeout.signal });
-      if (!response.ok) throw new Error(String(response.status));
+      // Two routes at once: Netlify keeps a copy in the dashboard, FormSubmit emails Chinmoy's inbox.
+      const body = new URLSearchParams({ "form-name": "booking", ...fields });
+      const [stored, emailed] = await Promise.allSettled([
+        fetch("/__forms.html", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString(), signal: timeout.signal }).then((response) => {
+          if (!response.ok) throw new Error(String(response.status));
+        }),
+        fetch(`https://formsubmit.co/ajax/${social.email}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ ...fields, _subject: `New booking request: ${fields.service} from ${fields.name}`, _template: "table", _captcha: "false" }),
+          signal: timeout.signal,
+        }).then(async (response) => {
+          const result = (await response.json().catch(() => ({}))) as { success?: string | boolean };
+          if (!response.ok || String(result.success) !== "true") throw new Error("not delivered");
+        }),
+      ]);
+      if (stored.status === "rejected" && emailed.status === "rejected") throw new Error("not sent");
       setStatus("sent");
       element.reset();
     } catch {
@@ -137,6 +150,7 @@ export function HireSection() {
             <p id="booking-note" className="mt-2 text-ash">
               Tell me about the shoot. Your request comes straight to my inbox and I&apos;ll reply by email.
             </p>
+            <p className="label mt-2 normal-case tracking-normal text-ash/70">Sent through Netlify and FormSubmit, and used only to reply to you.</p>
           </div>
           <Field label="Your name" name="name" required autoComplete="name" />
           <Field label="Email" name="email" type="email" required autoComplete="email" />
