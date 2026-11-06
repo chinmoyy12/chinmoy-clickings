@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/animations/gsap";
 import { LightRays } from "@/components/LightRays";
+import { SwarmCursor } from "@/components/SwarmCursor";
 import { Magnetic } from "@/components/MagneticButton";
 import { TransitionLink } from "@/components/TransitionLink";
 import { photos } from "@/data/photos";
@@ -106,6 +107,7 @@ export function CinematicHero() {
         <Image src="/media/hero/avatar.webp" alt={site.heroAlt} fill priority fetchPriority="high" sizes="(max-width: 768px) 90vw, 60vw" quality={85} className={`object-contain object-top transition-opacity duration-500 ${live ? "opacity-0" : "opacity-100"}`} />
       </div>
       <canvas ref={canvas} aria-hidden className="absolute inset-0 h-full w-full" />
+      <SwarmCursor count={700} />
 
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black to-transparent" />
 

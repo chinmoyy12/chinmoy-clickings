@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/animations/gsap";
 import { Frame } from "@/components/Frame";
+import { SwarmCursor, type Ring } from "@/components/SwarmCursor";
 import { chapters, storyChoices } from "@/data/story";
 import { prefersReducedMotion } from "@/utils/device";
 import { pad } from "@/utils/media";
@@ -44,6 +45,16 @@ export function StoryFrame() {
     window.setTimeout(() => scrollToTarget("#photo"), 800);
   };
 
+  // The lens edge, in the same box the swarm draws in; once the lens has opened fully there is no edge to frame.
+  const lensRing = useCallback((): Ring | null => {
+    const element = lens.current;
+    if (!element) return null;
+    const iris = parseFloat(element.style.getPropertyValue("--iris")) || 18;
+    if (iris >= 95) return null;
+    const { width, height } = element.getBoundingClientRect();
+    return { x: width / 2, y: height / 2, r: (iris / 100) * Math.hypot(width, height) / Math.SQRT2 + 10 };
+  }, []);
+
   const shown = chapters[Math.min(index, last - 1)];
 
   return (
@@ -65,6 +76,7 @@ export function StoryFrame() {
           ))}
           <div className="absolute inset-0 bg-black/30" />
         </div>
+        <SwarmCursor ring={lensRing} pulse={index + 1} count={1000} />
         <div ref={flash} aria-hidden className="pointer-events-none absolute inset-0 bg-white opacity-0" />
 
         <div className="gutter relative flex h-full flex-col justify-between pb-8 pt-24">

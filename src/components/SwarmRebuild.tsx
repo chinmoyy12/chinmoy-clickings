@@ -94,6 +94,7 @@ export function SwarmRebuild() {
       const targets = sampleTitle(parts, budget);
       if (!targets.length) return;
       played = true;
+      html.dataset.rebuild = "playing";
       const titleBox = title.getBoundingClientRect();
       const particles: Particle[] = targets.map(([tx, ty]) => {
         const depth = (ty - titleBox.top) / Math.max(1, titleBox.height);
@@ -131,6 +132,7 @@ export function SwarmRebuild() {
       const finish = () => {
         if (stopped) return;
         stopped = true;
+        delete html.dataset.rebuild;
         cancelAnimationFrame(frame);
         window.removeEventListener("pointermove", onMove);
         window.removeEventListener("scroll", onScroll);
