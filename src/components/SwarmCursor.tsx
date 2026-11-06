@@ -143,14 +143,24 @@ export function SwarmCursor({ ring, pulse = 0, count = 900, className = "" }: Pr
         const start = ringRef.current();
         if (start) seed(start.x, start.y);
       }
+      const html = document.documentElement;
+      if (!visible) {
+        context.clearRect(0, 0, width, height);
+        running = false;
+        return;
+      }
+      // The intro and the launch rebuild have the stage first; wait for them rather than stopping.
+      if (html.dataset.intro !== "done" || html.dataset.rebuild) {
+        context.clearRect(0, 0, width, height);
+        alpha = 0;
+        frame = requestAnimationFrame(tick);
+        return;
+      }
       const idle = !pointer.inside || now - pointer.moved > IDLE_MS;
       const target = idle ? ringRef.current?.() ?? null : null;
-      // The launch rebuild has the stage first.
-      const showing = !document.documentElement.dataset.rebuild && pointer.seeded && (!idle || target !== null || now - pointer.moved < IDLE_MS + 2600);
+      const showing = pointer.seeded && (!idle || target !== null || now - pointer.moved < IDLE_MS + 2600);
       alpha += ((showing ? (idle && !target ? 0.45 : 1) : 0) - alpha) * 0.06 * f;
-
-      const html = document.documentElement;
-      if (!visible || html.dataset.intro !== "done" || (!showing && alpha < 0.01)) {
+      if (!showing && alpha < 0.01) {
         context.clearRect(0, 0, width, height);
         running = false;
         return;
