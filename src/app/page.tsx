@@ -6,6 +6,7 @@ import { AboutSection } from "@/sections/AboutSection";
 import { AvatarGuide } from "@/components/AvatarGuide";
 import { CinematicHero } from "@/sections/CinematicHero";
 import { KineticBand } from "@/sections/KineticBand";
+import { SwarmRebuild } from "@/components/SwarmRebuild";
 import { ServicesSection } from "@/sections/ServicesSection";
 
 // Still server rendered; splitting them keeps the first hydration short.
@@ -49,6 +50,7 @@ export default function HomePage() {
       </main>
       <Footer />
       <AvatarGuide />
+      <SwarmRebuild />
     </>
   );
 }
